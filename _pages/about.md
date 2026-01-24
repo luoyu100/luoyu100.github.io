@@ -82,7 +82,7 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 - *2023.10* 🎓 Scholarship for Academic Excellence, Nankai University
 
 # 📖 Educations
-- *2025.06 - present *, PhD, Software Engineering, Nankai University, China, advisor [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/)
+- *2025.06 - present*, PhD, Software Engineering, Nankai University, China, advisor [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/)
 - *2021.09 - 2025.06*, undergraduate, Software Engineering, Nankai University, China
 
 <!-- # 💬 Invited Talks
