@@ -7,7 +7,7 @@
 
 # Site Settings
 title                    : "Yu Luo"
-description              : "Working on multi-agent systems."
+description              : "Building multi-agent systems powered by large language models, integrating reasoning, memory, RAG, and reinforcement learning to collaboratively solve complex downstream tasks."
 repository               : 
 google_scholar_stats_use_cdn : true
 
