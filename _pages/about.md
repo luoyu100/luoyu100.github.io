@@ -21,7 +21,7 @@ Yu Luo is currently a Ph.D. student at Nankai University, working under the supe
 
 You can view his Google Scholar profile [**here**](<a href='https://scholar.google.com/citations?user=GK-Oor4AAAAJ'><img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations"></a>).
 
- 
+
 
 # 🔥 News
 - *2025.09*: &nbsp;🎉🎉 Two papers are accepted by ASE 2025 
