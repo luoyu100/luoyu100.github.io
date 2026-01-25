@@ -1,3 +1,17 @@
+<style>
+/* 增加过渡动画，让放大过程变丝滑 */
+.paper-box {
+    transition: all 0.3s ease-in-out;
+}
+
+/* 鼠标放上去时的状态 */
+.paper-box:hover {
+    transform: scale(1.1); /* 放大 1.05 倍 */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* 增加阴影，制造“浮起”的立体感 */
+    z-index: 10; /* 保证放大的图片浮在最上层 */
+}
+</style>
+
 ---
 permalink: /
 title: ""
