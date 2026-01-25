@@ -30,7 +30,7 @@ Yu Luo is currently a Ph.D. student at Nankai University, working under the supe
 
 # 📝 Publications 
 
-<div class='paper-box' style="transition: transform 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div class='paper-box-image'><div><div class="badge">ASE 2025</div><img src='images/trioxpert.jpg' alt="sym" width="100%"></div></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">KDD 2025</div><img src='images/trioxpert.jpg' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [TrioXpert: An Automated Incident Management Framework for Microservice System](https://nkcs.iops.ai/wp-content/uploads/2025/10/TrioXpert1.pdf)
@@ -41,7 +41,7 @@ Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
 </div>
 </div>
 
-<div class='paper-box' style="transition: transform 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div class='paper-box-image'><div><div class="badge">ASE 2025</div><img src='images/dynamicregress.jpg' alt="sym" width="100%"></div></div></div>
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2025</div><img src='images/dynamicregress.jpg' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Adaptive Performance Regression Detection via Semi-Supervised Siamese Learning](https://nkcs.iops.ai/wp-content/uploads/2025/09/Mengyao__SiameseLSTM.pdf)
