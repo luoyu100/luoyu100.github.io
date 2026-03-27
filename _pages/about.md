@@ -30,6 +30,17 @@ Yu Luo is currently a Ph.D. student at Nankai University, working under the supe
 
 # 📝 Publications 
 
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">arXiv 2025</div><a href="https://arxiv.org/abs/2510.24145"><img src='images/opsagent.png' alt="sym" width="100%"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[OpsAgent: An Evolving Multi-agent System for Incident Management in Microservices](https://arxiv.org/abs/2510.24145)
+
+**Yu Luo**, Jiamin Jiang, Jingfei Feng
+
+- OpsAgent is a lightweight and self-evolving multi-agent framework for incident management that transforms heterogeneous observability data into structured textual evidence, coordinates specialized agents for transparent diagnosis, and continuously improves through both model refinement and accumulated operational experience.
+</div>
+</div>
+
 <div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2025</div><a href="https://nkcs.iops.ai/wp-content/uploads/2025/10/TrioXpert1.pdf"><img src='images/trioxpert.jpg' alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
