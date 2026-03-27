@@ -30,6 +30,17 @@ Yu Luo is currently a Ph.D. student at Nankai University, working under the supe
 
 # 📝 Publications 
 
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 26</div><a href="https://arxiv.org/abs/2603.21250"><img src='images/graph-of-states.png' alt="sym" width="100%"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[Graph of States: Solving Abductive Tasks with Large Language Models](https://arxiv.org/abs/2603.21250)
+
+**Yu Luo**, Rongchen Gao, Lu Teng, et al.
+
+- Graph of States is a general-purpose neuro-symbolic framework for abductive reasoning that grounds multi-agent collaboration in structured belief states, uses a causal graph and state machine to constrain reasoning transitions, and turns unconstrained exploration into a directed search that consistently improves performance on complex real-world abductive tasks.
+</div>
+</div>
+
 <div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2025</div><a href="https://arxiv.org/abs/2510.24145"><img src='images/opsagent.png' alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
