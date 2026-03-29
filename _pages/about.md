@@ -70,6 +70,7 @@ Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
 
 Yongqian Sun, Mengyao Li, Xiao Xiong, Lei Tao, Yimin Zuo, Wenwei Gu, Shenglin Zhang*, Junhua Kuang, **Yu Luo**, et al.
 
+- DynamicRegress is an adaptive performance regression detection framework that jointly models multi-dimensional KPIs and workload context with a semi-supervised Siamese LSTM, enabling accurate comparison of variable-length traces under dynamic loads. Deployed on Huawei Cloud, it achieves an F1 score of 0.958 with real-time detection latency.
 </div>
 </div>
 
@@ -80,6 +81,7 @@ Yongqian Sun, Mengyao Li, Xiao Xiong, Lei Tao, Yimin Zuo, Wenwei Gu, Shenglin Zh
 
 Yongqian Sun, Qingliang Zhang, **Yu Luo**, Mingjie Li*, et al.
 
+- PIPCell is a two-phase predictive framework for estimating how transmission power and cell individual offset adjustments affect cellular network metrics, combining domain-knowledge calibration with graph-organized Transformers to model intervention effects and inter-metric dependencies. On real-world China Mobile data, it improves over strong baselines by up to 25.8% in RMSE and 59.0% in sMAPE.
 </div>
 </div>
 
