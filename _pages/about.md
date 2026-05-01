@@ -23,6 +23,7 @@ Yu Luo is currently a Ph.D. student at Nankai University, working under the supe
 
 
 # 🔥 News
+- *2026.05*: &nbsp;🎉🎉 One paper is accepted by ICML 2026 
 - *2025.09*: &nbsp;🎉🎉 Two papers are accepted by ASE 2025 
 - *2025.08*: &nbsp;🎉🎉 One paper is accepted by ISSRE 2025 
 - *2025.06*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Lenovo
@@ -30,7 +31,7 @@ Yu Luo is currently a Ph.D. student at Nankai University, working under the supe
 
 # 📝 Publications 
 
-<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2026</div><a href="https://arxiv.org/abs/2603.21250"><img src='images/graph-of-states.png' alt="sym" width="100%"></a></div></div>
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ICML 2026</div><a href="https://arxiv.org/abs/2603.21250"><img src='images/graph-of-states.png' alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Graph of States: Solving Abductive Tasks with Large Language Models](https://arxiv.org/abs/2603.21250)
