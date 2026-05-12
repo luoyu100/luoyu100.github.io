@@ -17,9 +17,13 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Yu Luo is currently a Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/) and Prof. [Shenglin Zhang](https://nkcs.iops.ai/shenglinzhang/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 4 high-quality papers at CCF A/B conferences. Currently, he is undertaking an internship as an algorithm engineer at Lenovo.
+Yu Luo is currently a Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/) and Prof. [Shenglin Zhang](https://nkcs.iops.ai/shenglinzhang/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 5 high-quality papers at CCF A/B conferences. Currently, he is undertaking an internship as an algorithm engineer at Lenovo.
 
+---
 
+My recent research interests lie in:
+(i) Building self-evolving agents via parametric approaches; (💡 *Agentic tool-use, self-evolution*)
+(ii) Tackling belief state challenges in long-horizon and multi-turn agent interactions, with a particular focus on active reasoning tasks. (💡 *Active Reasoning*)
 
 
 # 🔥 News
@@ -99,9 +103,9 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 
 
 # 🎖 Honors and Awards
-- *2025.10* 🎓 Scholarship for Postgraduate Recommendation, Nankai University
+- *2025.10* 🎓 Scholarship for Postgraduate Recommendation (3/51), Nankai University
 - *2025.10* 🎓 Scholarship for Merit and Competence, Nankai University
-- *2025.06* 📝 Distinguished Undergraduate Thesis Award, Nankai University
+- *2025.06* 📝 Distinguished Undergraduate Thesis Award, Nankai University (南开大学校级优秀毕业论文)
 - *2024.10* 🎓 Scholarship for Merit and Competence, Nankai University
 - *2023.10* 🎓 Scholarship for Academic Excellence, Nankai University
 
