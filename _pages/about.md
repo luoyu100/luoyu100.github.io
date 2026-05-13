@@ -123,5 +123,5 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 # Visitors
 
 <div style="margin-top: 1rem;">
-  <script type="text/javascript" id="mmvst_globe" src="//mapmyvisitors.com/globe.js?d=VCT-i_hshIstgd7o81vdfyoTOfIXW_q_ICUaAA66jKA"></script>
+ <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=XzjopC4LS8uUkOWtd9w_d0mJ0Voq7X6HYSwP7MLrqw8&cl=ffffff&w=a"></script>
 </div>
