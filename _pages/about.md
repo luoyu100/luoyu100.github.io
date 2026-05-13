@@ -122,6 +122,12 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 
 # Visitors
 
-<div style="margin-top: 1rem;">
- <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=XzjopC4LS8uUkOWtd9w_d0mJ0Voq7X6HYSwP7MLrqw8&cl=ffffff&w=a"></script>
+<div style="margin-top: 1rem; text-align: center;">
+  <div style="width: 70%; margin: 0 auto;">
+    <script
+      type="text/javascript"
+      id="mapmyvisitors"
+      src="//mapmyvisitors.com/map.js?d=XzjopC4LS8uUkOWtd9w_d0mJ0Voq7X6HYSwP7MLrqw8&cl=ffffff&w=a">
+    </script>
+  </div>
 </div>
