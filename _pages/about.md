@@ -44,6 +44,14 @@ My recent research interests lie in:
 **Yu Luo**, Rongchen Gao, Lu Teng, et al.
 
 - Graph of States is a general-purpose neuro-symbolic framework for abductive reasoning that grounds multi-agent collaboration in structured belief states, uses a causal graph and state machine to constrain reasoning transitions, and turns unconstrained exploration into a directed search that consistently improves performance on complex real-world abductive tasks.
+
+<div class="paper-actions">
+  <a class="paper-story-link" target="_self" href="{{ '/projects/graph-of-states/' | relative_url }}">
+    <i class="fas fa-book-open" aria-hidden="true"></i>
+    <span>Read the story</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
 </div>
 </div>
 
@@ -74,6 +82,14 @@ My recent research interests lie in:
 Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
 
 - TrioXpert is an end-to-end framework for incident management in microservice systems that leverages multimodal data and LLM-based collaborative reasoning to handle AD, FT, and RCL tasks with high interpretability. It significantly outperforms baselines across multiple benchmarks.
+
+<div class="paper-actions">
+  <a class="paper-story-link" target="_self" href="{{ '/projects/trioxpert/' | relative_url }}">
+    <i class="fas fa-book-open" aria-hidden="true"></i>
+    <span>Read the story</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
 </div>
 </div>
 
