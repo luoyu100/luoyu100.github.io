@@ -55,6 +55,14 @@ My recent research interests lie in:
 **Yu Luo**, Jiamin Jiang, Jingfei Feng, et al.
 
 - OpsAgent is a lightweight and self-evolving multi-agent framework for incident management that transforms heterogeneous observability data into structured textual evidence, coordinates specialized agents for transparent diagnosis, and continuously improves through both model refinement and accumulated operational experience.
+
+<div class="paper-actions">
+  <a class="paper-story-link" href="{{ '/projects/opsagent/' | relative_url }}">
+    <i class="fas fa-book-open" aria-hidden="true"></i>
+    <span>Read the story</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
 </div>
 </div>
 
