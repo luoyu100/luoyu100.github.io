@@ -8,7 +8,7 @@
 # Site Settings
 title                    : "Yu Luo"
 description              : "Building multi-agent systems powered by large language models, integrating reasoning, memory, RAG, and reinforcement learning to collaboratively solve complex downstream tasks."
-repository               : 
+repository               : "luoyu100/luoyu100.github.io"
 google_scholar_stats_use_cdn : true
 
 # google analytics

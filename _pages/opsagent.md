@@ -5,7 +5,7 @@ author_profile: true
 ---
 
 <div class="project-story" markdown="1">
-<a class="project-back-link" href="{{ '/' | relative_url }}"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to publications</a>
+<a class="project-back-link" target="_self" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to publications</a>
 
 <p class="project-kicker">arXiv 2025 / Incident Management / Multi-agent Systems</p>
 
@@ -20,7 +20,7 @@ author_profile: true
 </div>
 
 <figure class="project-figure">
-  <img src="{{ '/images/opsagent.png' | relative_url }}" alt="Overview of the OpsAgent framework for incident management">
+  <img src="{{ '/images/opsagent.png' | relative_url }}" alt="Overview of the OpsAgent framework for incident management" decoding="async">
   <figcaption>OpsAgent coordinates specialized agents for diagnosis while incorporating refinement and operational experience.</figcaption>
 </figure>
 
