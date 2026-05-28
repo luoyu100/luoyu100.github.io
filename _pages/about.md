@@ -55,7 +55,7 @@ My recent research interests lie in:
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2025</div><a href="https://arxiv.org/abs/2510.24145"><img src='images/opsagent.png' alt="sym" width="100%"></a></div></div>
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2025</div><a href="https://arxiv.org/abs/2510.24145"><img src="{{ '/images/opsagent.png' | relative_url }}?v=20260528" alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
 [OpsAgent: An Evolving Multi-agent System for Incident Management in Microservices](https://arxiv.org/abs/2510.24145)
