@@ -109,6 +109,10 @@ h1:before, .anchor:before {
 }
 
 .paper-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .65rem;
     margin-top: 1.1rem;
 }
 
@@ -148,6 +152,38 @@ h1:before, .anchor:before {
 
     &:hover .paper-story-link__arrow {
         transform: translateX(2px);
+    }
+
+    &--wechat {
+        color: #13795b !important;
+        background: #eef9f4;
+        border-color: #cdecdc;
+
+        &:hover {
+            color: #0d6048 !important;
+            background: #e2f4ed;
+            border-color: #afdcc7;
+        }
+
+        &:focus-visible {
+            outline-color: #13795b;
+        }
+    }
+
+    &--code {
+        color: #4b4276 !important;
+        background: #f4f2fb;
+        border-color: #d9d3ee;
+
+        &:hover {
+            color: #342b5f !important;
+            background: #ebe7f8;
+            border-color: #c8bfe6;
+        }
+
+        &:focus-visible {
+            outline-color: #4b4276;
+        }
     }
 }
 

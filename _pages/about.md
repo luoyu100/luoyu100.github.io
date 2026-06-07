@@ -51,6 +51,16 @@ My recent research interests lie in:
     <span>Read the story</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
   </a>
+  <a class="paper-story-link paper-story-link--wechat" target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZC_-zurf8iV6Kbp39AHgBg">
+    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+    <span>机器之心</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/gaorch85/Graph-of-States">
+    <i class="fas fa-code" aria-hidden="true"></i>
+    <span>Code</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
 </div>
 </div>
 </div>
@@ -88,6 +98,11 @@ Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
     <i class="fas fa-book-open" aria-hidden="true"></i>
     <span>Read the story</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/luoyu100/TrioXpert">
+    <i class="fas fa-code" aria-hidden="true"></i>
+    <span>Code</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
 </div>
 </div>
