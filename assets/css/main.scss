@@ -185,6 +185,22 @@ h1:before, .anchor:before {
             outline-color: #4b4276;
         }
     }
+
+    &--slide {
+        color: #8a4b12 !important;
+        background: #fff6ea;
+        border-color: #ead2b6;
+
+        &:hover {
+            color: #6f3c0e !important;
+            background: #fbead3;
+            border-color: #ddb98c;
+        }
+
+        &:focus-visible {
+            outline-color: #8a4b12;
+        }
+    }
 }
 
 .project-story {

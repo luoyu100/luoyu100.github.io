@@ -61,6 +61,11 @@ My recent research interests lie in:
     <span>Code</span>
     <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
+  <a class="paper-story-link paper-story-link--slide" target="_blank" rel="noopener" href="{{ '/assets/slides/GoS-presentation.pdf' | relative_url }}">
+    <i class="fas fa-file-powerpoint" aria-hidden="true"></i>
+    <span>Slide</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
 </div>
 </div>
 </div>
@@ -104,6 +109,11 @@ Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
     <span>Code</span>
     <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
+  <a class="paper-story-link paper-story-link--slide" target="_blank" rel="noopener" href="{{ '/assets/slides/industry-31-slides.pdf' | relative_url }}">
+    <i class="fas fa-file-powerpoint" aria-hidden="true"></i>
+    <span>Slide</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
 </div>
 </div>
 </div>
@@ -127,6 +137,14 @@ Yongqian Sun, Mengyao Li, Xiao Xiong, Lei Tao, Yimin Zuo, Wenwei Gu, Shenglin Zh
 Yongqian Sun, Qingliang Zhang, **Yu Luo**, Mingjie Li*, et al.
 
 - PIPCell is a two-phase predictive framework for estimating how transmission power and cell individual offset adjustments affect cellular network metrics, combining domain-knowledge calibration with graph-organized Transformers to model intervention effects and inter-metric dependencies. On real-world China Mobile data, it improves over strong baselines by up to 25.8% in RMSE and 59.0% in sMAPE.
+
+<div class="paper-actions">
+  <a class="paper-story-link paper-story-link--slide" target="_blank" rel="noopener" href="{{ '/assets/slides/PIPCell_v2.pdf' | relative_url }}">
+    <i class="fas fa-file-powerpoint" aria-hidden="true"></i>
+    <span>Slide</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
 </div>
 </div>
 
@@ -138,6 +156,14 @@ Yongqian Sun, Qingliang Zhang, **Yu Luo**, Mingjie Li*, et al.
 Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 
 - FlowXpert is a troubleshooting workflow orchestration framework that uses LLMs to build an incident-aware knowledge base and applies reinforcement learning with AI feedback to improve workflow generation. Evaluated on OpsFlowBench and deployed in Huawei Cloud’s datacenter, it demonstrated effectiveness in supporting engineers and AI agents.
+
+<div class="paper-actions">
+  <a class="paper-story-link paper-story-link--slide" target="_blank" rel="noopener" href="{{ '/assets/slides/slides-KDD25-FlowXpert.pdf' | relative_url }}">
+    <i class="fas fa-file-powerpoint" aria-hidden="true"></i>
+    <span>Slide</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
 </div>
 </div>
 
