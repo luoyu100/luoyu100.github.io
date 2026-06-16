@@ -27,7 +27,7 @@ My recent research interests lie in:
 
 
 # 🔥 News
-- *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Reward from ICML 2026
+- *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Award from ICML 2026
 - *2026.05*: &nbsp;🎉🎉 One paper is accepted by ICML 2026 
 - *2025.09*: &nbsp;🎉🎉 Two papers are accepted by ASE 2025 
 - *2025.08*: &nbsp;🎉🎉 One paper is accepted by ISSRE 2025 
