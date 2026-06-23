@@ -186,6 +186,9 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 # 💻 Internships
 - *2025.06 - 2026.01*, Algorithm Engineer at Lenovo, China.
 
+# 🎤 Invited Talks
+- *2026.06*: "Graph of States: Solving Abductive Tasks with Large Language Models", AITIME Community, [Link](https://arxiv.org/abs/2603.21250)
+
 # ⛪ Services
 ICML26 (Gold Reviewer)
 
