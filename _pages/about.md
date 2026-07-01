@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Yu Luo is currently a 1st-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/) and Prof. [Shenglin Zhang](https://nkcs.iops.ai/shenglinzhang/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 5 high-quality papers at CCF A/B conferences.
+Yu Luo is currently a 1st-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/) and Prof. [Shenglin Zhang](https://nkcs.iops.ai/shenglinzhang/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 7 high-quality papers at CCF A/B conferences.
 
 ---
 
@@ -27,12 +27,13 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.07*: &nbsp;🎉🎉 Our papers “OpsAgent” and “KRCA” are accepted by ASE 2026
 - *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Award from ICML 2026
-- *2026.05*: &nbsp;🎉🎉 One paper is accepted by ICML 2026 
-- *2025.09*: &nbsp;🎉🎉 Two papers are accepted by ASE 2025 
-- *2025.08*: &nbsp;🎉🎉 One paper is accepted by ISSRE 2025 
+- *2026.05*: &nbsp;🎉🎉 Our paper “Graph of States” is accepted by ICML 2026
+- *2025.09*: &nbsp;🎉🎉 Our papers “TrioXpert” and “DynamicRegress” are accepted by ASE 2025
+- *2025.08*: &nbsp;🎉🎉 Our paper “PIPCell” is accepted by ISSRE 2025
 - *2025.06*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Lenovo
-- *2025.05*: &nbsp;🎉🎉 One paper is accepted by KDD 2025
+- *2025.05*: &nbsp;🎉🎉 Our paper “FlowXpert” is accepted by KDD 2025
 
 # 📝 Publications 
 
@@ -70,7 +71,7 @@ My recent research interests lie in:
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2025</div><a href="https://arxiv.org/abs/2510.24145"><img src="{{ '/images/opsagent.png' | relative_url }}?v=20260528" alt="sym" width="100%"></a></div></div>
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2026</div><a href="https://arxiv.org/abs/2510.24145"><img src="{{ '/images/opsagent.png' | relative_url }}?v=20260528" alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
 [OpsAgent: An Evolving Multi-agent System for Incident Management in Microservices](https://arxiv.org/abs/2510.24145)
@@ -84,6 +85,11 @@ My recent research interests lie in:
     <i class="fas fa-book-open" aria-hidden="true"></i>
     <span>Read the story</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://anonymous.4open.science/r/OpsAgent-CCC0">
+    <i class="fas fa-code" aria-hidden="true"></i>
+    <span>Code</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
 </div>
 </div>
