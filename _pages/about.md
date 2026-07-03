@@ -190,7 +190,7 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 - *2021.03*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  \| [\[video\]](https://github.com/) -->
 
 # 💻 Internships
-- *2025.06 - 2026.01*, Algorithm Engineer at Lenovo, China.
+- *2025.06 - 2026.01*, Algorithm Engineer Intern at Lenovo, China.
 
 # 🎤 Invited Talks
 - *2026.06*: "Graph of States: Solving Abductive Tasks with Large Language Models", AITIME Community, [Link](https://www.bilibili.com/video/BV1zLL96dELo/?share_source=copy_web&vd_source=46fea0c86812502b4bd703eca52de309&t=2193&sessionid=)
