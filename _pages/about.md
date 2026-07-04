@@ -95,6 +95,17 @@ My recent research interests lie in:
 </div>
 </div>
 
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2026</div><a href="https://arxiv.org/pdf/2607.01788"><img src='images/krca.png' alt="sym" width="100%"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[KRCA: An Efficient Root Cause Analysis System in Hyper-Scale Microservice Systems via Agentic AI](https://arxiv.org/pdf/2607.01788)
+
+Jiamin Jiang, Jingfei Feng, **Yu Luo**, Qingliang Zhang, et al.
+
+- KRCA is an end-to-end root cause analysis system for hyper-scale microservice systems that uses API-level drilldown to prune massive service dependencies, instantiates skeleton-based causal graphs from anomalous metrics, and coordinates memory-augmented agents to verify causality and generate failure reports. Evaluated on 300 real-world failures and deployed at Kuaishou, it improves root-cause localization and failure-type classification while reducing average diagnosis time by 77.3%.
+</div>
+</div>
+
 <div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2025</div><a href="https://nkcs.iops.ai/wp-content/uploads/2025/10/TrioXpert1.pdf"><img src='images/trioxpert.jpg' alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
