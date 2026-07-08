@@ -52,6 +52,11 @@ My recent research interests lie in:
     <span>Read the story</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
   </a>
+  <a class="paper-story-link paper-story-link--project" target="_self" href="{{ '/projects/graph-of-states/project/' | relative_url }}">
+    <i class="fas fa-project-diagram" aria-hidden="true"></i>
+    <span>Project</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
   <a class="paper-story-link paper-story-link--wechat" target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ZC_-zurf8iV6Kbp39AHgBg">
     <i class="fas fa-paper-plane" aria-hidden="true"></i>
     <span>机器之心</span>
@@ -84,6 +89,11 @@ My recent research interests lie in:
   <a class="paper-story-link" target="_self" href="{{ '/projects/opsagent/' | relative_url }}">
     <i class="fas fa-book-open" aria-hidden="true"></i>
     <span>Read the story</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--project" target="_self" href="{{ '/projects/opsagent/project/' | relative_url }}">
+    <i class="fas fa-project-diagram" aria-hidden="true"></i>
+    <span>Project</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
   </a>
   <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://anonymous.4open.science/r/OpsAgent-CCC0">
@@ -119,6 +129,11 @@ Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
   <a class="paper-story-link" target="_self" href="{{ '/projects/trioxpert/' | relative_url }}">
     <i class="fas fa-book-open" aria-hidden="true"></i>
     <span>Read the story</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--project" target="_self" href="{{ '/projects/trioxpert/project/' | relative_url }}">
+    <i class="fas fa-project-diagram" aria-hidden="true"></i>
+    <span>Project</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
   </a>
   <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/luoyu100/TrioXpert">

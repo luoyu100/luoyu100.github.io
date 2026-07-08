@@ -7,7 +7,7 @@ author_profile: true
 <div class="project-story" markdown="1">
 <a class="project-back-link" target="_self" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to publications</a>
 
-<p class="project-kicker">ArXiv 2025 / Incident Management / Multi-agent Systems / Self-evolution</p>
+<p class="project-kicker">ASE 2026 / Incident Management / Multi-agent Systems / Self-evolution</p>
 
 <h1 class="project-title">OpsAgent</h1>
 
