@@ -1,6 +1,7 @@
 ---
 permalink: /projects/trioxpert/project/
 title: "TrioXpert Project Page | Yu Luo"
+layout: project
 author_profile: false
 ---
 
@@ -9,10 +10,16 @@ author_profile: false
 <a class="project-page-back" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i> Publications</a>
 
 <header class="project-page-hero">
-  <p class="project-page-venue">ASE 2025</p>
   <h1 class="project-page-title">TrioXpert: An Automated Incident Management Framework for Microservice System</h1>
-  <p class="project-page-authors">Yongqian Sun, <strong>Yu Luo</strong>, Xidao Wen*, Yuan Yuan, et al.</p>
-  <p class="project-page-affiliation">Nankai University</p>
+  <p class="project-page-authors">
+    Yongqian Sun<sup>1,7</sup>, <strong>Yu Luo</strong><sup>1</sup>, Xidao Wen<sup>4,*</sup>, Yuan Yuan<sup>6</sup>, Xiaohui Nie<sup>2</sup>, Shenglin Zhang<sup>1,5</sup>, Tong Liu<sup>3</sup>, Xi Luo<sup>3</sup>
+  </p>
+  <p class="project-page-affiliations">
+    <sup>1</sup>Nankai University &nbsp; <sup>2</sup>Computer Network Information Center, Chinese Academy of Sciences &nbsp; <sup>3</sup>Lenovo (Tianjin) Co., Ltd. &nbsp; <sup>4</sup>BizSeer<br>
+    <sup>5</sup>Key Laboratory of Data and Intelligent System Security, Ministry of Education, China &nbsp; <sup>6</sup>National University of Defense Technology &nbsp; <sup>7</sup>Tianjin Key Laboratory of Software Experience and Human Computer Interaction
+  </p>
+  <p class="project-page-venue">ASE 2025</p>
+  <p class="project-page-note">* Corresponding author</p>
   <div class="project-page-links">
     <a class="project-page-link project-page-link--paper" href="https://nkcs.iops.ai/wp-content/uploads/2025/10/TrioXpert1.pdf" target="_blank" rel="noopener"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper</a>
     <a class="project-page-link project-page-link--code" href="https://github.com/luoyu100/TrioXpert" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Code</a>
@@ -59,8 +66,8 @@ TrioXpert is an end-to-end incident management framework for microservice system
 ```bibtex
 @inproceedings{sun2025trioxpert,
   title={TrioXpert: An Automated Incident Management Framework for Microservice System},
-  author={Sun, Yongqian and Luo, Yu and Wen, Xidao and Yuan, Yuan and others},
-  booktitle={Proceedings of the IEEE/ACM International Conference on Automated Software Engineering},
+  author={Sun, Yongqian and Luo, Yu and Wen, Xidao and Yuan, Yuan and Nie, Xiaohui and Zhang, Shenglin and Liu, Tong and Luo, Xi},
+  booktitle={Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering},
   year={2025}
 }
 ```

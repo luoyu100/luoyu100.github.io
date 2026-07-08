@@ -1,6 +1,7 @@
 ---
 permalink: /projects/graph-of-states/project/
 title: "Graph of States Project Page | Yu Luo"
+layout: project
 author_profile: false
 ---
 
@@ -9,10 +10,16 @@ author_profile: false
 <a class="project-page-back" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i> Publications</a>
 
 <header class="project-page-hero">
-  <p class="project-page-venue">ICML 2026</p>
   <h1 class="project-page-title">Graph of States: Solving Abductive Tasks with Large Language Models</h1>
-  <p class="project-page-authors"><strong>Yu Luo</strong>, Rongchen Gao, Lu Teng, et al.</p>
-  <p class="project-page-affiliation">Nankai University</p>
+  <p class="project-page-authors">
+    <strong>Yu Luo</strong><sup>1</sup>, Rongchen Gao<sup>1</sup>, Lu Teng<sup>2</sup>, Xidao Wen<sup>3</sup>, Jiamin Jiang<sup>1</sup>, Qingliang Zhang<sup>1</sup>, Yongqian Sun<sup>1,*</sup>, Shenglin Zhang<sup>1</sup>, Jiasong Feng<sup>4</sup>, Tong Liu<sup>4</sup>, Wenjie Zhang<sup>4</sup>, Dan Pei<sup>5</sup>
+  </p>
+  <p class="project-page-affiliations">
+    <sup>1</sup>Nankai University &nbsp; <sup>2</sup>Wenzhou Medical University &nbsp; <sup>3</sup>Alibaba Cloud &nbsp; <sup>4</sup>Lenovo &nbsp; <sup>5</sup>Tsinghua University
+  </p>
+  <p class="project-page-venue">ICML 2026</p>
+  <p class="project-page-venue-detail">43rd International Conference on Machine Learning, Seoul, South Korea</p>
+  <p class="project-page-note">* Corresponding author</p>
   <div class="project-page-links">
     <a class="project-page-link project-page-link--paper" href="https://arxiv.org/abs/2603.21250" target="_blank" rel="noopener"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper</a>
     <a class="project-page-link project-page-link--code" href="https://github.com/gaorch85/Graph-of-States" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Code</a>
@@ -58,10 +65,10 @@ Graph of States is a general-purpose neuro-symbolic framework for abductive reas
 ## Citation
 
 ```bibtex
-@article{luo2026graphstates,
+@inproceedings{luo2026graphstates,
   title={Graph of States: Solving Abductive Tasks with Large Language Models},
-  author={Luo, Yu and Gao, Rongchen and Teng, Lu and others},
-  journal={arXiv preprint arXiv:2603.21250},
+  author={Luo, Yu and Gao, Rongchen and Teng, Lu and Wen, Xidao and Jiang, Jiamin and Zhang, Qingliang and Sun, Yongqian and Zhang, Shenglin and Feng, Jiasong and Liu, Tong and Zhang, Wenjie and Pei, Dan},
+  booktitle={Proceedings of the 43rd International Conference on Machine Learning},
   year={2026}
 }
 ```
