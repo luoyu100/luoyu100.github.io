@@ -27,6 +27,7 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.07*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Alibaba Cloud
 - *2026.07*: &nbsp;🎉🎉 Our papers “OpsAgent” and “KRCA” are accepted by ASE 2026
 - *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Award from ICML 2026
 - *2026.05*: &nbsp;🎉🎉 Our paper “Graph of States” is accepted by ICML 2026
@@ -216,6 +217,7 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 - *2021.03*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  \| [\[video\]](https://github.com/) -->
 
 # 💻 Internships
+- *2026.07 - present*, Algorithm Engineer Intern at Alibaba Cloud, China, Advisor: [Xidao Wen](https://scholar.google.com/citations?user=1aehrpYAAAAJ&hl=en).
 - *2025.06 - 2026.01*, Algorithm Engineer Intern at Lenovo, China.
 
 # 🎤 Invited Talks

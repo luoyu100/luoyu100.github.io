@@ -36,7 +36,7 @@ author_profile: false
 
 ## Abstract
 
-Large language models have achieved strong results on many deductive reasoning tasks, but abductive reasoning remains difficult because the model must infer the most plausible hidden cause from incomplete observations. In tasks such as medical diagnosis and failure diagnosis in distributed systems, existing reasoning frameworks often fabricate evidence, drift across long contexts, fail to backtrack from wrong hypotheses, or stop too early with shallow explanations. Graph of States addresses this gap with a neuro-symbolic framework that represents the reasoning process as explicit belief states, combines a causal graph with a state machine, and coordinates central and expert agents to perform structured hypothesis refinement, evidence retrieval, backtracking, and drill-down search. Experiments show that this design improves both matching accuracy and relevant diagnosis quality while maintaining practical inference cost.
+Logical reasoning encompasses deduction, induction, and abduction. However, while Large Language Models (LLMs) have effectively mastered the former two, abductive reasoning remains significantly underexplored. Existing frameworks, predominantly designed for static deductive tasks, fail to generalize to abductive reasoning due to unstructured state representation and lack of explicit state control. Consequently, they are inevitably prone to Evidence Fabrication, Context Drift, Failed Backtracking, and Early Stopping. To bridge this gap, we introduce Graph of States (GoS), a general-purpose neuro-symbolic framework tailored for abductive tasks. GoS grounds multi-agent collaboration in a structured belief states, utilizing a causal graph to explicitly encode logical dependencies and a state machine to govern the valid transitions of the reasoning process. By dynamically aligning the reasoning focus with these symbolic constraints, our approach transforms aimless, unconstrained exploration into a convergent, directed search. Extensive evaluations on two real-world datasets demonstrate that GoS significantly outperforms all baselines, providing a robust solution for complex abductive tasks. Code repo and all prompts: [gaorch85/Graph-of-States](https://github.com/gaorch85/Graph-of-States).
 
 ## Project Overview
 
@@ -125,6 +125,28 @@ Large language models have achieved strong results on many deductive reasoning t
       <button class="slider-page" type="button" data-carousel-dot="4" aria-label="Show experiment result 5"></button>
     </div>
   </div>
+</section>
+
+<section class="project-deploy-section" markdown="1">
+  <h2>Possible Deployable Area</h2>
+  <p class="project-deploy-intro">GoS is designed for long-horizon reasoning tasks where the goal is not to produce a one-shot answer, but to make multiple hypotheses converge through iterative interaction with the environment and accumulating evidence.</p>
+
+  <ol class="project-deploy-list">
+    <li>
+      <strong>Medical diagnosis:</strong> A diagnostic agent can maintain competing disease hypotheses, request new tests or observations, and gradually refine the belief state until the evidence supports a reliable diagnosis.
+    </li>
+    <li>
+      <strong>Failure diagnosis:</strong> In complex software or distributed systems, GoS can organize possible root-cause hypotheses, drill down into logs, metrics, and traces, and backtrack when a shallow explanation is contradicted.
+    </li>
+    <li>
+      <strong>Criminal investigation:</strong> Investigators often reason over incomplete clues, suspects, timelines, and motives. GoS provides a structured way to update hypotheses as new evidence appears and to avoid premature closure.
+    </li>
+    <li>
+      <strong>Scientific discovery:</strong> Scientific reasoning repeatedly proposes hypotheses, designs observations or experiments, and revises explanations. GoS can support this process by keeping hypotheses, evidence, and causal relations explicit.
+    </li>
+  </ol>
+
+  <p class="project-deploy-summary">These domains share the same reasoning pattern: multiple plausible hypotheses, evidence-seeking interaction, controlled state transitions, and final convergence toward the most defensible explanation.</p>
 </section>
 
 <section class="project-bibtex-section" id="BibTeX">
