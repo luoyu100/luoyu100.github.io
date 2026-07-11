@@ -225,6 +225,7 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 
 # ⛪ Services
 ICML26 (Gold Reviewer)
+EMNLP26 (Reviewer)
 
 # Visitors
 
