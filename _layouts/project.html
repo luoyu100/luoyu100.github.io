@@ -26,10 +26,12 @@ layout: compress
               return;
             }
             var original = label.textContent;
-            label.textContent = "Copied";
+            button.classList.add("copied");
+            label.textContent = "Cop";
             window.setTimeout(function () {
+              button.classList.remove("copied");
               label.textContent = original;
-            }, 1400);
+            }, 2000);
           }
 
           if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -55,10 +57,10 @@ layout: compress
           callback();
         }
 
-        document.querySelectorAll(".project-copy-button").forEach(function (button) {
+        document.querySelectorAll(".copy-bibtex-btn").forEach(function (button) {
           button.addEventListener("click", function () {
-            var citation = button.closest(".project-citation");
-            var code = citation ? citation.querySelector("pre code, pre") : null;
+            var section = button.closest(".project-bibtex-section");
+            var code = section ? section.querySelector("#bibtex-code code, #bibtex-code") : null;
             if (code) {
               copyText(code.textContent.trim(), button);
             }
@@ -66,38 +68,28 @@ layout: compress
         });
 
         document.querySelectorAll("[data-project-carousel]").forEach(function (carousel) {
-          var strip = carousel.querySelector(".project-experiment-strip");
-          var cards = Array.prototype.slice.call(carousel.querySelectorAll(".project-experiment-card"));
+          var cards = Array.prototype.slice.call(carousel.querySelectorAll("[data-carousel-item]"));
+          var dots = Array.prototype.slice.call(carousel.querySelectorAll("[data-carousel-dot]"));
           var previous = carousel.querySelector("[data-carousel-prev]");
           var next = carousel.querySelector("[data-carousel-next]");
+          var activeIndex = 0;
 
-          if (!strip || cards.length === 0) {
+          if (cards.length === 0) {
             return;
           }
 
-          function currentIndex() {
-            var center = strip.scrollLeft + strip.clientWidth / 2;
-            var closest = 0;
-            var closestDistance = Infinity;
-
+          function show(index) {
+            activeIndex = (index + cards.length) % cards.length;
             cards.forEach(function (card, index) {
-              var cardCenter = card.offsetLeft + card.offsetWidth / 2;
-              var distance = Math.abs(cardCenter - center);
-              if (distance < closestDistance) {
-                closestDistance = distance;
-                closest = index;
-              }
+              card.classList.toggle("is-active", index === activeIndex);
             });
-
-            return closest;
+            dots.forEach(function (dot, index) {
+              dot.classList.toggle("is-active", index === activeIndex);
+            });
           }
 
           function move(delta) {
-            var index = Math.max(0, Math.min(cards.length - 1, currentIndex() + delta));
-            strip.scrollTo({
-              left: cards[index].offsetLeft,
-              behavior: "smooth"
-            });
+            show(activeIndex + delta);
           }
 
           if (previous) {
@@ -111,6 +103,14 @@ layout: compress
               move(1);
             });
           }
+
+          dots.forEach(function (dot) {
+            dot.addEventListener("click", function () {
+              show(Number(dot.getAttribute("data-carousel-dot")) || 0);
+            });
+          });
+
+          show(0);
         });
       }());
     </script>

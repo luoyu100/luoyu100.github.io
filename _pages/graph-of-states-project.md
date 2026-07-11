@@ -66,66 +66,80 @@ Large language models have achieved strong results on many deductive reasoning t
   <figcaption>The overview shows how central and expert agents update the graph-structured belief state through planning, investigation, and state conversion.</figcaption>
 </figure>
 
-## Experiments
-
-<div class="project-experiment-carousel" data-project-carousel>
-  <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
-    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-  </button>
-  <div class="project-experiment-strip" tabindex="0" aria-label="Graph of States experiment results">
-    <figure class="project-experiment-card">
-      <div class="project-experiment-panel">
-        <img src="{{ '/images/projects/gos-table1-medical-diagnosis.png' | relative_url }}" alt="Table 1: Performance of medical diagnosis" loading="lazy" decoding="async">
+<section class="project-results-section">
+  <h2>Experimental Results</h2>
+  <div id="results-carousel" class="results-carousel" data-project-carousel>
+    <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
+      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="project-carousel-track">
+      <div class="item is-active" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/gos-table1-medical-diagnosis.png' | relative_url }}" alt="Table 1: Performance of medical diagnosis" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Medical Diagnosis Results:</strong> GoS achieves the best Match and Relevant scores under both LLM-as-a-Judge and Human-as-a-Judge evaluation.
+        </h2>
       </div>
-      <figcaption>Table 1. Performance of medical diagnosis.</figcaption>
-    </figure>
-    <figure class="project-experiment-card">
-      <div class="project-experiment-panel">
-        <img src="{{ '/images/projects/gos-table2-ablation.png' | relative_url }}" alt="Table 2: Ablation study of medical diagnosis" loading="lazy" decoding="async">
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/gos-table2-ablation.png' | relative_url }}" alt="Table 2: Ablation study of medical diagnosis" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Ablation Study:</strong> Removing reasoning focus, structured state management, the causal graph, or the state machine weakens GoS on medical diagnosis.
+        </h2>
       </div>
-      <figcaption>Table 2. Ablation study of medical diagnosis.</figcaption>
-    </figure>
-    <figure class="project-experiment-card">
-      <div class="project-experiment-panel">
-        <img src="{{ '/images/projects/gos-figure5-sensitivity.png' | relative_url }}" alt="Figure 5: Sensitivity analysis" loading="lazy" decoding="async">
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/gos-figure5-sensitivity.png' | relative_url }}" alt="Figure 5: Sensitivity analysis" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Sensitivity Analysis:</strong> GoS remains consistently stronger than the best baseline across interaction, retrieval, evidence, and confidence settings.
+        </h2>
       </div>
-      <figcaption>Figure 5. Sensitivity analysis.</figcaption>
-    </figure>
-    <figure class="project-experiment-card">
-      <div class="project-experiment-panel">
-        <img src="{{ '/images/projects/gos-table3-failure-diagnosis.png' | relative_url }}" alt="Table 3: Performance of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/gos-table3-failure-diagnosis.png' | relative_url }}" alt="Table 3: Performance of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Distributed-System Diagnosis:</strong> GoS substantially improves Match and Relevant scores for failure diagnosis in distributed systems.
+        </h2>
       </div>
-      <figcaption>Table 3. Failure diagnosis in distributed systems.</figcaption>
-    </figure>
-    <figure class="project-experiment-card">
-      <div class="project-experiment-panel">
-        <img src="{{ '/images/projects/gos-figure6-failure-example.png' | relative_url }}" alt="Figure 6: Example of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/gos-figure6-failure-example.png' | relative_url }}" alt="Figure 6: Example of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Case Study:</strong> A failure diagnosis example shows how GoS updates hypotheses, drills down through evidence, and reports a concrete root cause.
+        </h2>
       </div>
-      <figcaption>Figure 6. Example of failure diagnosis in distributed systems.</figcaption>
-    </figure>
+    </div>
+    <button class="project-carousel-button project-carousel-button--next" type="button" data-carousel-next aria-label="Next experiment result">
+      <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div class="slider-pagination" aria-label="Experiment result pagination">
+      <button class="slider-page is-active" type="button" data-carousel-dot="0" aria-label="Show experiment result 1"></button>
+      <button class="slider-page" type="button" data-carousel-dot="1" aria-label="Show experiment result 2"></button>
+      <button class="slider-page" type="button" data-carousel-dot="2" aria-label="Show experiment result 3"></button>
+      <button class="slider-page" type="button" data-carousel-dot="3" aria-label="Show experiment result 4"></button>
+      <button class="slider-page" type="button" data-carousel-dot="4" aria-label="Show experiment result 5"></button>
+    </div>
   </div>
-  <button class="project-carousel-button project-carousel-button--next" type="button" data-carousel-next aria-label="Next experiment result">
-    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-  </button>
-</div>
+</section>
 
-## Citation
-
-<div class="project-citation" markdown="1">
-<button class="project-copy-button" type="button" aria-label="Copy BibTeX">
-  <i class="fas fa-copy" aria-hidden="true"></i>
-  <span>Copy</span>
-</button>
-
-```bibtex
-@article{luo2026graph,
+<section class="project-bibtex-section" id="BibTeX">
+  <div class="bibtex-header">
+    <h2>BibTeX</h2>
+    <button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX">
+      <i class="fas fa-copy" aria-hidden="true"></i>
+      <span class="copy-text">Copy</span>
+    </button>
+  </div>
+  <pre id="bibtex-code"><code>@article{luo2026graph,
   title={Graph of States: Solving Abductive Tasks with Large Language Models},
   author={Luo, Yu and Gao, Rongchen and Teng, Lu and Wen, Xidao and Jiang, Jiamin and Zhang, Qingliang and Sun, Yongqian and Zhang, Shenglin and Feng, Jiasong and Liu, Tong and others},
   journal={arXiv preprint arXiv:2603.21250},
   year={2026}
-}
-```
-
-</div>
-
+}</code></pre>
+</section>
 </div>
