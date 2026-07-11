@@ -29,29 +29,44 @@ author_profile: false
 </header>
 
 <figure class="project-page-teaser">
-  <img src="{{ '/images/trioxpert.jpg' | relative_url }}" alt="TrioXpert teaser figure" decoding="async">
-  <figcaption>TrioXpert integrates multimodal observability data with collaborative LLM-based experts for automated incident management.</figcaption>
+  <img src="{{ '/images/projects/trioxpert-teaser.png' | relative_url }}" alt="TrioXpert incident management lifecycle" decoding="async">
+  <figcaption>TrioXpert targets the automated stages of incident management: anomaly detection, failure triage, and root cause localization.</figcaption>
 </figure>
 
 ## Abstract
 
-TrioXpert is an end-to-end incident management framework for microservice systems. It jointly considers anomaly detection, failure triage, and root cause localization, and combines multimodal observability signals with LLM-based collaborative reasoning. Instead of treating metrics, logs, and traces as a single undifferentiated input stream, TrioXpert extracts structured evidence from each modality and lets specialized experts reason over the evidence in an interpretable workflow.
+Automated incident management plays a pivotal role in large-scale microservice systems. However, many existing methods rely solely on single-modal data (e.g., metrics, logs, and traces) and struggle to simultaneously address multiple downstream tasks, including anomaly detection (AD), failure triage (FT), and root cause localization (RCL). Moreover, the lack of clear reasoning evidence in current techniques often leads to insufficient interpretability. To address these limitations, we propose TrioXpert, an end-to-end incident management framework capable of fully leveraging multimodal data. TrioXpert designs three independent data processing pipelines based on the inherent characteristics of different modalities, comprehensively characterizing the operational status of microservice systems from both numerical and textual dimensions. It employs a collaborative reasoning mechanism using large language models (LLMs) to simultaneously handle multiple tasks while providing clear reasoning evidence to ensure strong interpretability. We conducted extensive evaluations on two microservice system datasets, and the experimental results demonstrate that TrioXpert achieves outstanding performance in AD (improving by 4.7% to 57.7%), FT (improving by 2.1% to 40.6%), and RCL (improving by 1.6% to 163.1%) tasks. TrioXpert has also been deployed in Lenovo's production environment, demonstrating substantial gains in diagnostic efficiency and accuracy.
 
 ## Project Overview
 
-<div class="project-page-highlight-grid">
+<div class="project-page-highlight-grid project-page-highlight-grid--three">
   <div class="project-page-highlight" markdown="1">
   <h3>Multimodal Evidence</h3>
-  <p>Metrics, logs, and traces are processed according to their own data characteristics, turning raw observability streams into evidence that can support diagnosis.</p>
+  <p>TrioXpert treats metrics, logs, and traces according to their own data characteristics, using numerical and textual views to describe the system state more completely.</p>
   </div>
   <div class="project-page-highlight" markdown="1">
-  <h3>Collaborative Experts</h3>
-  <p>LLM-based experts cooperate across incident management tasks, making the diagnosis process more transparent than a single black-box prediction.</p>
+  <h3>Multi-Task Management</h3>
+  <p>The framework covers anomaly detection, failure triage, and root cause localization in one end-to-end incident management workflow.</p>
   </div>
   <div class="project-page-highlight" markdown="1">
-  <h3>End-to-End Management</h3>
-  <p>The framework covers anomaly detection, failure triage, and root cause localization in a unified workflow for microservice incidents.</p>
+  <h3>Interpretable Reasoning</h3>
+  <p>LLM-based experts cooperate over structured evidence, producing reasoning traces that help OCEs inspect why a diagnosis was made.</p>
   </div>
+</div>
+
+## Takeaways
+
+<div class="project-takeaway-grid">
+  <article class="project-takeaway-card">
+    <p class="project-takeaway-label">Takeaway 1</p>
+    <h3>Every modality matters, but not every record helps.</h3>
+    <p>Metrics, logs, and traces reflect distinct aspects of system behavior, and all of them carry valuable diagnostic signals. The key difficulty is that logs and traces are often dominated by redundant entries, so useful textual evidence must be filtered before reasoning.</p>
+  </article>
+  <article class="project-takeaway-card">
+    <p class="project-takeaway-label">Takeaway 2</p>
+    <h3>A single LLM is not enough for reliable incident management.</h3>
+    <p>Directly feeding complex multimodal incident data into one monolithic LLM can produce fluent but unreliable reports, with hallucinated steps, opaque reasoning, and context-window loss. TrioXpert therefore uses collaborative experts and structured prompts to make reasoning more stable and interpretable.</p>
+  </article>
 </div>
 
 ## Method
@@ -61,15 +76,72 @@ TrioXpert is an end-to-end incident management framework for microservice system
   <figcaption>The method overview highlights how evidence from multiple modalities flows into collaborative incident management experts.</figcaption>
 </figure>
 
-## Citation
+<section class="project-results-section">
+  <h2>Experimental Results</h2>
+  <div id="trioxpert-results-carousel" class="results-carousel" data-project-carousel>
+    <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
+      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="project-carousel-track">
+      <div class="item is-active" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/trioxpert-table1-datasets.png' | relative_url }}" alt="Table 1: Detailed information of datasets" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Datasets:</strong> TrioXpert is evaluated on two microservice-system datasets containing multimodal traces, logs, and metrics across multiple failure types.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/trioxpert-table2-performance.png' | relative_url }}" alt="Table 2: Performance comparison on AD, FT, RCL, and time" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Overall Performance:</strong> TrioXpert consistently improves AD, FT, and RCL performance over multimodal and task-specific baselines on both datasets.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/trioxpert-table3-ablation.png' | relative_url }}" alt="Table 3: Ablation study" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Ablation Study:</strong> Removing modality coverage, collaborative reasoning, coordination, or hallucination mitigation weakens performance, confirming the need for the full design.
+        </h2>
+      </div>
+    </div>
+    <button class="project-carousel-button project-carousel-button--next" type="button" data-carousel-next aria-label="Next experiment result">
+      <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div class="slider-pagination" aria-label="Experiment result pagination">
+      <button class="slider-page is-active" type="button" data-carousel-dot="0" aria-label="Show experiment result 1"></button>
+      <button class="slider-page" type="button" data-carousel-dot="1" aria-label="Show experiment result 2"></button>
+      <button class="slider-page" type="button" data-carousel-dot="2" aria-label="Show experiment result 3"></button>
+    </div>
+  </div>
+</section>
 
-```bibtex
-@inproceedings{sun2025trioxpert,
+<section class="project-insights-section" markdown="1">
+  <h2>Key Insights</h2>
+  <div class="project-insight-panel" markdown="1">
+  <p>TrioXpert shows that multimodal fusion in AIOps cannot treat all observability data as the same kind of signal. Metrics should be understood through their temporal and statistical behavior, while logs and traces should be used for their rich semantic evidence. The important move is not simply to put more data into a model, but to preserve the diagnostic value that each modality naturally carries.</p>
+  <p>The paper also provides an early demonstration that multi-agent collaboration can be effective for AIOps root cause analysis. By separating numerical and textual expertise, coordinating expert outputs, and forcing evidence-backed reasoning, TrioXpert improves interpretability as well as task performance. This became a useful starting point for later work on more structured and reliable agentic diagnosis.</p>
+  </div>
+</section>
+
+<section class="project-bibtex-section" id="BibTeX">
+  <div class="bibtex-header">
+    <h2>BibTeX</h2>
+    <button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX">
+      <i class="fas fa-copy" aria-hidden="true"></i>
+      <span class="copy-text">Copy</span>
+    </button>
+  </div>
+  <pre id="bibtex-code"><code>@inproceedings{sun2025trioxpert,
   title={TrioXpert: An Automated Incident Management Framework for Microservice System},
   author={Sun, Yongqian and Luo, Yu and Wen, Xidao and Yuan, Yuan and Nie, Xiaohui and Zhang, Shenglin and Liu, Tong and Luo, Xi},
-  booktitle={Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering},
-  year={2025}
-}
-```
-
+  booktitle={2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  pages={3239--3250},
+  year={2025},
+  organization={IEEE}
+}</code></pre>
+</section>
 </div>
