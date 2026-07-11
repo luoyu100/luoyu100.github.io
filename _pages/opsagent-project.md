@@ -22,7 +22,7 @@ author_profile: false
   <p class="project-page-note">* Corresponding author</p>
   <div class="project-page-links">
     <a class="project-page-link project-page-link--paper" href="https://arxiv.org/abs/2510.24145" target="_blank" rel="noopener"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper</a>
-    <a class="project-page-link project-page-link--code" href="https://anonymous.4open.science/r/OpsAgent-CCC0" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Code</a>
+    <a class="project-page-link project-page-link--code" href="https://github.com/Johnn13/OpsAgent" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Code</a>
     <a class="project-page-link project-page-link--story" href="{{ '/projects/opsagent/' | relative_url }}"><i class="fas fa-book-open" aria-hidden="true"></i> Story</a>
   </div>
 </header>

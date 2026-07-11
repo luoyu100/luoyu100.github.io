@@ -97,7 +97,7 @@ My recent research interests lie in:
     <span>Project</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
   </a>
-  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://anonymous.4open.science/r/OpsAgent-CCC0">
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/Johnn13/OpsAgent">
     <i class="fas fa-code" aria-hidden="true"></i>
     <span>Code</span>
     <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
