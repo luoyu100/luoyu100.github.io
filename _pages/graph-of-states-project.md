@@ -30,28 +30,32 @@ author_profile: false
 </header>
 
 <figure class="project-page-teaser">
-  <img src="{{ '/images/graph-of-states.png' | relative_url }}" alt="Graph of States teaser figure" decoding="async">
-  <figcaption>Graph of States turns abductive reasoning into a directed search over structured belief states, causal relations, and state transitions.</figcaption>
+  <img src="{{ '/images/projects/gos-teaser.png' | relative_url }}" alt="Reasoning deficiencies in abductive tasks" decoding="async">
+  <figcaption>Deductive reasoning frameworks can solve static logic problems, but abductive tasks expose evidence fabrication, context drift, failed backtracking, and early stopping.</figcaption>
 </figure>
 
 ## Abstract
 
-Graph of States is a general-purpose neuro-symbolic framework for abductive reasoning with large language models. It grounds multi-agent collaboration in explicit belief states, uses a causal graph and state machine to constrain reasoning transitions, and converts open-ended exploration into a directed search over possible explanations. The framework is designed for complex tasks where agents must collect evidence, revise hypotheses, and identify the most plausible hidden cause behind observed symptoms.
+Large language models have achieved strong results on many deductive reasoning tasks, but abductive reasoning remains difficult because the model must infer the most plausible hidden cause from incomplete observations. In tasks such as medical diagnosis and failure diagnosis in distributed systems, existing reasoning frameworks often fabricate evidence, drift across long contexts, fail to backtrack from wrong hypotheses, or stop too early with shallow explanations. Graph of States addresses this gap with a neuro-symbolic framework that represents the reasoning process as explicit belief states, combines a causal graph with a state machine, and coordinates central and expert agents to perform structured hypothesis refinement, evidence retrieval, backtracking, and drill-down search. Experiments show that this design improves both matching accuracy and relevant diagnosis quality while maintaining practical inference cost.
 
 ## Project Overview
 
 <div class="project-page-highlight-grid">
   <div class="project-page-highlight" markdown="1">
-  <h3>Belief States</h3>
-  <p>The reasoning process is represented as structured states, making collaboration more compact and traceable than long conversational histories.</p>
+  <h3>Abductive Reasoning</h3>
+  <p>GoS focuses on diagnosis-style tasks where agents must explain observed symptoms by searching for hidden causes, rather than simply deriving answers from complete premises.</p>
   </div>
   <div class="project-page-highlight" markdown="1">
-  <h3>Causal Transitions</h3>
-  <p>A causal graph and state machine constrain how hypotheses are expanded, refined, and rejected during abductive search.</p>
+  <h3>Failure Modes</h3>
+  <p>The paper identifies four recurring deficiencies in LLM reasoning frameworks: evidence fabrication, context drift, failed backtracking, and early stopping.</p>
   </div>
   <div class="project-page-highlight" markdown="1">
-  <h3>General Abduction</h3>
-  <p>The design applies beyond microservice diagnosis, supporting broader abductive tasks where observed evidence must be explained by hidden causes.</p>
+  <h3>Structured Belief State</h3>
+  <p>GoS keeps hypotheses, confidence, supporting evidence, and causal relations in an explicit graph, giving agents a shared state instead of an unstructured conversation history.</p>
+  </div>
+  <div class="project-page-highlight" markdown="1">
+  <h3>State-Guided Search</h3>
+  <p>A state machine controls backtracking, drill-down, and report generation, so agents can revise shallow explanations and investigate more concrete root causes.</p>
   </div>
 </div>
 
@@ -62,15 +66,44 @@ Graph of States is a general-purpose neuro-symbolic framework for abductive reas
   <figcaption>The overview shows how central and expert agents update the graph-structured belief state through planning, investigation, and state conversion.</figcaption>
 </figure>
 
+## Experiments
+
+<div class="project-experiment-strip">
+  <figure class="project-experiment-card">
+    <img src="{{ '/images/projects/gos-table1-medical-diagnosis.png' | relative_url }}" alt="Table 1: Performance of medical diagnosis" loading="lazy" decoding="async">
+    <figcaption>Table 1. Performance of medical diagnosis.</figcaption>
+  </figure>
+  <figure class="project-experiment-card">
+    <img src="{{ '/images/projects/gos-table2-ablation.png' | relative_url }}" alt="Table 2: Ablation study of medical diagnosis" loading="lazy" decoding="async">
+    <figcaption>Table 2. Ablation study of medical diagnosis.</figcaption>
+  </figure>
+  <figure class="project-experiment-card">
+    <img src="{{ '/images/projects/gos-figure5-sensitivity.png' | relative_url }}" alt="Figure 5: Sensitivity analysis" loading="lazy" decoding="async">
+    <figcaption>Figure 5. Sensitivity analysis.</figcaption>
+  </figure>
+  <figure class="project-experiment-card">
+    <img src="{{ '/images/projects/gos-table3-failure-diagnosis.png' | relative_url }}" alt="Table 3: Performance of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+    <figcaption>Table 3. Failure diagnosis in distributed systems.</figcaption>
+  </figure>
+  <figure class="project-experiment-card">
+    <img src="{{ '/images/projects/gos-figure6-failure-example.png' | relative_url }}" alt="Figure 6: Example of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+    <figcaption>Figure 6. Example of failure diagnosis in distributed systems.</figcaption>
+  </figure>
+</div>
+
 ## Citation
 
+<div class="project-citation" markdown="1">
+
 ```bibtex
-@inproceedings{luo2026graphstates,
+@article{luo2026graph,
   title={Graph of States: Solving Abductive Tasks with Large Language Models},
-  author={Luo, Yu and Gao, Rongchen and Teng, Lu and Wen, Xidao and Jiang, Jiamin and Zhang, Qingliang and Sun, Yongqian and Zhang, Shenglin and Feng, Jiasong and Liu, Tong and Zhang, Wenjie and Pei, Dan},
-  booktitle={Proceedings of the 43rd International Conference on Machine Learning},
+  author={Luo, Yu and Gao, Rongchen and Teng, Lu and Wen, Xidao and Jiang, Jiamin and Zhang, Qingliang and Sun, Yongqian and Zhang, Shenglin and Feng, Jiasong and Liu, Tong and others},
+  journal={arXiv preprint arXiv:2603.21250},
   year={2026}
 }
 ```
+
+</div>
 
 </div>

@@ -404,7 +404,7 @@ h1:before, .anchor:before {
 
     .project-page-highlight-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: .9rem;
         margin: 1rem 0 2rem;
     }
@@ -438,6 +438,46 @@ h1:before, .anchor:before {
 
         code {
             font-size: inherit;
+        }
+    }
+
+    .project-experiment-strip {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0 2.35rem;
+        overflow-x: auto;
+        padding: .2rem .1rem 1rem;
+        scroll-snap-type: x proximity;
+    }
+
+    .project-experiment-card {
+        flex: 0 0 min(760px, 88vw);
+        margin: 0;
+        scroll-snap-align: start;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: #fff;
+            border: 1px solid #dfe6ee;
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(#10243a, .08);
+        }
+
+        figcaption {
+            margin-top: .62rem;
+            color: #667482;
+            font-size: .86em;
+            line-height: 1.45;
+            text-align: center;
+        }
+    }
+
+    .project-citation {
+        pre {
+            font-size: 1.08rem;
+            line-height: 1.6;
         }
     }
 }
