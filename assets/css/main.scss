@@ -441,43 +441,138 @@ h1:before, .anchor:before {
         }
     }
 
+    .project-experiment-carousel {
+        position: relative;
+        margin: 1rem 0 2.35rem;
+    }
+
     .project-experiment-strip {
         display: flex;
-        gap: 1rem;
-        margin: 1rem 0 2.35rem;
+        gap: 0;
         overflow-x: auto;
-        padding: .2rem .1rem 1rem;
-        scroll-snap-type: x proximity;
+        padding: .2rem 0 1rem;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+
+        &:focus-visible {
+            outline: 2px solid #16477f;
+            outline-offset: 3px;
+        }
     }
 
     .project-experiment-card {
-        flex: 0 0 min(760px, 88vw);
+        flex: 0 0 100%;
         margin: 0;
         scroll-snap-align: start;
+    }
+
+    .project-experiment-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 560px;
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid #dfe6ee;
+        border-radius: 6px;
+        box-shadow: 0 8px 24px rgba(#10243a, .08);
+        overflow: hidden;
 
         img {
             display: block;
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: auto;
-            background: #fff;
-            border: 1px solid #dfe6ee;
-            border-radius: 6px;
-            box-shadow: 0 8px 24px rgba(#10243a, .08);
-        }
-
-        figcaption {
-            margin-top: .62rem;
-            color: #667482;
-            font-size: .86em;
-            line-height: 1.45;
-            text-align: center;
+            object-fit: contain;
         }
     }
 
+    .project-experiment-card figcaption {
+        margin-top: .62rem;
+        color: #667482;
+        font-size: .86em;
+        line-height: 1.45;
+        text-align: center;
+    }
+
+    .project-carousel-button {
+        position: absolute;
+        top: 280px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.35rem;
+        height: 2.35rem;
+        color: #173a5f;
+        background: rgba(#fff, .94);
+        border: 1px solid #ccd9e5;
+        border-radius: 50%;
+        box-shadow: 0 6px 18px rgba(#10243a, .16);
+        cursor: pointer;
+        transform: translateY(-50%);
+        transition: background-color .18s ease, transform .18s ease, border-color .18s ease;
+
+        &:hover {
+            background: #f3f8fd;
+            border-color: #b8cadb;
+            transform: translateY(-50%) scale(1.04);
+        }
+
+        &:focus-visible {
+            outline: 2px solid #16477f;
+            outline-offset: 2px;
+        }
+    }
+
+    .project-carousel-button--prev {
+        left: .75rem;
+    }
+
+    .project-carousel-button--next {
+        right: .75rem;
+    }
+
     .project-citation {
+        position: relative;
+
         pre {
+            padding-top: 3.1rem;
             font-size: 1.08rem;
             line-height: 1.6;
+        }
+    }
+
+    .project-copy-button {
+        position: absolute;
+        top: .75rem;
+        right: .75rem;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: .38rem;
+        padding: .42rem .65rem;
+        color: #16477f;
+        font-size: .84rem;
+        font-weight: 700;
+        line-height: 1.15;
+        background: #eef5fc;
+        border: 1px solid #cfddec;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+
+        &:hover {
+            color: #10375f;
+            background: #e3eef9;
+            border-color: #b8ccdf;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #16477f;
+            outline-offset: 2px;
         }
     }
 }
@@ -494,6 +589,14 @@ h1:before, .anchor:before {
 
         .project-page-highlight-grid {
             grid-template-columns: 1fr;
+        }
+
+        .project-experiment-panel {
+            height: 420px;
+        }
+
+        .project-carousel-button {
+            top: 210px;
         }
     }
 }

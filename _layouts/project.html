@@ -17,5 +17,102 @@ layout: compress
     </main>
 
     {% include scripts.html %}
+    <script>
+      (function () {
+        function copyText(text, button) {
+          function markCopied() {
+            var label = button.querySelector("span");
+            if (!label) {
+              return;
+            }
+            var original = label.textContent;
+            label.textContent = "Copied";
+            window.setTimeout(function () {
+              label.textContent = original;
+            }, 1400);
+          }
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(markCopied).catch(function () {
+              fallbackCopy(text, markCopied);
+            });
+            return;
+          }
+
+          fallbackCopy(text, markCopied);
+        }
+
+        function fallbackCopy(text, callback) {
+          var textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "fixed";
+          textarea.style.top = "-1000px";
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textarea);
+          callback();
+        }
+
+        document.querySelectorAll(".project-copy-button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            var citation = button.closest(".project-citation");
+            var code = citation ? citation.querySelector("pre code, pre") : null;
+            if (code) {
+              copyText(code.textContent.trim(), button);
+            }
+          });
+        });
+
+        document.querySelectorAll("[data-project-carousel]").forEach(function (carousel) {
+          var strip = carousel.querySelector(".project-experiment-strip");
+          var cards = Array.prototype.slice.call(carousel.querySelectorAll(".project-experiment-card"));
+          var previous = carousel.querySelector("[data-carousel-prev]");
+          var next = carousel.querySelector("[data-carousel-next]");
+
+          if (!strip || cards.length === 0) {
+            return;
+          }
+
+          function currentIndex() {
+            var center = strip.scrollLeft + strip.clientWidth / 2;
+            var closest = 0;
+            var closestDistance = Infinity;
+
+            cards.forEach(function (card, index) {
+              var cardCenter = card.offsetLeft + card.offsetWidth / 2;
+              var distance = Math.abs(cardCenter - center);
+              if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = index;
+              }
+            });
+
+            return closest;
+          }
+
+          function move(delta) {
+            var index = Math.max(0, Math.min(cards.length - 1, currentIndex() + delta));
+            strip.scrollTo({
+              left: cards[index].offsetLeft,
+              behavior: "smooth"
+            });
+          }
+
+          if (previous) {
+            previous.addEventListener("click", function () {
+              move(-1);
+            });
+          }
+
+          if (next) {
+            next.addEventListener("click", function () {
+              move(1);
+            });
+          }
+        });
+      }());
+    </script>
   </body>
 </html>

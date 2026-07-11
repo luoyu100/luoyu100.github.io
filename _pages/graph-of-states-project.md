@@ -68,32 +68,54 @@ Large language models have achieved strong results on many deductive reasoning t
 
 ## Experiments
 
-<div class="project-experiment-strip">
-  <figure class="project-experiment-card">
-    <img src="{{ '/images/projects/gos-table1-medical-diagnosis.png' | relative_url }}" alt="Table 1: Performance of medical diagnosis" loading="lazy" decoding="async">
-    <figcaption>Table 1. Performance of medical diagnosis.</figcaption>
-  </figure>
-  <figure class="project-experiment-card">
-    <img src="{{ '/images/projects/gos-table2-ablation.png' | relative_url }}" alt="Table 2: Ablation study of medical diagnosis" loading="lazy" decoding="async">
-    <figcaption>Table 2. Ablation study of medical diagnosis.</figcaption>
-  </figure>
-  <figure class="project-experiment-card">
-    <img src="{{ '/images/projects/gos-figure5-sensitivity.png' | relative_url }}" alt="Figure 5: Sensitivity analysis" loading="lazy" decoding="async">
-    <figcaption>Figure 5. Sensitivity analysis.</figcaption>
-  </figure>
-  <figure class="project-experiment-card">
-    <img src="{{ '/images/projects/gos-table3-failure-diagnosis.png' | relative_url }}" alt="Table 3: Performance of failure diagnosis in distributed systems" loading="lazy" decoding="async">
-    <figcaption>Table 3. Failure diagnosis in distributed systems.</figcaption>
-  </figure>
-  <figure class="project-experiment-card">
-    <img src="{{ '/images/projects/gos-figure6-failure-example.png' | relative_url }}" alt="Figure 6: Example of failure diagnosis in distributed systems" loading="lazy" decoding="async">
-    <figcaption>Figure 6. Example of failure diagnosis in distributed systems.</figcaption>
-  </figure>
+<div class="project-experiment-carousel" data-project-carousel>
+  <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
+    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+  </button>
+  <div class="project-experiment-strip" tabindex="0" aria-label="Graph of States experiment results">
+    <figure class="project-experiment-card">
+      <div class="project-experiment-panel">
+        <img src="{{ '/images/projects/gos-table1-medical-diagnosis.png' | relative_url }}" alt="Table 1: Performance of medical diagnosis" loading="lazy" decoding="async">
+      </div>
+      <figcaption>Table 1. Performance of medical diagnosis.</figcaption>
+    </figure>
+    <figure class="project-experiment-card">
+      <div class="project-experiment-panel">
+        <img src="{{ '/images/projects/gos-table2-ablation.png' | relative_url }}" alt="Table 2: Ablation study of medical diagnosis" loading="lazy" decoding="async">
+      </div>
+      <figcaption>Table 2. Ablation study of medical diagnosis.</figcaption>
+    </figure>
+    <figure class="project-experiment-card">
+      <div class="project-experiment-panel">
+        <img src="{{ '/images/projects/gos-figure5-sensitivity.png' | relative_url }}" alt="Figure 5: Sensitivity analysis" loading="lazy" decoding="async">
+      </div>
+      <figcaption>Figure 5. Sensitivity analysis.</figcaption>
+    </figure>
+    <figure class="project-experiment-card">
+      <div class="project-experiment-panel">
+        <img src="{{ '/images/projects/gos-table3-failure-diagnosis.png' | relative_url }}" alt="Table 3: Performance of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+      </div>
+      <figcaption>Table 3. Failure diagnosis in distributed systems.</figcaption>
+    </figure>
+    <figure class="project-experiment-card">
+      <div class="project-experiment-panel">
+        <img src="{{ '/images/projects/gos-figure6-failure-example.png' | relative_url }}" alt="Figure 6: Example of failure diagnosis in distributed systems" loading="lazy" decoding="async">
+      </div>
+      <figcaption>Figure 6. Example of failure diagnosis in distributed systems.</figcaption>
+    </figure>
+  </div>
+  <button class="project-carousel-button project-carousel-button--next" type="button" data-carousel-next aria-label="Next experiment result">
+    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+  </button>
 </div>
 
 ## Citation
 
 <div class="project-citation" markdown="1">
+<button class="project-copy-button" type="button" aria-label="Copy BibTeX">
+  <i class="fas fa-copy" aria-hidden="true"></i>
+  <span>Copy</span>
+</button>
 
 ```bibtex
 @article{luo2026graph,
