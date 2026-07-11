@@ -28,47 +28,157 @@ author_profile: false
 </header>
 
 <figure class="project-page-teaser">
-  <img src="{{ '/images/opsagent.png' | relative_url }}?v=20260528" alt="OpsAgent teaser figure" decoding="async">
-  <figcaption>OpsAgent refines heterogeneous observability data into textual evidence and coordinates specialized agents for transparent incident diagnosis.</figcaption>
+  <img src="{{ '/images/projects/opsagent-teaser.png' | relative_url }}" alt="OpsAgent teaser figure" decoding="async">
+  <figcaption>OpsAgent turns a lightweight LLM into a deployable and sustainable incident management system through a training-free data processor, multi-agent collaboration, and self-evolution.</figcaption>
 </figure>
 
 ## Abstract
 
-OpsAgent is a lightweight and self-evolving multi-agent system for incident management in microservices. It converts metrics, logs, and traces into structured textual evidence, coordinates specialized agents for anomaly detection, failure triage, and root cause localization, and improves through model refinement and accumulated operational experience. The system is designed to make incident diagnosis more auditable, transferable, and adaptive to real operational environments.
+Incident management (IM) is central to the reliability of large-scale microservice systems. Yet manual IM, where on-call engineers examine metrics, logs, and traces is labor-intensive and error-prone in the face of massive and heterogeneous observability data. Existing automated IM approaches often struggle to generalize across systems, provide limited interpretability, and incur high deployment costs, which hinders adoption in practice. In this paper, we present OpsAgent, a lightweight, self-evolving multi-agent system for IM that employs a training-free data processor to convert heterogeneous observability data into structured textual descriptions, along with a multi-agent collaboration framework that makes diagnostic inference transparent and auditable. To support continual capability growth, OpsAgent also introduces a dual self-evolution mechanism that integrates internal model updates with external experience accumulation, thereby closing the deployment loop. Comprehensive experiments on the OPENRCA benchmark demonstrate state-of-the-art performance and show that OpsAgent is generalizable, interpretable, cost-efficient, and self-evolving, making it a practically deployable and sustainable solution for long-term operation in real-world microservice systems. Notably, its deployment in Lenovo's production environment further validates its effectiveness in real-world industrial settings.
 
 ## Project Overview
 
-<div class="project-page-highlight-grid">
+<div class="project-page-highlight-grid project-page-highlight-grid--three">
   <div class="project-page-highlight" markdown="1">
-  <h3>Training-Free Evidence</h3>
-  <p>Heterogeneous observability data is distilled into compact textual evidence, making it easier for LLM agents to reason over operational signals.</p>
+  <h3>Training-Free Data Processor</h3>
+  <p>OpsAgent first converts metrics, logs, and traces into structured textual descriptions without system-specific training, preserving useful anomaly, log, and latency evidence while keeping deployment cost low.</p>
   </div>
   <div class="project-page-highlight" markdown="1">
-  <h3>Multi-Agent Diagnosis</h3>
-  <p>An orchestrator coordinates task-specific agents so diagnosis becomes a structured collaboration rather than an unconstrained conversation.</p>
+  <h3>Auditable Multi-Agent Diagnosis</h3>
+  <p>An intent interpreter, orchestrator, and specialized agents cooperate through agent profiles and cross-review, turning root-cause diagnosis into a transparent workflow that OCEs can inspect and act on.</p>
   </div>
   <div class="project-page-highlight" markdown="1">
-  <h3>Self-Evolution</h3>
-  <p>The system combines refinement and accumulated operational experience, allowing the diagnostic workflow to improve from past incidents.</p>
+  <h3>Dual Self-Evolution Loop</h3>
+  <p>The system improves through internal PPO-based optimization and external reflection-based experience accumulation, closing the loop between online incident handling and offline capability growth.</p>
   </div>
 </div>
 
-## Method
+<section class="project-results-section project-method-section">
+  <h2>Method</h2>
+  <div id="opsagent-method-carousel" class="results-carousel" data-project-carousel>
+    <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous method figure">
+      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="project-carousel-track">
+      <div class="item is-active" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-data-processor.png' | relative_url }}" alt="Training-free data processor" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Training-Free Data Processor:</strong> Metrics, logs, and traces are processed separately into compact diagnostic evidence without retraining a system-specific model.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-data-descriptions.png' | relative_url }}" alt="Illustrative example of textual data descriptions" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Textual Descriptions:</strong> Observability signals are converted into structured descriptions that preserve anomaly rankings, failure-indicative logs, high-latency spans, and call-path statistics.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-multi-agent-collaboration.png' | relative_url }}" alt="Multi-agent collaboration workflow" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Multi-Agent Collaboration:</strong> An intent interpreter, orchestrator, and task-specific agents cooperate through profiles, cross-review, and root-cause reports.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-self-evolution.png' | relative_url }}" alt="Self-evolution mechanism" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Self-Evolution Mechanism:</strong> OpsAgent combines PPO-based internal optimization with reflection-based reusable knowledge construction and retrieval.
+        </h2>
+      </div>
+    </div>
+    <button class="project-carousel-button project-carousel-button--next" type="button" data-carousel-next aria-label="Next method figure">
+      <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div class="slider-pagination" aria-label="Method figure pagination">
+      <button class="slider-page is-active" type="button" data-carousel-dot="0" aria-label="Show method figure 1"></button>
+      <button class="slider-page" type="button" data-carousel-dot="1" aria-label="Show method figure 2"></button>
+      <button class="slider-page" type="button" data-carousel-dot="2" aria-label="Show method figure 3"></button>
+      <button class="slider-page" type="button" data-carousel-dot="3" aria-label="Show method figure 4"></button>
+    </div>
+  </div>
+</section>
 
-<figure class="project-page-figure">
-  <img src="{{ '/images/opsagent.png' | relative_url }}?v=20260528" alt="OpsAgent method overview" decoding="async">
-  <figcaption>The overview shows how processed evidence, coordinated agents, cross-review, and self-evolution form the OpsAgent workflow.</figcaption>
-</figure>
+<section class="project-results-section">
+  <h2>Experimental Results</h2>
+  <div id="opsagent-results-carousel" class="results-carousel" data-project-carousel>
+    <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
+      <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="project-carousel-track">
+      <div class="item is-active" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-table1-baselines.png' | relative_url }}" alt="Table 1: Comparison with baselines across seed LLMs" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Overall Performance:</strong> OpsAgent achieves state-of-the-art diagnosis quality across seed LLMs on OPENRCA while keeping inference cost practical.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-table2-ablation.png' | relative_url }}" alt="Table 2: Ablation study on key components" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Ablation Study:</strong> Removing the data processor, cross-review, reflection, or PPO weakens diagnosis quality, showing that each component contributes to the full system.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-table3-self-evolution.png' | relative_url }}" alt="Table 3: Self-evolution capability under different training budgets" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Self-Evolution Budget:</strong> Increasing the proportion of self-evolution training cases improves average Correct and Partial scores.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-figure6-case.png' | relative_url }}" alt="Figure 6: An illustrative case" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Deployment Case:</strong> The case study illustrates how OpsAgent turns incident tickets and observability evidence into actionable root-cause reports for OCEs.
+        </h2>
+      </div>
+      <div class="item" data-carousel-item>
+        <div class="image-container">
+          <img src="{{ '/images/projects/opsagent-figure7-interpretability.png' | relative_url }}" alt="Figure 7: Interpretability assessment in deployment" loading="lazy" decoding="async">
+        </div>
+        <h2 class="subtitle">
+          <strong>Interpretability Assessment:</strong> Frontline OCEs rate OpsAgent highly on consistency, clarity, relevance, and rationality.
+        </h2>
+      </div>
+    </div>
+    <button class="project-carousel-button project-carousel-button--next" type="button" data-carousel-next aria-label="Next experiment result">
+      <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div class="slider-pagination" aria-label="Experiment result pagination">
+      <button class="slider-page is-active" type="button" data-carousel-dot="0" aria-label="Show experiment result 1"></button>
+      <button class="slider-page" type="button" data-carousel-dot="1" aria-label="Show experiment result 2"></button>
+      <button class="slider-page" type="button" data-carousel-dot="2" aria-label="Show experiment result 3"></button>
+      <button class="slider-page" type="button" data-carousel-dot="3" aria-label="Show experiment result 4"></button>
+      <button class="slider-page" type="button" data-carousel-dot="4" aria-label="Show experiment result 5"></button>
+    </div>
+  </div>
+</section>
 
-## Citation
-
-```bibtex
-@inproceedings{luo2026opsagent,
-  title={OpsAgent: An Evolving Multi-agent System for Incident Management in Microservices},
-  author={Luo, Yu and Jiang, Jiamin and Feng, Jingfei and Tao, Lei and Zhang, Qingliang and Wen, Xidao and Sun, Yongqian and Zhang, Shenglin and Liu, Tong and Zhang, Wenjie and Pei, Dan},
-  booktitle={Companion Proceedings of the 41st IEEE/ACM International Conference on Automated Software Engineering},
-  year={2026}
-}
-```
-
+<section class="project-bibtex-section" id="BibTeX">
+  <div class="bibtex-header">
+    <h2>BibTeX</h2>
+    <button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX">
+      <i class="fas fa-copy" aria-hidden="true"></i>
+      <span class="copy-text">Copy</span>
+    </button>
+  </div>
+  <pre id="bibtex-code"><code>@article{luo2025observability,
+  title={From Observability Data to Diagnosis: An Evolving Multi-agent System for Incident Management in Cloud Systems},
+  author={Luo, Yu and Jiang, Jiamin and Feng, Jingfei and Tao, Lei and Zhang, Qingliang and Wen, Xidao and Sun, Yongqian and Zhang, Shenglin and Pei, Dan},
+  journal={arXiv preprint arXiv:2510.24145},
+  year={2025}
+}</code></pre>
+</section>
 </div>

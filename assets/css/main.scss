@@ -442,6 +442,10 @@ h1:before, .anchor:before {
         margin: 1rem 0 2rem;
     }
 
+    .project-page-highlight-grid--three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .project-page-highlight {
         padding: 1rem;
         background: #f7f9fb;
@@ -764,6 +768,10 @@ h1:before, .anchor:before {
         }
 
         .project-page-highlight-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .project-page-highlight-grid--three {
             grid-template-columns: 1fr;
         }
 
