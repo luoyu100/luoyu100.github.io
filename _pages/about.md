@@ -217,7 +217,7 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 - *2021.03*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  \| [\[video\]](https://github.com/) -->
 
 # 💻 Internships
-- *2026.07 - present*, Algorithm Engineer Intern at Alibaba Cloud, China, Advisor: [Xidao Wen](https://scholar.google.com/citations?user=1aehrpYAAAAJ&hl=en).
+- *2026.07 - present*, Algorithm Engineer Intern at Alibaba Cloud, China, Mentor: [Xidao Wen](https://scholar.google.com/citations?user=1aehrpYAAAAJ&hl=en).
 - *2025.06 - 2026.01*, Algorithm Engineer Intern at Lenovo, China.
 
 # 🎤 Invited Talks
