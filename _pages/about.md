@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Yu Luo is currently a 1st-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/) and Prof. [Shenglin Zhang](https://nkcs.iops.ai/shenglinzhang/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 7 high-quality papers at CCF A/B conferences.
+Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/) and Prof. [Shenglin Zhang](https://nkcs.iops.ai/shenglinzhang/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 7 papers at conferences such as ICML, KDD, and ASE.
 
 ---
 
@@ -27,6 +27,7 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.07*: &nbsp;🚀 **Graph of States** has surpassed 20K views across all platforms!
 - *2026.07*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Alibaba Cloud
 - *2026.07*: &nbsp;🎉🎉 Our papers “OpsAgent” and “KRCA” are accepted by ASE 2026
 - *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Award from ICML 2026
