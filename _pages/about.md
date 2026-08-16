@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 7 papers at conferences such as ICML, KDD, and ASE.
+Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 9 papers at venues including ICML, KDD, ASE, and TOSEM.
 
 ---
 
@@ -27,6 +27,8 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.08*: &nbsp;🎉🎉 Our paper “OpsMem” is accepted by ISSRE 2026
+- *2026.08*: &nbsp;🎉🎉 Our survey “Why Transformers?” is accepted by TOSEM 2026
 - *2026.07*: &nbsp;🚀 **Graph of States** has surpassed 20K views across all platforms!
 - *2026.07*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Alibaba Cloud
 - *2026.07*: &nbsp;🎉🎉 Our papers “OpsAgent” and “KRCA” are accepted by ASE 2026
@@ -104,6 +106,36 @@ My recent research interests lie in:
     <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
 </div>
+</div>
+</div>
+
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ISSRE 2026</div><a href="https://nkcs.iops.ai/wp-content/uploads/2026/08/ISSRE26-OpsMem.pdf"><img src='images/opsmem.png' alt="OpsMem dual-memory reasoning framework" width="100%"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[OpsMem: Dual-Memory Reasoning with Cross-Memory Resonance for Failure Diagnosis](https://nkcs.iops.ai/wp-content/uploads/2026/08/ISSRE26-OpsMem.pdf)
+
+Yongqian Sun, Rongchen Gao, **Yu Luo**, Wenwei Gu, et al.
+
+- OpsMem is a dual-memory framework for failure diagnosis that couples a graph-structured short-term memory of the evolving diagnostic state with a long-term memory of reusable operational experience. Through cross-memory resonance, it activates state-relevant cases and procedures during multi-agent diagnosis, then consolidates solved incidents into long-term memory for continual improvement.
+
+<div class="paper-actions">
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/gaorch85/OpsMem">
+    <i class="fas fa-code" aria-hidden="true"></i>
+    <span>Code</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
+</div>
+</div>
+
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">TOSEM 2026</div><a href="https://nkcs.iops.ai/wp-content/uploads/2026/08/TOSEM26-WhyTransformer.pdf"><img src='images/why-transformers.png' alt="Overview of Transformers in AIOps survey" width="100%"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[Why Transformers? A Comprehensive Overview of Transformers in Artificial Intelligence for IT Operations](https://nkcs.iops.ai/wp-content/uploads/2026/08/TOSEM26-WhyTransformer.pdf)
+
+Binpeng Shi, Shenglin Zhang, Jingya Wang, Bowen Hao, Minyi Shao, **Yu Luo**, et al.
+
+- This survey provides a comprehensive overview of Transformers in AIOps, organizing representative work by data modality, operational target, modeling principle, and methodological approach. It further explains why Transformers suit AIOps through a capability framework, consolidates evaluation resources and strategies, and distills practical guidance for applying Transformer-based systems in real operations.
 </div>
 </div>
 
