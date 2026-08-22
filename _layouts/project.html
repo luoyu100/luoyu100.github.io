@@ -9,8 +9,21 @@ layout: compress
     {% include head/custom.html %}
   </head>
 
-  <body class="project-page-body">
+  <body class="project-page-body{% if page.project_theme %} project-page-body--{{ page.project_theme }}{% endif %}">
     {% include browser-upgrade.html %}
+
+    {% if page.project_navigation %}
+    <nav class="project-local-nav" aria-label="Project navigation">
+      <div class="project-local-nav__inner">
+        <a class="project-local-nav__back" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Publications</span></a>
+        <div class="project-local-nav__links">
+          {% for item in page.project_navigation %}
+          <a href="{{ item.href }}">{{ item.label }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </nav>
+    {% endif %}
 
     <main class="project-main" role="main">
       {{ content }}
@@ -112,6 +125,28 @@ layout: compress
 
           show(0);
         });
+
+        var projectNavigationLinks = Array.prototype.slice.call(document.querySelectorAll(".project-local-nav__links a"));
+        var projectNavigationTargets = projectNavigationLinks.map(function (link) {
+          var target = document.querySelector(link.getAttribute("href"));
+          return target ? { link: link, target: target } : null;
+        }).filter(Boolean);
+
+        if (projectNavigationTargets.length && "IntersectionObserver" in window) {
+          var projectNavigationObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                projectNavigationLinks.forEach(function (link) {
+                  link.classList.toggle("is-active", link.getAttribute("href") === "#" + entry.target.id);
+                });
+              }
+            });
+          }, { rootMargin: "-35% 0px -55%", threshold: 0 });
+
+          projectNavigationTargets.forEach(function (item) {
+            projectNavigationObserver.observe(item.target);
+          });
+        }
       }());
     </script>
   </body>
