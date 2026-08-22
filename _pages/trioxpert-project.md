@@ -17,7 +17,7 @@ project_navigation:
     href: "#bibtex"
 ---
 
-<div class="research-project-page project-theme--trioxpert" markdown="1">
+<div class="research-project-page project-theme--trioxpert">
 
 <header class="project-page-hero">
   <p class="project-page-eyebrow">ASE 2025 <span aria-hidden="true">/</span> Multimodal AIOps</p>
@@ -45,7 +45,7 @@ project_navigation:
 </figure>
 
 <section class="project-content-section project-content-section--foundation" id="overview">
-  <div class="project-section-shell" markdown="1">
+  <div class="project-section-shell">
     <div class="project-section-heading">
       <p class="project-section-index">01 <span>THE PAPER</span></p>
       <h2>Abstract</h2>
@@ -54,15 +54,15 @@ project_navigation:
 
     <h3 class="project-subsection-title">Project Overview</h3>
     <div class="project-page-highlight-grid project-page-highlight-grid--three">
-      <div class="project-page-highlight" markdown="1">
+      <div class="project-page-highlight">
       <h3>Multimodal Evidence</h3>
       <p>TrioXpert treats metrics, logs, and traces according to their own data characteristics, using numerical and textual views to describe the system state more completely.</p>
       </div>
-      <div class="project-page-highlight" markdown="1">
+      <div class="project-page-highlight">
       <h3>Multi-Task Management</h3>
       <p>The framework covers anomaly detection, failure triage, and root cause localization in one end-to-end incident management workflow.</p>
       </div>
-      <div class="project-page-highlight" markdown="1">
+      <div class="project-page-highlight">
       <h3>Interpretable Reasoning</h3>
       <p>LLM-based experts cooperate over structured evidence, producing reasoning traces that help OCEs inspect why a diagnosis was made.</p>
       </div>
@@ -71,7 +71,7 @@ project_navigation:
 </section>
 
 <section class="project-content-section project-content-section--takeaways" id="takeaways">
-  <div class="project-section-shell" markdown="1">
+  <div class="project-section-shell">
     <div class="project-section-heading">
       <p class="project-section-index">02 <span>DESIGN LESSONS</span></p>
       <h2>Key Takeaways</h2>
@@ -92,7 +92,7 @@ project_navigation:
 </section>
 
 <section class="project-content-section project-content-section--method" id="method">
-  <div class="project-section-shell" markdown="1">
+  <div class="project-section-shell">
     <div class="project-section-heading">
       <p class="project-section-index">03 <span>THE FRAMEWORK</span></p>
       <h2>Method</h2>
@@ -105,7 +105,7 @@ project_navigation:
 </section>
 
 <section class="project-content-section project-content-section--results project-results-section" id="results">
-  <div class="project-section-shell" markdown="1">
+  <div class="project-section-shell">
     <div class="project-section-heading">
       <p class="project-section-index">04 <span>EVALUATION</span></p>
       <h2>Experimental Results</h2>
@@ -152,13 +152,13 @@ project_navigation:
   </div>
 </section>
 
-<section class="project-content-section project-content-section--insights project-insights-section" id="insights" markdown="1">
-  <div class="project-section-shell" markdown="1">
+<section class="project-content-section project-content-section--insights project-insights-section" id="insights">
+  <div class="project-section-shell">
     <div class="project-section-heading">
       <p class="project-section-index">05 <span>WHAT WE LEARNED</span></p>
       <h2>Key Insights</h2>
     </div>
-    <div class="project-insight-panel" markdown="1">
+    <div class="project-insight-panel">
     <p>TrioXpert shows that multimodal fusion in AIOps cannot treat all observability data as the same kind of signal. Metrics should be understood through their temporal and statistical behavior, while logs and traces should be used for their rich semantic evidence. The important move is not simply to put more data into a model, but to preserve the diagnostic value that each modality naturally carries.</p>
     <p>The paper also provides an early demonstration that multi-agent collaboration can be effective for AIOps root cause analysis. By separating numerical and textual expertise, coordinating expert outputs, and forcing evidence-backed reasoning, TrioXpert improves interpretability as well as task performance. This became a useful starting point for later work on more structured and reliable agentic diagnosis.</p>
     </div>
