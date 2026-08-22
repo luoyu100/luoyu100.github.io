@@ -3,13 +3,22 @@ permalink: /projects/opsagent/project/
 title: "OpsAgent Project Page | Yu Luo"
 layout: project
 author_profile: false
+project_theme: opsagent
+project_navigation:
+  - label: Overview
+    href: "#overview"
+  - label: Method
+    href: "#method"
+  - label: Results
+    href: "#results"
+  - label: BibTeX
+    href: "#bibtex"
 ---
 
-<div class="research-project-page" markdown="1">
-
-<a class="project-page-back" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i> Publications</a>
+<div class="research-project-page project-theme--opsagent">
 
 <header class="project-page-hero">
+  <p class="project-page-eyebrow">ASE 2026 <span aria-hidden="true">/</span> Sustainable AIOps</p>
   <h1 class="project-page-title">OpsAgent: An Evolving Multi-agent System for Incident Management in Microservices</h1>
   <p class="project-page-authors">
     <strong>Yu Luo</strong><sup>1</sup>, Jiamin Jiang<sup>1</sup>, Jingfei Feng<sup>1</sup>, Lei Tao<sup>1</sup>, Qingliang Zhang<sup>1</sup>, Xidao Wen<sup>2</sup>, Yongqian Sun<sup>1,*</sup>, Shenglin Zhang<sup>1</sup>, Tong Liu<sup>3</sup>, Wenjie Zhang<sup>3</sup>, Dan Pei<sup>4</sup>
@@ -32,29 +41,40 @@ author_profile: false
   <figcaption>OpsAgent turns a lightweight LLM into a deployable and sustainable incident management system through a training-free data processor, multi-agent collaboration, and self-evolution.</figcaption>
 </figure>
 
-## Abstract
+<section class="project-content-section project-content-section--foundation" id="overview">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">01 <span>THE PAPER</span></p>
+      <h2>Abstract</h2>
+    </div>
+    <p class="project-abstract">Incident management (IM) is central to the reliability of large-scale microservice systems. Yet manual IM, where on-call engineers examine metrics, logs, and traces, is labor-intensive and error-prone in the face of massive and heterogeneous observability data. Existing automated IM approaches often struggle to generalize across systems, provide limited interpretability, and incur high deployment costs, which hinders adoption in practice. In this paper, we present OpsAgent, a lightweight, self-evolving multi-agent system for IM that employs a training-free data processor to convert heterogeneous observability data into structured textual descriptions, along with a multi-agent collaboration framework that makes diagnostic inference transparent and auditable. To support continual capability growth, OpsAgent also introduces a dual self-evolution mechanism that integrates internal model updates with external experience accumulation, thereby closing the deployment loop. Comprehensive experiments on the OPENRCA benchmark demonstrate state-of-the-art performance and show that OpsAgent is generalizable, interpretable, cost-efficient, and self-evolving, making it a practically deployable and sustainable solution for long-term operation in real-world microservice systems. Notably, its deployment in Lenovo's production environment further validates its effectiveness in real-world industrial settings.</p>
 
-Incident management (IM) is central to the reliability of large-scale microservice systems. Yet manual IM, where on-call engineers examine metrics, logs, and traces is labor-intensive and error-prone in the face of massive and heterogeneous observability data. Existing automated IM approaches often struggle to generalize across systems, provide limited interpretability, and incur high deployment costs, which hinders adoption in practice. In this paper, we present OpsAgent, a lightweight, self-evolving multi-agent system for IM that employs a training-free data processor to convert heterogeneous observability data into structured textual descriptions, along with a multi-agent collaboration framework that makes diagnostic inference transparent and auditable. To support continual capability growth, OpsAgent also introduces a dual self-evolution mechanism that integrates internal model updates with external experience accumulation, thereby closing the deployment loop. Comprehensive experiments on the OPENRCA benchmark demonstrate state-of-the-art performance and show that OpsAgent is generalizable, interpretable, cost-efficient, and self-evolving, making it a practically deployable and sustainable solution for long-term operation in real-world microservice systems. Notably, its deployment in Lenovo's production environment further validates its effectiveness in real-world industrial settings.
-
-## Project Overview
+    <h3 class="project-subsection-title">Project Overview</h3>
 
 <div class="project-page-highlight-grid project-page-highlight-grid--three">
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>Training-Free Data Processor</h3>
   <p>OpsAgent first converts metrics, logs, and traces into structured textual descriptions without system-specific training, preserving useful anomaly, log, and latency evidence while keeping deployment cost low.</p>
   </div>
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>Auditable Multi-Agent Diagnosis</h3>
   <p>An intent interpreter, orchestrator, and specialized agents cooperate through agent profiles and cross-review, turning root-cause diagnosis into a transparent workflow that OCEs can inspect and act on.</p>
   </div>
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>Dual Self-Evolution Loop</h3>
   <p>The system improves through internal PPO-based optimization and external reflection-based experience accumulation, closing the loop between online incident handling and offline capability growth.</p>
   </div>
 </div>
 
-<section class="project-results-section project-method-section">
-  <h2>Method</h2>
+  </div>
+</section>
+
+<section class="project-content-section project-content-section--method project-method-section" id="method">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">02 <span>THE FRAMEWORK</span></p>
+      <h2>Method</h2>
+    </div>
   <div id="opsagent-method-carousel" class="results-carousel" data-project-carousel>
     <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous method figure">
       <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -103,10 +123,15 @@ Incident management (IM) is central to the reliability of large-scale microservi
       <button class="slider-page" type="button" data-carousel-dot="3" aria-label="Show method figure 4"></button>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="project-results-section">
-  <h2>Experimental Results</h2>
+<section class="project-content-section project-content-section--results project-results-section" id="results">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">03 <span>EVALUATION</span></p>
+      <h2>Experimental Results</h2>
+    </div>
   <div id="opsagent-results-carousel" class="results-carousel" data-project-carousel>
     <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
       <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -164,11 +189,16 @@ Incident management (IM) is central to the reliability of large-scale microservi
       <button class="slider-page" type="button" data-carousel-dot="4" aria-label="Show experiment result 5"></button>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="project-bibtex-section" id="BibTeX">
+<section class="project-content-section project-content-section--bibtex project-bibtex-section" id="bibtex">
+  <div class="project-section-shell">
   <div class="bibtex-header">
-    <h2>BibTeX</h2>
+    <div class="project-section-heading">
+      <p class="project-section-index">04 <span>CITE THIS WORK</span></p>
+      <h2>BibTeX</h2>
+    </div>
     <button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX">
       <i class="fas fa-copy" aria-hidden="true"></i>
       <span class="copy-text">Copy</span>
@@ -180,5 +210,6 @@ Incident management (IM) is central to the reliability of large-scale microservi
   journal={arXiv preprint arXiv:2510.24145},
   year={2025}
 }</code></pre>
+  </div>
 </section>
 </div>

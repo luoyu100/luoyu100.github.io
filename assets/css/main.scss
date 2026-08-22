@@ -886,8 +886,10 @@ h1:before, .anchor:before {
     }
 }
 
-/* TrioXpert project page: editorial research-project treatment. */
-.project-page-body--trioxpert {
+/* Editorial treatment shared by the featured research project pages. */
+.project-page-body--trioxpert,
+.project-page-body--graph-of-states,
+.project-page-body--opsagent {
     color: #243344;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: #f4f7f9;
@@ -969,7 +971,9 @@ h1:before, .anchor:before {
         padding: 0 0 4.5rem;
     }
 
-    .research-project-page.project-theme--trioxpert {
+    .research-project-page.project-theme--trioxpert,
+    .research-project-page.project-theme--graph-of-states,
+    .research-project-page.project-theme--opsagent {
         --project-primary-color: #2f8b8c;
         --project-primary-hover: #216b6c;
         --project-text-primary: #1c2b39;
@@ -1042,6 +1046,14 @@ h1:before, .anchor:before {
             letter-spacing: 0;
         }
 
+        .project-page-venue-detail {
+            max-width: 760px;
+            margin: 0 auto .55rem;
+            color: #667789;
+            font-size: .84rem;
+            line-height: 1.45;
+        }
+
         .project-page-note {
             margin-bottom: 1.45rem;
             color: #788695;
@@ -1107,7 +1119,8 @@ h1:before, .anchor:before {
 
         .project-content-section--foundation,
         .project-content-section--method,
-        .project-content-section--insights {
+        .project-content-section--insights,
+        .project-content-section--deploy {
             background: #fff;
         }
 
@@ -1361,6 +1374,53 @@ h1:before, .anchor:before {
             }
         }
 
+        .project-deploy-section {
+            margin: 0 0 0 5.8rem;
+        }
+
+        .project-deploy-intro,
+        .project-deploy-summary {
+            max-width: none;
+            margin-right: 0;
+            margin-left: 0;
+            color: #485d70;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .project-deploy-list {
+            gap: 1.1rem;
+        }
+
+        .project-deploy-list li {
+            padding: 1.15rem 1.15rem 1.15rem 3.35rem;
+            color: #536679;
+            background: rgba(255, 255, 255, .86);
+            border-color: #d5e1e3;
+            border-top: 3px solid #9cbfc0;
+            border-radius: 8px;
+
+            &:before {
+                top: 1.15rem;
+                left: 1.1rem;
+                color: #d97757;
+                background: transparent;
+                border: 1px solid #d97757;
+            }
+
+            strong {
+                color: #1e394a;
+            }
+        }
+
+        .project-deploy-summary {
+            margin-top: 1.25rem;
+            background: #f8fbfb;
+            border-color: #d8e4e5;
+            border-radius: 0 8px 8px 0;
+            box-shadow: none;
+        }
+
         .bibtex-header {
             align-items: flex-start;
             margin-bottom: 1.5rem;
@@ -1398,7 +1458,9 @@ h1:before, .anchor:before {
 }
 
 @media screen and (max-width: 768px) {
-    .project-page-body--trioxpert {
+    .project-page-body--trioxpert,
+    .project-page-body--graph-of-states,
+    .project-page-body--opsagent {
         .project-local-nav__inner {
             gap: .8rem;
             min-height: 3.4rem;
@@ -1420,7 +1482,9 @@ h1:before, .anchor:before {
             font-size: .76rem;
         }
 
-        .research-project-page.project-theme--trioxpert {
+        .research-project-page.project-theme--trioxpert,
+        .research-project-page.project-theme--graph-of-states,
+        .research-project-page.project-theme--opsagent {
             .project-page-hero {
                 padding: 3.4rem 1.25rem 2.6rem;
             }
@@ -1495,6 +1559,10 @@ h1:before, .anchor:before {
             .project-page-highlight-grid,
             .project-takeaway-grid {
                 gap: 1.25rem;
+            }
+
+            .project-deploy-section {
+                margin-left: 0;
             }
 
             .project-page-highlight-grid--three,

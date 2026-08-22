@@ -3,13 +3,24 @@ permalink: /projects/graph-of-states/project/
 title: "Graph of States Project Page | Yu Luo"
 layout: project
 author_profile: false
+project_theme: graph-of-states
+project_navigation:
+  - label: Overview
+    href: "#overview"
+  - label: Method
+    href: "#method"
+  - label: Results
+    href: "#results"
+  - label: Deploy
+    href: "#deploy"
+  - label: BibTeX
+    href: "#bibtex"
 ---
 
-<div class="research-project-page" markdown="1">
-
-<a class="project-page-back" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i> Publications</a>
+<div class="research-project-page project-theme--graph-of-states">
 
 <header class="project-page-hero">
+  <p class="project-page-eyebrow">ICML 2026 <span aria-hidden="true">/</span> Abductive Reasoning</p>
   <h1 class="project-page-title">Graph of States: Solving Abductive Tasks with Large Language Models</h1>
   <p class="project-page-authors">
     <strong>Yu Luo</strong><sup>1</sup>, Rongchen Gao<sup>1</sup>, Lu Teng<sup>2</sup>, Xidao Wen<sup>3</sup>, Jiamin Jiang<sup>1</sup>, Qingliang Zhang<sup>1</sup>, Yongqian Sun<sup>1,*</sup>, Shenglin Zhang<sup>1</sup>, Jiasong Feng<sup>4</sup>, Tong Liu<sup>4</sup>, Wenjie Zhang<sup>4</sup>, Dan Pei<sup>5</sup>
@@ -34,40 +45,59 @@ author_profile: false
   <figcaption>Deductive reasoning frameworks can solve static logic problems, but abductive tasks expose evidence fabrication, context drift, failed backtracking, and early stopping.</figcaption>
 </figure>
 
-## Abstract
+<section class="project-content-section project-content-section--foundation" id="overview">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">01 <span>THE PAPER</span></p>
+      <h2>Abstract</h2>
+    </div>
+    <p class="project-abstract">Logical reasoning encompasses deduction, induction, and abduction. However, while Large Language Models (LLMs) have effectively mastered the former two, abductive reasoning remains significantly underexplored. Existing frameworks, predominantly designed for static deductive tasks, fail to generalize to abductive reasoning due to unstructured state representation and lack of explicit state control. Consequently, they are inevitably prone to Evidence Fabrication, Context Drift, Failed Backtracking, and Early Stopping. To bridge this gap, we introduce Graph of States (GoS), a general-purpose neuro-symbolic framework tailored for abductive tasks. GoS grounds multi-agent collaboration in structured belief states, utilizing a causal graph to explicitly encode logical dependencies and a state machine to govern valid reasoning transitions. By dynamically aligning the reasoning focus with these symbolic constraints, our approach transforms aimless, unconstrained exploration into a convergent, directed search. Extensive evaluations on two real-world datasets demonstrate that GoS significantly outperforms all baselines, providing a robust solution for complex abductive tasks. Code repo and all prompts: <a href="https://github.com/gaorch85/Graph-of-States" target="_blank" rel="noopener">gaorch85/Graph-of-States</a>.</p>
 
-Logical reasoning encompasses deduction, induction, and abduction. However, while Large Language Models (LLMs) have effectively mastered the former two, abductive reasoning remains significantly underexplored. Existing frameworks, predominantly designed for static deductive tasks, fail to generalize to abductive reasoning due to unstructured state representation and lack of explicit state control. Consequently, they are inevitably prone to Evidence Fabrication, Context Drift, Failed Backtracking, and Early Stopping. To bridge this gap, we introduce Graph of States (GoS), a general-purpose neuro-symbolic framework tailored for abductive tasks. GoS grounds multi-agent collaboration in a structured belief states, utilizing a causal graph to explicitly encode logical dependencies and a state machine to govern the valid transitions of the reasoning process. By dynamically aligning the reasoning focus with these symbolic constraints, our approach transforms aimless, unconstrained exploration into a convergent, directed search. Extensive evaluations on two real-world datasets demonstrate that GoS significantly outperforms all baselines, providing a robust solution for complex abductive tasks. Code repo and all prompts: [gaorch85/Graph-of-States](https://github.com/gaorch85/Graph-of-States).
-
-## Project Overview
+    <h3 class="project-subsection-title">Project Overview</h3>
 
 <div class="project-page-highlight-grid">
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>Abductive Reasoning</h3>
   <p>GoS focuses on diagnosis-style tasks where agents must explain observed symptoms by searching for hidden causes, rather than simply deriving answers from complete premises.</p>
   </div>
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>Failure Modes</h3>
   <p>The paper identifies four recurring deficiencies in LLM reasoning frameworks: evidence fabrication, context drift, failed backtracking, and early stopping.</p>
   </div>
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>Structured Belief State</h3>
   <p>GoS keeps hypotheses, confidence, supporting evidence, and causal relations in an explicit graph, giving agents a shared state instead of an unstructured conversation history.</p>
   </div>
-  <div class="project-page-highlight" markdown="1">
+  <div class="project-page-highlight">
   <h3>State-Guided Search</h3>
   <p>A state machine controls backtracking, drill-down, and report generation, so agents can revise shallow explanations and investigate more concrete root causes.</p>
   </div>
 </div>
 
-## Method
+  </div>
+</section>
+
+<section class="project-content-section project-content-section--method" id="method">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">02 <span>THE FRAMEWORK</span></p>
+      <h2>Method</h2>
+    </div>
 
 <figure class="project-page-figure">
   <img src="{{ '/images/graph-of-states.png' | relative_url }}" alt="Graph of States method overview" decoding="async">
   <figcaption>The overview shows how central and expert agents update the graph-structured belief state through planning, investigation, and state conversion.</figcaption>
 </figure>
 
-<section class="project-results-section">
-  <h2>Experimental Results</h2>
+  </div>
+</section>
+
+<section class="project-content-section project-content-section--results project-results-section" id="results">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">03 <span>EVALUATION</span></p>
+      <h2>Experimental Results</h2>
+    </div>
   <div id="results-carousel" class="results-carousel" data-project-carousel>
     <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
       <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -125,10 +155,16 @@ Logical reasoning encompasses deduction, induction, and abduction. However, whil
       <button class="slider-page" type="button" data-carousel-dot="4" aria-label="Show experiment result 5"></button>
     </div>
   </div>
+  </div>
 </section>
 
-<section class="project-deploy-section" markdown="1">
-  <h2>Possible Deployable Area</h2>
+<section class="project-content-section project-content-section--deploy" id="deploy">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">04 <span>WHERE IT APPLIES</span></p>
+      <h2>Possible Deployable Areas</h2>
+    </div>
+    <div class="project-deploy-section">
   <p class="project-deploy-intro">GoS is designed for long-horizon reasoning tasks where the goal is not to produce a one-shot answer, but to make multiple hypotheses converge through iterative interaction with the environment and accumulating evidence.</p>
 
   <ol class="project-deploy-list">
@@ -147,11 +183,17 @@ Logical reasoning encompasses deduction, induction, and abduction. However, whil
   </ol>
 
   <p class="project-deploy-summary">These domains share the same reasoning pattern: multiple plausible hypotheses, evidence-seeking interaction, controlled state transitions, and final convergence toward the most defensible explanation.</p>
+    </div>
+  </div>
 </section>
 
-<section class="project-bibtex-section" id="BibTeX">
+<section class="project-content-section project-content-section--bibtex project-bibtex-section" id="bibtex">
+  <div class="project-section-shell">
   <div class="bibtex-header">
-    <h2>BibTeX</h2>
+    <div class="project-section-heading">
+      <p class="project-section-index">05 <span>CITE THIS WORK</span></p>
+      <h2>BibTeX</h2>
+    </div>
     <button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX">
       <i class="fas fa-copy" aria-hidden="true"></i>
       <span class="copy-text">Copy</span>
@@ -163,5 +205,6 @@ Logical reasoning encompasses deduction, induction, and abduction. However, whil
   journal={arXiv preprint arXiv:2603.21250},
   year={2026}
 }</code></pre>
+  </div>
 </section>
 </div>
