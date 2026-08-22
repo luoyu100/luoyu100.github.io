@@ -7,6 +7,9 @@ layout: compress
   <head>
     {% include head.html %}
     {% include head/custom.html %}
+    {% if page.project_theme %}
+    <link rel="stylesheet" href="{{ '/assets/css/main.css?v=20260822-trioxpert' | relative_url }}">
+    {% endif %}
   </head>
 
   <body class="project-page-body{% if page.project_theme %} project-page-body--{{ page.project_theme }}{% endif %}">
