@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 9 papers at venues including ICML, KDD, ASE, and TOSEM.
+Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 10 papers at venues including ICML, EMNLP, KDD, ASE, and TOSEM.
 
 ---
 
@@ -27,6 +27,7 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.08*: &nbsp;🎉🎉 Our paper “PAGE” is accepted by EMNLP 2026
 - *2026.08*: &nbsp;🎉🎉 Our paper “OpsMem” is accepted by ISSRE 2026
 - *2026.08*: &nbsp;🎉🎉 Our survey “Why Transformers?” is accepted by TOSEM 2026
 - *2026.07*: &nbsp;🚀 **Graph of States** has surpassed 20K views across all platforms!
@@ -74,6 +75,25 @@ My recent research interests lie in:
   <a class="paper-story-link paper-story-link--slide" target="_blank" rel="noopener" href="{{ '/assets/slides/GoS-presentation.pdf' | relative_url }}">
     <i class="fas fa-file-powerpoint" aria-hidden="true"></i>
     <span>Slide</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
+</div>
+</div>
+
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">EMNLP 2026</div><a href="https://nkcs.iops.ai/wp-content/uploads/2026/08/PAGE.pdf"><img src='images/page.png' alt="PAGE progress-aware reinforcement learning framework" width="100%"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[PAGE: Progress-Aware Reinforcement Learning with Hierarchical Advantage for Long-Horizon GUI Agents](https://nkcs.iops.ai/wp-content/uploads/2026/08/PAGE.pdf)
+
+Qingliang Zhang, Yongqian Sun, Yuanhong Cai, Xiaohui Nie, Jiaju Wang, **Yu Luo**, et al.
+
+- PAGE is a progress-aware reinforcement learning framework for long-horizon GUI agents that replaces sparse outcome feedback with automatically constructed progress rewards and combines inter-rollout and subtask-level advantages for fine-grained credit assignment. With an 8B vision-language model, PAGE achieves a 79.3% average success rate across three long-horizon GUI scenarios, outperforming the GRPO baseline by 16.0 percentage points.
+
+<div class="paper-actions">
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/ZQlQZ/PAGE">
+    <i class="fas fa-code" aria-hidden="true"></i>
+    <span>Code</span>
     <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
 </div>
