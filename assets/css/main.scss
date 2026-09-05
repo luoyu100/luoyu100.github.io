@@ -1124,6 +1124,7 @@ h1:before, .anchor:before {
             background: #fff;
         }
 
+        .project-content-section--video,
         .project-content-section--takeaways,
         .project-content-section--results,
         .project-content-section--bibtex {
@@ -1283,6 +1284,33 @@ h1:before, .anchor:before {
                 margin: .8rem auto .2rem;
                 color: #657789;
             }
+        }
+
+        .project-video-player {
+            position: relative;
+            margin: 0 0 0 5.8rem;
+            overflow: hidden;
+            background: #0c151c;
+            border: 1px solid #cad9dc;
+            border-top: 3px solid #d97757;
+            border-radius: 8px;
+            box-shadow: 0 16px 36px rgba(20, 53, 61, .13);
+        }
+
+        .project-video-player video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            background: #0c151c;
+        }
+
+        .project-video-caption {
+            max-width: 880px;
+            margin: 1rem 0 0 5.8rem;
+            color: #586b7d;
+            font-size: .94rem;
+            line-height: 1.65;
         }
 
         .project-results-section,
@@ -1545,6 +1573,8 @@ h1:before, .anchor:before {
             .project-page-highlight-grid,
             .project-takeaway-grid,
             .project-page-figure,
+            .project-video-player,
+            .project-video-caption,
             .results-carousel,
             .project-insight-panel,
             #bibtex-code {
