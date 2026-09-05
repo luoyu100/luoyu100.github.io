@@ -129,6 +129,26 @@ layout: compress
           show(0);
         });
 
+        document.querySelectorAll(".project-video-player").forEach(function (player) {
+          var video = player.querySelector("video");
+          var playButton = player.querySelector(".project-video-play");
+
+          if (!video || !playButton) {
+            return;
+          }
+
+          function updateVideoState() {
+            player.classList.toggle("is-playing", !video.paused && !video.ended);
+          }
+
+          playButton.addEventListener("click", function () {
+            video.play();
+          });
+          video.addEventListener("play", updateVideoState);
+          video.addEventListener("pause", updateVideoState);
+          video.addEventListener("ended", updateVideoState);
+        });
+
         var projectNavigationLinks = Array.prototype.slice.call(document.querySelectorAll(".project-local-nav__links a"));
         var projectNavigationTargets = projectNavigationLinks.map(function (link) {
           var target = document.querySelector(link.getAttribute("href"));
