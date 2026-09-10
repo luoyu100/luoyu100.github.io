@@ -165,7 +165,7 @@
     display: block;
   }
 
-  button {
+  > button {
     margin-bottom: 0;
     width: 120px;
     padding: 0.5em;
@@ -254,6 +254,7 @@
 }
 
 .author__wechat {
+  display: inline-block;
   appearance: none;
   margin: 0 0 5px;
   padding: 2px 5px 2px 0;
