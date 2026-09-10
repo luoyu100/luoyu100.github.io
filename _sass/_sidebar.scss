@@ -253,6 +253,24 @@
   }
 }
 
+.author__wechat {
+  appearance: none;
+  margin: 0 0 5px;
+  padding: 2px 5px 2px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: $type-size-5;
+  text-align: left;
+  cursor: pointer;
+
+  .fa-weixin { color: inherit !important; }
+  &:hover { text-decoration: underline; }
+  &:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+}
+
 .author__urls_sm{
   padding: .25em;
   font-size: 1.75em;
