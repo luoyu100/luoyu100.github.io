@@ -27,10 +27,10 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.09*: &nbsp;🚀 **Graph of States** has surpassed 30K views across all platforms and received 100+ stars on GitHub!
 - *2026.08*: &nbsp;🎉🎉 Our paper “PAGE” is accepted by EMNLP 2026
 - *2026.08*: &nbsp;🎉🎉 Our paper “OpsMem” is accepted by ISSRE 2026
 - *2026.08*: &nbsp;🎉🎉 Our survey “Why Transformers?” is accepted by TOSEM 2026
-- *2026.07*: &nbsp;🚀 **Graph of States** has surpassed 20K views across all platforms!
 - *2026.07*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Alibaba Cloud
 - *2026.07*: &nbsp;🎉🎉 Our papers “OpsAgent” and “KRCA” are accepted by ASE 2026
 - *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Award from ICML 2026
