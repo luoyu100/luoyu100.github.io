@@ -1,33 +1,37 @@
 graph-of-states:
   case:
     title: From Surface Alerts to a Concrete Root Cause
-    intro: A read-only filesystem is a symptom, not yet an explanation. This example follows the evidence until the cause becomes clear.
-    source: Based on the paper's Figure 6. The steps summarize the published example, not a live run.
+    intro: Follow both sides of GoS at once. Agents collect evidence, while the belief graph records what it supports and the state machine decides where to investigate next.
+    source: Figure 6 supplies the case and confidence values; Section 3 explains the graph operations and decision rules. This is a walkthrough of the paper, not a live run.
     image: /images/projects/gos-figure6-failure-example.png
     steps:
-      - label: Observe
-        title: Three alerts, one investigation
+      - label: Build state
+        title: Separate observed symptoms from possible explanations
         input_title: Surface alerts
         input:
           - The filesystem is read-only.
           - Memory usage has exceeded 90%.
           - The system health score has dropped below 90%.
-        output_title: Starting point
+        output_title: Initial belief graph
         output:
-          - ApplicationOperator gathers the alerts into one diagnostic state.
-          - The alerts show what is wrong, but do not yet explain why.
-      - label: Hypothesize
-        title: Keep more than one explanation in view
+          - ApplicationOperator creates hypothesis nodes for a read-only filesystem and high memory pressure.
+          - Derive links connect the symptoms to these hypotheses; the search starts at level 1.
+        mechanism_title: A graph stores the investigation, not just the conversation
+        mechanism: Symptoms, evidence, and hypotheses have different node types. An initial guess stays a hypothesis instead of silently becoming an observed fact in a long chat history.
+      - label: Set focus
+        title: Let the current belief state guide the next action
         input_title: Candidate hypotheses
         input:
           - "Filesystem read-only: confidence 0.75."
           - "High memory pressure: confidence 0.60."
         output_title: Reasoning focus
         output:
-          - The read-only hypothesis has the highest confidence.
-          - ApplicationOperator asks LinuxOperator to inspect the filesystem before choosing a final explanation.
-      - label: Investigate
-        title: Check the system, not just the alert
+          - FindFocus selects the highest-confidence hypothesis at the current level, here the read-only filesystem.
+          - ApplicationOperator passes the focus and shared belief state to LinuxOperator with a plan to inspect the filesystem.
+        mechanism_title: The symbolic state directs the agents
+        mechanism: The graph is not only a record kept after reasoning. It supplies the focus for the next investigation, so experts work on the same question instead of exploring unrelated explanations.
+      - label: Get evidence
+        title: Test the current hypothesis through system observations
         input_title: Evidence collected
         input:
           - "mount | grep ro checks which filesystems are mounted read-only."
@@ -35,20 +39,35 @@ graph-of-states:
         output_title: What the evidence supports
         output:
           - The root filesystem is XFS and is mounted read-only.
-          - XFS messages provide evidence for a more specific filesystem problem.
-      - label: Drill down
-        title: Move from the symptom to its cause
-        input_title: Updated belief state
+          - LinuxOperator returns its observations and analysis to ApplicationOperator for a graph update.
+        mechanism_title: New evidence comes from investigation
+        mechanism: The initial alerts do not contain the full diagnosis. The expert uses tools to obtain deeper evidence, and the central agent uses those findings to revise the shared state.
+      - label: Update graph
+        title: Change the evidence links as well as the confidence scores
+        input_title: Before the evidence update
         input:
-          - "Filesystem read-only: confidence rises from 0.75 to 0.95."
-          - "High memory pressure: confidence falls from 0.60 to 0.40."
+          - "Filesystem read-only: confidence 0.75."
+          - "High memory pressure: confidence 0.60."
+        output_title: After UpdateGraph
+        output:
+          - "Filesystem read-only rises to 0.95; high memory pressure falls to 0.40."
+          - The returned evidence is recorded in the graph and linked to the hypotheses it supports or challenges.
+        mechanism_title: Agent findings change the symbolic state
+        mechanism: UpdateGraph adds evidence nodes, forms logical links, and revises confidence. The next decision uses this updated graph rather than restarting from the original alerts.
+      - label: Drill down
+        title: A strong symptom-level explanation is not the stopping point
+        input_title: State conversion checks
+        input:
+          - The state machine checks confidence gaps and supporting evidence before changing the search level.
+          - "The published case records Backtracking: No and Drill-Down: Yes."
         output_title: A more specific hypothesis
         output:
-          - The state machine permits a drill-down step.
+          - The search moves from level 1 to level 2, refining the read-only hypothesis instead of stopping at the symptom.
           - "The new hypothesis is XFS metadata corruption, with confidence 0.90."
-          - No backtracking is needed in this example.
-      - label: Conclude
-        title: Report a cause, not another symptom
+        mechanism_title: Explicit rules control the search depth
+        mechanism: Drill-down looks for a finer cause when the evidence supports it. Backtracking is a separate transition for a weakened line of investigation; it is checked but not triggered in this case.
+      - label: Explain
+        title: Stop when the explanation is specific enough to answer the query
         input_title: Supporting evidence
         input:
           - The mount check confirms the read-only state.
@@ -56,7 +75,9 @@ graph-of-states:
         output_title: Final explanation
         output:
           - XFS metadata corruption caused the kernel to remount the root filesystem as read-only.
-          - The report ties the diagnosis to the evidence collected during the investigation.
+          - CheckReport accepts the finer explanation, and the final report ties the cause to the collected evidence.
+        mechanism_title: Preserve the path from evidence to explanation
+        mechanism: The refine link connects the coarse hypothesis to its finer cause, while evidence links record why it is supported. The result explains both what failed and how the investigation reached that conclusion.
   results:
     context: Selected results from Tables 1 and 3. Match measures agreement with the reference diagnosis; the judge and task are shown separately.
     items:
@@ -91,62 +112,84 @@ graph-of-states:
 opsagent:
   case:
     title: From Observability Signals to an Actionable Diagnosis
-    intro: An order service keeps failing. Three kinds of evidence point to the same database instance and explain what went wrong.
-    source: Based on the paper's Figure 6. The steps summarize its illustrative case, not a live run.
+    intro: Follow an order-service failure through evidence preparation, specialist diagnosis, cross-review, and a report engineers can act on. Then see how the framework learns from completed incidents.
+    source: Figure 6 supplies the incident example. Sections 3.2-3.4 explain the processing, review, and learning mechanisms; the learning step is not a measured training run for this individual case.
     image: /images/projects/opsagent-figure6-case.png
     steps:
-      - label: Incident
-        title: Find the cause behind failed requests
+      - label: Set the task
+        title: Turn the ticket into a time window and diagnostic tasks
         input_title: Incident ticket
         input:
           - The order-processing application has repeated request failures between 09:10 and 09:20 on January 18, 2026.
           - The ticket asks for the root cause and the affected component.
         output_title: Diagnostic task
         output:
-          - Inspect metrics, logs, and traces for the incident window.
-          - Look for evidence that connects a failure type to a specific instance.
-      - label: Evidence
-        title: Three signals point to db-03
+          - The intent interpreter extracts the time window and requested tasks, including failure triage and root-cause localization.
+          - The orchestrator coordinates task-specific agents using evidence from that window.
+        mechanism_title: One request, coordinated diagnostic roles
+        mechanism: OpsAgent separates understanding the request from executing the diagnosis. Agent profiles define each role's task and inputs, keeping the final answers tied to the incident the user asked about.
+      - label: Prepare data
+        title: Keep each modality's useful details in a shared text format
         input_title: Structured descriptions
         input:
           - "Metric: disk utilization on db-03 rises sharply at 09:12, with a deviation of about 7.5 sigma."
           - "Log: db-03 reports 'No space left on device' at 09:13:08."
           - "Trace: calls from order-service to db-03 show a maximum latency of 6,421 ms."
-        output_title: Why these signals matter
+        output_title: How the processor builds this evidence
         output:
-          - Disk pressure and a storage error identify a likely cause.
-          - Slow calls connect the database problem to the failing order service.
-      - label: Collaborate
-        title: Combine the agents' findings
+          - Metrics retain abnormal times, deviation scores, and pattern descriptions; logs are filtered and ranked for diagnostic relevance.
+          - Traces retain high-latency spans and call-path information, linking slow requests to the affected components.
+        mechanism_title: Prepare evidence before asking the LLM to reason
+        mechanism: The training-free processor turns heterogeneous telemetry into compact descriptions without training a new processor for each system. In this case, storage errors explain the disk anomaly, while trace evidence connects it to the order service.
+      - label: Diagnose
+        title: Ask specialists different questions about the same incident
         input_title: Task-specific findings
         input:
           - "Anomaly Sentinel identifies the disk spike at 09:12."
           - "Failure Diagnoser identifies disk space exhaustion."
           - "Root Detective identifies db-03 as the root-cause instance."
-        output_title: Cross-review
+        output_title: Answers with supporting evidence
         output:
-          - The agents check their findings against the shared evidence.
-          - The time, failure type, and instance form one consistent diagnosis.
+          - Each agent returns its task result and the reasoning evidence behind it, rather than only a label.
+          - The orchestrator brings together the time, failure type, and instance for cross-review.
+        mechanism_title: Divide responsibility, not the incident context
+        mechanism: The agents specialize in AD, FT, and RCL but reason over the same structured incident evidence. Their separate answers can therefore be checked against one another before being accepted.
+      - label: Cross-review
+        title: Check whether the specialist answers agree with the evidence
+        input_title: Findings to check
+        input:
+          - The time finding points to a disk spike on db-03 at 09:12.
+          - The type and component findings identify disk exhaustion on the same instance.
+        output_title: Review and refinement
+        output:
+          - Cross-review lets agents inspect the other findings and provide feedback before the final answers are assembled.
+          - In the illustrated case, the disk anomaly, storage errors, and slow calls support one consistent diagnosis.
+        mechanism_title: Review the reasoning, not just the final labels
+        mechanism: This stage creates a chance to challenge unsupported conclusions and refine answers using another agent's evidence. The paper's case does not show an initial disagreement, so no invented correction is added here.
       - label: Report
-        title: Make the diagnosis easy to check
+        title: Give engineers a diagnosis they can inspect and act on
         input_title: Evidence supporting the report
         input:
           - Abnormal disk utilization is concentrated on db-03.
           - Storage errors and high call latency point to the same instance.
         output_title: Root-cause report
         output:
-          - "Cause: disk space exhaustion."
-          - "Component: db-03."
-          - The report includes the observations that support each conclusion.
-      - label: Resolve
-        title: Engineers act on the report
-        input_title: Human response
+          - "Cause: disk space exhaustion. Component: db-03. The report includes the supporting observations."
+          - Engineers remove obsolete files and expand disk space; the figure shows the incident being mitigated.
+        mechanism_title: Keep diagnosis separate from production changes
+        mechanism: The report connects each conclusion to evidence so on-call engineers can check the diagnosis and choose a response. The repair in this case is carried out by engineers, not autonomously by the agents.
+      - label: Learn
+        title: Improve the model and retain reusable experience
+        input_title: Internal learning with PPO
         input:
-          - On-call engineers remove obsolete files and expand available disk space on db-03.
-        output_title: Incident resolved
+          - Offline training updates the agents using a reward that combines answer accuracy with reasoning quality.
+          - Reasoning is assessed for consistency, clarity, relevance, and rationality.
+        output_title: External learning with reflection
         output:
-          - The figure shows the incident being mitigated after this action.
-          - Engineers carry out the change; the example does not show autonomous production changes by OpsAgent.
+          - Reflection turns incident experience into reusable knowledge stored in task-specific knowledge bases.
+          - Similar symptoms can retrieve relevant knowledge for a later diagnosis; related experience is aggregated rather than only appended as raw reports.
+        mechanism_title: Two ways to carry learning into the next incident
+        mechanism: PPO changes model parameters, while reflection and retrieval supply external experience at inference time. These are the paper's learning mechanisms; the case figure does not establish a particular reward or improvement from this single incident.
   results:
     context: OPENRCA results with Qwen2.5-14B-Instruct-1M. Correct and Partial are the paper's diagnosis scores, averaged across the evaluated systems.
     items:
@@ -180,47 +223,83 @@ opsagent:
 
 trioxpert:
   case:
-    title: One Incident, Three Diagnostic Tasks
-    intro: A database connection problem shows why finding the time, the failure type, and the affected instance belong in the same workflow.
-    source: Illustrative scenario from the paper's incident-management figure. It is not an agent execution trace.
+    title: Two Views of the System, One Evidence-Backed Diagnosis
+    intro: The key is not simply to ask three task questions. TrioXpert preserves numerical patterns and text meaning in separate pipelines, then brings their findings together through specialized experts.
+    source: Section III and Figures 2-4 supply the method flow; the incident-management figure supplies the final database example. Intermediate scores, log entries, and expert disagreements are not fabricated for that example.
     image: /images/projects/trioxpert-teaser.png
     steps:
-      - label: Detect
-        title: When did the incident happen?
-        input_title: Incident scenario
+      - label: Prepare
+        title: Represent different data types in the form they need
+        input_title: Numerical inputs
         input:
-          - A database-related incident interrupts normal service.
-        output_title: Anomaly detection
+          - Metrics form a matrix indexed by time, service instance, and feature channel.
+          - Trace call relationships form a service topology graph aligned with the metric sampling times.
+        output_title: Textual inputs
         output:
-          - The example places the incident between 19:00:00 and 19:05:30 on February 1, 2025.
-          - This time window defines where the investigation should focus.
-      - label: Triage
-        title: Which team should investigate?
-        input_title: Failure category
+          - Logs are filtered first by incident-related keywords and then by LLM-based relevance checks.
+          - Traces retain spans above the P95 latency threshold for their call type, along with ancestors needed to preserve complete call paths.
+        mechanism_title: Preserve both the signal and its context
+        mechanism: A time series carries statistical patterns; an error log carries meaning; a call path shows dependencies. TrioXpert keeps these properties instead of flattening all three modalities into one undifferentiated input.
+      - label: Numerical
+        title: Build a statistical starting point for diagnosis
+        input_title: Time series and topology
         input:
-          - The example identifies a Database Connection Timeout.
-        output_title: Failure triage
+          - A Transformer, GRU, and GraphSAGE feature processor models channel, time, and service-call relationships.
+          - Prediction errors measure how observed behavior differs from the learned normal patterns.
+        output_title: Preliminary task answers
         output:
-          - The incident is assigned to the database team.
-          - Identifying the failure type narrows the next investigation step.
-      - label: Localize
-        title: Which instance is responsible?
-        input_title: Investigation target
+          - Thresholding supports AD, clustering supports FT, and deviation-based ranking supports RCL.
+          - The Numerical Expert checks these preliminary answers and adds an explanation for the selected tasks.
+        mechanism_title: Ground language-based reasoning in numerical analysis
+        mechanism: The feature processor builds on ART rather than being presented as a new encoder. TrioXpert uses its compact diagnostic results as one evidence source, then combines them with the information preserved by the textual pipelines.
+      - label: Textual
+        title: Recover diagnostic meaning that a numerical score cannot express
+        input_title: Filtered logs and traces
         input:
-          - The database team investigates the connection problem.
-        output_title: Root-cause localization
+          - The Log Summarizer describes incident-related behavior and possible causes using the selected logs.
+          - The Trace Summarizer describes abnormal call behavior while retaining its service context.
+        output_title: Textual Expert findings
         output:
-          - The figure identifies Dbservice-3 as the responsible instance.
-          - The time window, failure type, and instance now describe one incident.
-      - label: Mitigate
-        title: Turn the diagnosis into a repair
-        input_title: Human response
+          - The Textual Expert reasons over both summaries and returns task answers with supporting evidence.
+          - Log semantics can explain the kind of failure, while traces help connect that failure to service interactions.
+        mechanism_title: Summarize to preserve meaning, not just shorten the input
+        mechanism: The prompts ask summarizers to stay grounded in the supplied records and retain important details. Separating log and trace summarization reduces the amount of raw telemetry passed to the final reasoning stage.
+      - label: Combine
+        title: Pass findings and evidence to an Incident Expert
+        input_title: Two independent views
         input:
-          - The database team increases the connection pool limit of Dbservice-3 to 100 and restarts the instance.
-        output_title: Incident management loop
+          - "Numerical Expert: task answers plus numerical reasoning evidence."
+          - "Textual Expert: task answers plus evidence from log and trace summaries."
+        output_title: Joint diagnosis
         output:
-          - The figure closes the loop with a repair by the database team.
-          - TrioXpert addresses AD, FT, and RCL; the repair shown here is a human action.
+          - The Incident Expert receives both pairs of answers and evidence, not just two candidate labels.
+          - It produces final results and explanations for the requested AD, FT, and RCL tasks.
+        mechanism_title: The three experts specialize by evidence role
+        mechanism: Numerical Expert, Textual Expert, and Incident Expert are not three independent agents assigned one downstream task each. The first two analyze complementary views; the third reconciles their findings for the selected tasks.
+      - label: Reconcile
+        title: Use an explicit policy when the evidence views disagree
+        input_title: Possible disagreement
+        input:
+          - Different modalities can point to different failure types or instances.
+          - The paper specifies how the experts should weigh conflicting sources instead of relying on a majority vote.
+        output_title: Evidence-weighting policy
+        output:
+          - Within the Textual Expert, logs receive greater weight than traces when the sources conflict.
+          - At final aggregation, the Incident Expert gives greater weight to the numerical perspective, following the paper's policy.
+        mechanism_title: Resolve conflicts through instructed reasoning
+        mechanism: These priorities are expressed in prompts, not a fixed numerical averaging formula. Role, goal, constraints, instructions, and examples guide the answer; the prompts prohibit unsupported facts and ask for confidence when uncertain. This step explains the policy, not a claimed disagreement in the database example.
+      - label: Deliver
+        title: Connect the method to the incident-management result
+        input_title: Outputs shown in the database example
+        input:
+          - "AD: February 1, 2025, from 19:00:00 to 19:05:30."
+          - "FT: Database Connection Timeout. RCL: Dbservice-3."
+        output_title: From diagnosis to human action
+        output:
+          - The example routes the issue to the database team, which increases the connection pool limit to 100 and restarts the instance.
+          - The method returns diagnostic answers and their evidence; the repair shown in the figure is a human action.
+        mechanism_title: One system representation supports several tasks
+        mechanism: The same numerical and textual views can serve AD, FT, and RCL without rebuilding separate reasoning systems for each task. The final example illustrates these outputs; it does not provide raw records from which to reconstruct exact intermediate expert answers.
   results:
     context: Results from Table II. Each pair shows D1 first and D2 second; F1 and Avg@5 are reported on a 0-1 scale.
     items:

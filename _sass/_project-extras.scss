@@ -69,6 +69,13 @@
         gap: 1.75rem;
         > div + div { padding-left: 1.75rem; border-left: 1px solid #d9e4e6; }
     }
+    .project-case-mechanism {
+        margin-top: 1.4rem;
+        padding-top: 1.15rem;
+        border-top: 2px solid #9cbfc0;
+        h5 { color: #1e394a; margin-bottom: .55rem; }
+        p { margin: 0; color: #465a6b; font-size: .88rem; line-height: 1.75; }
+    }
     .project-case-controls {
         display: flex;
         align-items: center;
