@@ -19,25 +19,27 @@
   var programmatic = false;
   var manualViewport = false;
   var snapshot;
+  var minZoom = 0.6;
+  var maxZoom = 1.6;
   var cy = window.cytoscape({
     container: canvas,
     layout: { name: "preset" },
-    minZoom: 0.15,
-    maxZoom: 2.2,
+    minZoom: minZoom,
+    maxZoom: maxZoom,
     boxSelectionEnabled: false,
     autounselectify: true,
     style: [
       { selector: "node", style: {
         "label": "data(displayLabel)", "font-family": "-apple-system, BlinkMacSystemFont, Arial, sans-serif",
-        "font-size": 17, "font-weight": 600, "text-wrap": "wrap", "text-max-width": 128,
+        "font-size": 18, "font-weight": 600, "text-wrap": "wrap", "text-max-width": 128,
         "text-valign": "center", "text-halign": "center", "color": "#275b5c",
-        "background-color": "#dcefeb", "border-width": 1.5, "border-color": "#659e95",
+        "background-color": "#e6f0f2", "border-width": 1.5, "border-color": "#7b9ea8",
         "width": 146, "height": 82, "overlay-opacity": 0, "text-events": "yes"
       } },
       { selector: "node[kind = 'evidence']", style: {
         "shape": "round-rectangle", "width": 168, "height": 58,
-        "background-color": "#fff3db", "border-color": "#c7aa6a", "color": "#77592e",
-        "font-size": 15, "font-weight": 500, "text-max-width": 146
+        "background-color": "#fff7e7", "border-color": "#c6ae79", "color": "#77592e",
+        "font-size": 16, "font-weight": 500, "text-max-width": 146
       } },
       { selector: "node[kind = 'symptom']", style: {
         "shape": "round-rectangle", "width": 180, "height": 60,
@@ -48,11 +50,11 @@
       } },
       { selector: "node[status = 'confirmed']", style: { "background-color": "#bde0d5", "border-color": "#3a8b78", "border-width": 2.5 } },
       { selector: "node.fresh", style: { "border-width": 3 } },
-      { selector: "node.focus", style: { "border-color": "#1a7478", "border-width": 5, "underlay-color": "#2f8b8c", "underlay-opacity": 0.10, "underlay-padding": 8 } },
-      { selector: "node.inspected", style: { "outline-width": 2, "outline-color": "#b98942", "outline-offset": 5 } },
+      { selector: "node.focus", style: { "background-color": "#cde8df", "border-color": "#1a7478", "border-width": 3.5, "underlay-color": "#2f8b8c", "underlay-opacity": 0.08, "underlay-padding": 8 } },
+      { selector: "node.inspected", style: { "outline-width": 2, "outline-color": "#b98942", "outline-offset": 4 } },
       { selector: "edge", style: {
         "curve-style": "bezier", "width": 1.8, "line-color": "#a3b5bf", "target-arrow-color": "#a3b5bf",
-        "target-arrow-shape": "triangle", "arrow-scale": 0.8, "opacity": 0.72,
+        "target-arrow-shape": "triangle", "arrow-scale": 0.8, "opacity": 0.55,
         "font-size": 12, "color": "#677b84", "text-background-color": "#fcfdfd",
         "text-background-opacity": 0.95, "text-background-padding": 3, "text-rotation": "autorotate", "overlay-opacity": 0
       } },
@@ -85,34 +87,46 @@
     button.title = "Play snapshots";
     button.firstElementChild.className = "fas fa-play";
   }
-  function fitGraph(overview) {
+  function updateZoomControls() {
+    var zoom = cy.zoom();
+    setText("data-zoom-value", Math.round(zoom * 100) + "%");
+    root.querySelector('[data-graph-tool="zoom-out"]').disabled = zoom <= minZoom + 0.001;
+    root.querySelector('[data-graph-tool="zoom-in"]').disabled = zoom >= maxZoom - 0.001;
+  }
+  function fitGraph() {
     programmatic = true;
-    cy.fit(cy.elements(), 55);
-    if (cy.zoom() > 1.1) { cy.zoom(1.1); cy.center(); }
-    // On a phone, start at a readable scale around the focus; Fit graph still reveals everything.
-    if (!overview && canvas.clientWidth < 600 && cy.zoom() < 0.65) {
-      cy.zoom(0.65);
-      cy.center(cy.getElementById(data.steps[stepIndex].focus));
-    }
+    var bounds = cy.elements().boundingBox();
+    var fitted = Math.min((canvas.clientWidth - 80) / bounds.w, (canvas.clientHeight - 80) / bounds.h);
+    cy.zoom(Math.max(minZoom, Math.min(1.1, fitted)));
+    // Never fit by shrinking below the readable floor; center the active branch instead.
+    cy.center(fitted < minZoom ? cy.getElementById(data.steps[stepIndex].focus) : cy.elements());
     programmatic = false;
+    updateZoomControls();
   }
   function inspect(id) {
     var node = snapshot.nodes.find(function (item) { return item.id === id; });
     if (!node) return;
     selector.value = id;
     cy.nodes().removeClass("inspected");
-    cy.getElementById(id).addClass("inspected");
+    if (id !== data.steps[stepIndex].focus) cy.getElementById(id).addClass("inspected");
     cy.edges().removeClass("highlight");
     cy.getElementById(id).connectedEdges().addClass("highlight");
-    var meta = node.kind === "hypothesis" ? "Hypothesis \u00b7 Depth " + node.depth + " \u00b7 Illustrative confidence " + node.confidence.toFixed(2) + " \u00b7 " + node.status : node.kind === "evidence" ? "Evidence \u00b7 Observed at step " + node.born : "Surface symptom \u00b7 Step 1";
+    var meta = node.kind === "hypothesis" ? "Hypothesis \u00b7 Depth " + node.depth + " \u00b7 Confidence " + node.confidence.toFixed(2) + " \u00b7 " + node.status : node.kind === "evidence" ? "Evidence \u00b7 Observed at step " + node.born : "Surface symptom \u00b7 Step 1";
     setText("data-node-meta", meta);
     setText("data-node-description", node.detail);
-    var relations = snapshot.edges.filter(function (edge) { return edge.source === id || edge.target === id; }).map(function (edge) {
-      var source = snapshot.nodes.find(function (item) { return item.id === edge.source; });
-      var target = snapshot.nodes.find(function (item) { return item.id === edge.target; });
-      return source.label + " \u2192 " + edge.relation + " \u2192 " + target.label;
+    var relations = root.querySelector("[data-node-relations]");
+    relations.replaceChildren();
+    var relationLabels = { derive: ["Derives", "Derived from"], refine: ["Refines", "Refined from"], support: ["Supports", "Supported by"], refute: ["Refutes", "Refuted by"] };
+    snapshot.edges.filter(function (edge) { return edge.source === id || edge.target === id; }).forEach(function (edge) {
+      var incoming = edge.target === id;
+      var other = snapshot.nodes.find(function (item) { return item.id === (incoming ? edge.source : edge.target); });
+      var item = document.createElement("li");
+      var label = document.createElement("span");
+      label.textContent = relationLabels[edge.relation][incoming ? 1 : 0];
+      item.dataset.relation = edge.relation;
+      item.append(label, document.createTextNode(other.label));
+      relations.appendChild(item);
     });
-    setText("data-node-relations", relations.join("; "));
   }
   function render(index) {
     stepIndex = Math.max(0, Math.min(data.steps.length - 1, index));
@@ -129,7 +143,13 @@
         };
       }));
       cy.add(snapshot.edges.map(function (edge, i) { return { data: Object.assign({ id: "edge-" + i }, edge) }; }));
-      if (stepIndex === 19) cy.edges().filter(function (edge) { return ["orders", "pool", "leak", "cancellation"].indexOf(edge.data("target")) !== -1 && ["derive", "refine"].indexOf(edge.data("relation")) !== -1; }).addClass("path");
+      var ancestor = step.focus;
+      while (ancestor !== "alert") {
+        var parent = cy.edges().filter(function (edge) { return edge.data("target") === ancestor && ["derive", "refine"].indexOf(edge.data("relation")) !== -1; }).first();
+        if (!parent.length) break;
+        parent.addClass("path");
+        ancestor = parent.data("source");
+      }
     });
     programmatic = false;
     setText("data-step-count", String(stepIndex + 1).padStart(2, "0") + " / 20");
@@ -140,10 +160,12 @@
     setText("data-step-decision", step.decision);
     setText("data-case-progress", (stepIndex + 1) + " / 20");
     range.value = stepIndex + 1;
+    range.style.setProperty("--case-progress", (stepIndex / (data.steps.length - 1) * 100) + "%");
     range.setAttribute("aria-valuetext", "Step " + (stepIndex + 1) + " of 20: " + step.title);
     root.querySelector('[data-case-control="prev"]').disabled = stepIndex === 0;
     root.querySelector('[data-case-control="next"]').disabled = stepIndex === 19;
     root.querySelectorAll("[data-case-step]").forEach(function (button, i) {
+      button.classList.toggle("is-visited", i < stepIndex);
       if (i === stepIndex) button.setAttribute("aria-current", "step");
       else button.removeAttribute("aria-current");
     });
@@ -163,7 +185,7 @@
     setText("data-focus-depth", focus.depth ? "Hypothesis depth " + focus.depth : "Surface symptom");
     canvas.setAttribute("aria-label", "Snapshot " + (stepIndex + 1) + ": " + step.title + ". " + snapshot.nodes.length + " nodes. Current focus: " + focus.label + ". Use Inspect a node for details.");
     inspect(step.focus);
-    if (!manualViewport) fitGraph(false);
+    if (!manualViewport) fitGraph();
     if (stepIndex === 19) pause();
     root.dataset.snapshot = stepIndex + 1;
   }
@@ -190,7 +212,7 @@
       });
     });
   }
-  cy.on("pan zoom", function () { if (!programmatic) manualViewport = true; drawRows(); });
+  cy.on("pan zoom", function () { if (!programmatic) manualViewport = true; drawRows(); updateZoomControls(); });
   cy.on("render", drawRows);
   cy.on("grab", "node", pause);
   cy.on("dragfree", "node", function (event) {
@@ -228,13 +250,13 @@
       pause();
       var action = button.dataset.graphTool;
       if (action === "reset") { positions = Object.create(null); manualViewport = false; render(stepIndex); return; }
-      if (action === "fit") { fitGraph(true); manualViewport = false; return; }
+      if (action === "fit") { fitGraph(); manualViewport = false; return; }
       manualViewport = true;
-      cy.zoom({ level: cy.zoom() * (action === "zoom-in" ? 1.25 : 0.8), renderedPosition: { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 } });
+      cy.zoom({ level: Math.max(minZoom, Math.min(maxZoom, cy.zoom() * (action === "zoom-in" ? 1.2 : 1 / 1.2))), renderedPosition: { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 } });
     });
   });
   document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
   if ("IntersectionObserver" in window) new IntersectionObserver(function (entries) { if (!entries[0].isIntersecting) pause(); }).observe(root);
-  new ResizeObserver(function () { cy.resize(); if (!manualViewport) fitGraph(false); drawRows(); }).observe(canvas);
+  new ResizeObserver(function () { cy.resize(); if (!manualViewport) fitGraph(); drawRows(); }).observe(canvas);
   render(0);
 }());

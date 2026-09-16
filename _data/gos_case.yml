@@ -5,7 +5,7 @@ nodes:
   - {id: database, kind: hypothesis, label: "Database overload", detail: "The database may be taking too long to serve requests.", depth: 1, x: 210, y: 240, born: 2, confidence: 0.68}
   - {id: payment, kind: hypothesis, label: "Payment slowdown", detail: "A slow payment dependency may be holding up checkout.", depth: 1, x: 590, y: 240, born: 2, confidence: 0.50}
   - {id: orders, kind: hypothesis, label: "Order-service fault", detail: "The delay may originate inside the newly released order service.", depth: 1, x: 970, y: 240, born: 2, confidence: 0.42}
-  - {id: wait, kind: evidence, label: "Connection wait: 2 s", detail: "Application traces show roughly two seconds waiting to acquire a database connection. This does not yet distinguish a busy database from a local connection-pool problem.", x: 60, y: 335, born: 3}
+  - {id: wait, kind: evidence, label: "Connection wait: 2s", detail: "Application traces show roughly two seconds waiting to acquire a database connection. This does not yet distinguish a busy database from a local connection-pool problem.", x: 60, y: 335, born: 3}
   - {id: queries, kind: hypothesis, label: "Slow SQL", detail: "Long-running SQL statements may be keeping connections busy.", depth: 2, x: 110, y: 440, born: 4, confidence: 0.72}
   - {id: locks, kind: hypothesis, label: "Lock contention", detail: "Blocked transactions may be preventing queries from completing.", depth: 2, x: 350, y: 440, born: 4, confidence: 0.55}
   - {id: fast, kind: evidence, label: "SQL p95: 18 ms", detail: "Database-side query latency remains at its healthy baseline, around 18 ms at p95. The slow-SQL explanation does not account for the application wait.", x: -50, y: 555, born: 5}

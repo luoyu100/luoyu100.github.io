@@ -6,10 +6,9 @@
       <h2>Case Walkthrough</h2>
     </div>
     <div class="gos-case-intro">
-      <p class="gos-case-eyebrow">AN ILLUSTRATIVE DIAGNOSIS</p>
+      <p class="gos-case-eyebrow">MICROSERVICE FAILURE DIAGNOSIS</p>
       <h3>{{ case.title }}</h3>
       <p>{{ case.intro }}</p>
-      <p class="gos-case-disclaimer">A fictional case illustrating GoS concepts, not a paper experiment or a live agent run. All telemetry and confidence values are illustrative; confidence values are not calibrated probabilities.</p>
     </div>
     <div class="gos-case" data-gos-case>
       <script type="application/json" data-gos-data>{{ case | jsonify }}</script>
@@ -17,22 +16,6 @@
         <div><span class="gos-case-step" data-step-count>01 / 20</span><span class="gos-case-action" data-step-action>Observe</span></div>
         <h3 data-step-title>{{ case.steps.first.title }}</h3>
       </div>
-      <div class="gos-graph-toolbar">
-        <div class="gos-graph-legend" aria-label="Node types"><span><b class="gos-key gos-key--hypothesis"></b>Hypothesis</span><span><b class="gos-key gos-key--evidence"></b>Evidence</span><span><b class="gos-key gos-key--focus"></b>Reasoning focus</span></div>
-        <div class="gos-graph-tools">
-          <button type="button" data-graph-tool="zoom-in" title="Zoom in" aria-label="Zoom in"><i class="fas fa-plus" aria-hidden="true"></i></button>
-          <button type="button" data-graph-tool="zoom-out" title="Zoom out" aria-label="Zoom out"><i class="fas fa-minus" aria-hidden="true"></i></button>
-          <button type="button" data-graph-tool="fit" title="Fit graph" aria-label="Fit graph"><i class="fas fa-expand" aria-hidden="true"></i></button>
-          <button type="button" data-graph-tool="reset" title="Reset node positions" aria-label="Reset node positions"><i class="fas fa-undo" aria-hidden="true"></i></button>
-        </div>
-      </div>
-      <div class="gos-graph-focus"><span>Current focus</span><strong data-focus-label>Checkout failures</strong><small data-focus-depth>Surface symptom</small></div>
-      <div class="gos-graph-stage">
-        <div class="gos-depth-lines" aria-hidden="true"></div>
-        <div class="gos-graph-canvas" role="img" aria-label="Diagnostic belief graph. The node selector below provides a text alternative."></div>
-        <p class="gos-graph-fallback" data-graph-fallback>Loading the belief graph. The complete case is available in the transcript below.</p>
-      </div>
-      <div class="gos-edge-legend" aria-label="Edge types"><span class="gos-edge--derive">Derive / refine</span><span class="gos-edge--support">Support</span><span class="gos-edge--refute">Refute</span><span class="gos-edge--rejected">Ruled-out hypothesis</span></div>
       <div class="gos-case-playback">
         <div class="gos-playback-buttons">
           <button type="button" data-case-control="prev" title="Previous snapshot" aria-label="Previous snapshot" disabled><i class="fas fa-step-backward" aria-hidden="true"></i></button>
@@ -43,13 +26,30 @@
         <span data-case-progress aria-live="polite" aria-atomic="true">1 / 20</span>
       </div>
       <div class="gos-case-timeline" aria-label="Reasoning snapshots">{% for step in case.steps %}<button type="button" data-case-step="{{ forloop.index0 }}" title="{{ forloop.index }}. {{ step.title }}" aria-label="Step {{ forloop.index }}: {{ step.title }}"{% if forloop.first %} aria-current="step"{% endif %} class="{% if step.action == 'Backtrack' %}is-backtrack{% endif %}">{{ forloop.index }}</button>{% endfor %}</div>
+      <div class="gos-graph-toolbar">
+        <div class="gos-graph-legend" aria-label="Node types"><span><b class="gos-key gos-key--hypothesis"></b>Hypothesis</span><span><b class="gos-key gos-key--evidence"></b>Evidence</span><span><b class="gos-key gos-key--focus"></b>Reasoning focus</span></div>
+        <div class="gos-graph-tools">
+          <button type="button" data-graph-tool="zoom-in" title="Zoom in" aria-label="Zoom in"><i class="fas fa-plus" aria-hidden="true"></i></button>
+          <output class="gos-zoom-value" data-zoom-value aria-label="Graph zoom">100%</output>
+          <button type="button" data-graph-tool="zoom-out" title="Zoom out" aria-label="Zoom out"><i class="fas fa-minus" aria-hidden="true"></i></button>
+          <button type="button" data-graph-tool="fit" title="Recenter graph at a readable scale" aria-label="Recenter graph"><i class="fas fa-expand" aria-hidden="true"></i></button>
+          <button type="button" data-graph-tool="reset" title="Reset node positions" aria-label="Reset node positions"><i class="fas fa-undo" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="gos-graph-focus"><span>Current focus</span><strong data-focus-label>Checkout failures</strong><small data-focus-depth>Surface symptom</small></div>
+      <div class="gos-graph-stage">
+        <div class="gos-depth-lines" aria-hidden="true"></div>
+        <div class="gos-graph-canvas" role="img" aria-label="Diagnostic belief graph. The node selector below provides a text alternative."></div>
+        <p class="gos-graph-fallback" data-graph-fallback>Loading the belief graph. The complete case is available in the transcript below.</p>
+      </div>
+      <div class="gos-edge-legend" aria-label="Edge types"><span class="gos-edge--derive">Derive / refine</span><span class="gos-edge--support">Support</span><span class="gos-edge--refute">Refute</span><span class="gos-edge--rejected">Ruled-out hypothesis</span></div>
       <div class="gos-case-reasoning">
-        <div><h4>Observation</h4><p data-step-observation>{{ case.steps.first.observation }}</p></div>
-        <div><h4>Reasoning decision</h4><p data-step-decision>{{ case.steps.first.decision }}</p></div>
+        <div><h4><i class="fas fa-search" aria-hidden="true"></i> Observation</h4><p data-step-observation>{{ case.steps.first.observation }}</p></div>
+        <div><h4><i class="fas fa-code-branch" aria-hidden="true"></i> Reasoning decision</h4><p data-step-decision>{{ case.steps.first.decision }}</p></div>
       </div>
       <div class="gos-node-inspector">
         <div><label for="gos-node-select">Inspect a node</label><select id="gos-node-select" data-node-select aria-describedby="gos-node-description"></select></div>
-        <div><p class="gos-node-meta" data-node-meta></p><p id="gos-node-description" data-node-description></p><p class="gos-node-relations" data-node-relations></p></div>
+        <div><p class="gos-node-meta" data-node-meta></p><p id="gos-node-description" data-node-description></p><ul class="gos-node-relations" data-node-relations aria-label="Node relationships"></ul></div>
       </div>
     </div>
     <details class="gos-case-transcript"><summary>Case transcript <span>20 reasoning snapshots</span></summary><ol>{% for step in case.steps %}<li><h4>{{ step.title }} <small>{{ step.action }}</small></h4><p>{{ step.observation }}</p><p>{{ step.decision }}</p></li>{% endfor %}</ol></details>
