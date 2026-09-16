@@ -1,0 +1,254 @@
+graph-of-states:
+  case:
+    title: From Surface Alerts to a Concrete Root Cause
+    intro: A read-only filesystem is a symptom, not yet an explanation. This example follows the evidence until the cause becomes clear.
+    source: Based on the paper's Figure 6. The steps summarize the published example, not a live run.
+    image: /images/projects/gos-figure6-failure-example.png
+    steps:
+      - label: Observe
+        title: Three alerts, one investigation
+        input_title: Surface alerts
+        input:
+          - The filesystem is read-only.
+          - Memory usage has exceeded 90%.
+          - The system health score has dropped below 90%.
+        output_title: Starting point
+        output:
+          - ApplicationOperator gathers the alerts into one diagnostic state.
+          - The alerts show what is wrong, but do not yet explain why.
+      - label: Hypothesize
+        title: Keep more than one explanation in view
+        input_title: Candidate hypotheses
+        input:
+          - "Filesystem read-only: confidence 0.75."
+          - "High memory pressure: confidence 0.60."
+        output_title: Reasoning focus
+        output:
+          - The read-only hypothesis has the highest confidence.
+          - ApplicationOperator asks LinuxOperator to inspect the filesystem before choosing a final explanation.
+      - label: Investigate
+        title: Check the system, not just the alert
+        input_title: Evidence collected
+        input:
+          - "mount | grep ro checks which filesystems are mounted read-only."
+          - "dmesg | grep XFS checks filesystem messages."
+        output_title: What the evidence supports
+        output:
+          - The root filesystem is XFS and is mounted read-only.
+          - XFS messages provide evidence for a more specific filesystem problem.
+      - label: Drill down
+        title: Move from the symptom to its cause
+        input_title: Updated belief state
+        input:
+          - "Filesystem read-only: confidence rises from 0.75 to 0.95."
+          - "High memory pressure: confidence falls from 0.60 to 0.40."
+        output_title: A more specific hypothesis
+        output:
+          - The state machine permits a drill-down step.
+          - "The new hypothesis is XFS metadata corruption, with confidence 0.90."
+          - No backtracking is needed in this example.
+      - label: Conclude
+        title: Report a cause, not another symptom
+        input_title: Supporting evidence
+        input:
+          - The mount check confirms the read-only state.
+          - The XFS messages identify metadata corruption.
+        output_title: Final explanation
+        output:
+          - XFS metadata corruption caused the kernel to remount the root filesystem as read-only.
+          - The report ties the diagnosis to the evidence collected during the investigation.
+  results:
+    context: Selected results from Tables 1 and 3. Match measures agreement with the reference diagnosis; the judge and task are shown separately.
+    items:
+      - label: Medical diagnosis
+        value: 39.86%
+        metric: Human-judged Match
+        detail: "Best baseline: 26.09% (Multi/FoT). GoS improves Match by 13.77 percentage points."
+        source: Table 1
+      - label: System failure diagnosis
+        value: 70.67%
+        metric: LLM-judged Match
+        detail: "Best baseline: 34.00% (Multi/CoT). GoS improves Match by 36.67 percentage points."
+        source: Table 3
+      - label: Reported cost
+        value: $0.12 / $0.10
+        metric: Per medical / system case
+        detail: Average costs reported in the paper's experiments, not current API price estimates.
+        source: Tables 1 and 3
+  run:
+    intro: Start with the DiagnosisArena medical diagnosis setup. Prepare the data, API settings, and output paths before launching the script.
+    requirements:
+      - Use the README's Python 3.12.11 environment and install requirements.txt.
+      - Configure the model and API access, then review the domain, agent, and belief settings in configs/.
+      - Set the data paths and replace the CSV and graph-output paths in main.py with writable local paths.
+    command: |
+      # From the configured repository directory
+      python main.py
+    output: The script writes predictions and reports to CSV, saves case logs, and exports the changing belief graph to HTML.
+    docs: https://github.com/gaorch85/Graph-of-States#-installation
+    entry: https://github.com/gaorch85/Graph-of-States/blob/main/main.py
+
+opsagent:
+  case:
+    title: From Observability Signals to an Actionable Diagnosis
+    intro: An order service keeps failing. Three kinds of evidence point to the same database instance and explain what went wrong.
+    source: Based on the paper's Figure 6. The steps summarize its illustrative case, not a live run.
+    image: /images/projects/opsagent-figure6-case.png
+    steps:
+      - label: Incident
+        title: Find the cause behind failed requests
+        input_title: Incident ticket
+        input:
+          - The order-processing application has repeated request failures between 09:10 and 09:20 on January 18, 2026.
+          - The ticket asks for the root cause and the affected component.
+        output_title: Diagnostic task
+        output:
+          - Inspect metrics, logs, and traces for the incident window.
+          - Look for evidence that connects a failure type to a specific instance.
+      - label: Evidence
+        title: Three signals point to db-03
+        input_title: Structured descriptions
+        input:
+          - "Metric: disk utilization on db-03 rises sharply at 09:12, with a deviation of about 7.5 sigma."
+          - "Log: db-03 reports 'No space left on device' at 09:13:08."
+          - "Trace: calls from order-service to db-03 show a maximum latency of 6,421 ms."
+        output_title: Why these signals matter
+        output:
+          - Disk pressure and a storage error identify a likely cause.
+          - Slow calls connect the database problem to the failing order service.
+      - label: Collaborate
+        title: Combine the agents' findings
+        input_title: Task-specific findings
+        input:
+          - "Anomaly Sentinel identifies the disk spike at 09:12."
+          - "Failure Diagnoser identifies disk space exhaustion."
+          - "Root Detective identifies db-03 as the root-cause instance."
+        output_title: Cross-review
+        output:
+          - The agents check their findings against the shared evidence.
+          - The time, failure type, and instance form one consistent diagnosis.
+      - label: Report
+        title: Make the diagnosis easy to check
+        input_title: Evidence supporting the report
+        input:
+          - Abnormal disk utilization is concentrated on db-03.
+          - Storage errors and high call latency point to the same instance.
+        output_title: Root-cause report
+        output:
+          - "Cause: disk space exhaustion."
+          - "Component: db-03."
+          - The report includes the observations that support each conclusion.
+      - label: Resolve
+        title: Engineers act on the report
+        input_title: Human response
+        input:
+          - On-call engineers remove obsolete files and expand available disk space on db-03.
+        output_title: Incident resolved
+        output:
+          - The figure shows the incident being mitigated after this action.
+          - Engineers carry out the change; the example does not show autonomous production changes by OpsAgent.
+  results:
+    context: OPENRCA results with Qwen2.5-14B-Instruct-1M. Correct and Partial are the paper's diagnosis scores, averaged across the evaluated systems.
+    items:
+      - label: Diagnosis quality
+        value: 16.54% / 41.35%
+        metric: Average Correct / Partial
+        detail: The full OpsAgent configuration combines data processing, cross-review, and self-evolution.
+        source: Table 1
+      - label: Diagnosis time
+        value: 71.18 s
+        metric: Average time per incident
+        detail: Measured for the same seed model and configuration. Runtime depends on the model and deployment setup.
+        source: Table 1
+      - label: Self-evolution
+        value: 8.27% to 16.54%
+        metric: Average Correct
+        detail: Correct doubles as the share of cases used for self-evolution increases from 0% to 60%.
+        source: Table 3
+  run:
+    intro: Set up one OPENRCA system first. The research script uses local model and data paths that must be configured for your machine.
+    requirements:
+      - Use Python 3.10 or newer, install requirements.txt, and choose a PyTorch build that matches your hardware.
+      - Download the telemetry data from the README and configure the model, dataset, and query paths. Also set the intent interpreter's model path.
+      - Prepare the reflection files, replace the query path in main.py, create the output directories, and review the case-selection loop.
+    command: |
+      # From the configured repository directory
+      python main.py
+    output: The script saves diagnostic answers and supporting reasoning to CSV files for the selected incident queries.
+    docs: https://github.com/Johnn13/OpsAgent#configuration
+    entry: https://github.com/Johnn13/OpsAgent/blob/main/main.py
+
+trioxpert:
+  case:
+    title: One Incident, Three Diagnostic Tasks
+    intro: A database connection problem shows why finding the time, the failure type, and the affected instance belong in the same workflow.
+    source: Illustrative scenario from the paper's incident-management figure. It is not an agent execution trace.
+    image: /images/projects/trioxpert-teaser.png
+    steps:
+      - label: Detect
+        title: When did the incident happen?
+        input_title: Incident scenario
+        input:
+          - A database-related incident interrupts normal service.
+        output_title: Anomaly detection
+        output:
+          - The example places the incident between 19:00:00 and 19:05:30 on February 1, 2025.
+          - This time window defines where the investigation should focus.
+      - label: Triage
+        title: Which team should investigate?
+        input_title: Failure category
+        input:
+          - The example identifies a Database Connection Timeout.
+        output_title: Failure triage
+        output:
+          - The incident is assigned to the database team.
+          - Identifying the failure type narrows the next investigation step.
+      - label: Localize
+        title: Which instance is responsible?
+        input_title: Investigation target
+        input:
+          - The database team investigates the connection problem.
+        output_title: Root-cause localization
+        output:
+          - The figure identifies Dbservice-3 as the responsible instance.
+          - The time window, failure type, and instance now describe one incident.
+      - label: Mitigate
+        title: Turn the diagnosis into a repair
+        input_title: Human response
+        input:
+          - The database team increases the connection pool limit of Dbservice-3 to 100 and restarts the instance.
+        output_title: Incident management loop
+        output:
+          - The figure closes the loop with a repair by the database team.
+          - TrioXpert addresses AD, FT, and RCL; the repair shown here is a human action.
+  results:
+    context: Results from Table II. Each pair shows D1 first and D2 second; F1 and Avg@5 are reported on a 0-1 scale.
+    items:
+      - label: Anomaly detection
+        value: 0.924 / 0.909
+        metric: F1 on D1 / D2
+        detail: Identify when the system is behaving abnormally.
+        source: Table II
+      - label: Failure triage
+        value: 0.807 / 0.767
+        metric: F1 on D1 / D2
+        detail: Identify the failure type to guide the investigation.
+        source: Table II
+      - label: Root-cause localization
+        value: 0.773 / 0.750
+        metric: Avg@5 on D1 / D2
+        detail: Rank the instances that may be responsible for the incident.
+        source: Table II
+  run:
+    intro: Start with the public D1 dataset and the root-cause localization example. D2 is not publicly released.
+    requirements:
+      - Follow the README's Python 3.10.16 environment and listed PyTorch, Transformers, Accelerate, and DGL versions.
+      - Download and unzip D1 using the link in the README.
+      - Set data_path and model_path for your local data and language model before running the RCL example.
+      - Review the GPU selection, training settings, task mode, and service-dictionary path in run_RCL.py. The script includes model training, not just inference.
+    command: |
+      # From the configured repository directory
+      python run_RCL.py
+    output: The RCL example evaluates root-cause localization. The repository also provides separate AD, FT, and textual-processing scripts.
+    docs: https://github.com/luoyu100/TrioXpert#demo
+    entry: https://github.com/luoyu100/TrioXpert/blob/master/run_RCL.py

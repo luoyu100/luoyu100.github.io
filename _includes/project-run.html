@@ -1,0 +1,29 @@
+{% assign run = site.data.project_extras[page.project_theme].run %}
+<section class="project-content-section project-content-section--run" id="run">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">{{ include.index }} <span>START FROM THE CODE</span></p>
+      <h2>Run the Code</h2>
+    </div>
+    <div class="project-extra-body">
+      <p class="project-extra-intro">{{ run.intro }}</p>
+      <div class="project-run-grid">
+        <div>
+          <h3 class="project-extra-title">Before running</h3>
+          <ol class="project-run-requirements">{% for item in run.requirements %}<li>{{ item }}</li>{% endfor %}</ol>
+        </div>
+        <div class="project-run-command">
+          <div class="project-command-heading"><span>Run after setup</span><button type="button" data-copy-command title="Copy command" aria-label="Copy run command"><i class="fas fa-copy" aria-hidden="true"></i><span aria-live="polite">Copy</span></button></div>
+          <pre><code>{{ run.command | escape }}</code></pre>
+          <h3 class="project-extra-title">Output</h3>
+          <p>{{ run.output }}</p>
+          <p class="project-run-note">Repository entry point; local data and model setup are required.</p>
+        </div>
+      </div>
+      <div class="project-run-links">
+        <a href="{{ run.docs }}" target="_blank" rel="noopener"><i class="fas fa-book-open" aria-hidden="true"></i> Setup &amp; data <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        <a href="{{ run.entry }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Entry script <i class="fas fa-external-link-alt" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+</section>

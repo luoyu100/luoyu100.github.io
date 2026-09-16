@@ -11,10 +11,14 @@ project_navigation:
     href: "#video"
   - label: Method
     href: "#method"
+  - label: Case
+    href: "#case"
   - label: Results
     href: "#results"
   - label: Deploy
     href: "#deploy"
+  - label: Run
+    href: "#run"
   - label: BibTeX
     href: "#bibtex"
 ---
@@ -113,12 +117,15 @@ project_navigation:
   </div>
 </section>
 
+{% include project-walkthrough.html index="04" %}
+
 <section class="project-content-section project-content-section--results project-results-section" id="results">
   <div class="project-section-shell">
     <div class="project-section-heading">
-      <p class="project-section-index">04 <span>EVALUATION</span></p>
+      <p class="project-section-index">05 <span>EVALUATION</span></p>
       <h2>Experimental Results</h2>
     </div>
+  {% include project-results-summary.html %}
   <div id="results-carousel" class="results-carousel" data-project-carousel>
     <button class="project-carousel-button project-carousel-button--prev" type="button" data-carousel-prev aria-label="Previous experiment result">
       <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -182,7 +189,7 @@ project_navigation:
 <section class="project-content-section project-content-section--deploy" id="deploy">
   <div class="project-section-shell">
     <div class="project-section-heading">
-      <p class="project-section-index">05 <span>WHERE IT APPLIES</span></p>
+      <p class="project-section-index">06 <span>WHERE IT APPLIES</span></p>
       <h2>Possible Deployable Areas</h2>
     </div>
     <div class="project-deploy-section">
@@ -208,11 +215,13 @@ project_navigation:
   </div>
 </section>
 
+{% include project-run.html index="07" %}
+
 <section class="project-content-section project-content-section--bibtex project-bibtex-section" id="bibtex">
   <div class="project-section-shell">
   <div class="bibtex-header">
     <div class="project-section-heading">
-      <p class="project-section-index">06 <span>CITE THIS WORK</span></p>
+      <p class="project-section-index">08 <span>CITE THIS WORK</span></p>
       <h2>BibTeX</h2>
     </div>
     <button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX">
@@ -227,7 +236,6 @@ project_navigation:
     booktitle={Forty-third International Conference on Machine Learning},
     year={2026},
     url={https://openreview.net/forum?id=F6PoIbPAe2}
-    }
 }</code></pre>
   </div>
 </section>

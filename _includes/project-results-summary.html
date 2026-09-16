@@ -1,0 +1,16 @@
+{% assign summary = site.data.project_extras[page.project_theme].results %}
+<div class="project-extra-body project-results-summary">
+  <h3 class="project-extra-title">Results at a Glance</h3>
+  <p class="project-extra-intro">{{ summary.context }}</p>
+  <div class="project-stat-grid">
+    {% for item in summary.items %}
+    <div class="project-stat">
+      <p class="project-stat-label">{{ item.label }}</p>
+      <p class="project-stat-value">{{ item.value }}</p>
+      <p class="project-stat-metric">{{ item.metric }}</p>
+      <p class="project-stat-detail">{{ item.detail }}</p>
+      <span class="project-stat-source">{{ item.source }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>

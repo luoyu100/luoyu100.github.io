@@ -8,7 +8,7 @@ layout: compress
     {% include head.html %}
     {% include head/custom.html %}
     {% if page.project_theme %}
-    <link rel="stylesheet" href="{{ '/assets/css/main.css?v=20260905-project-videos' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css?v=20260916-project-extras' | relative_url }}">
     {% endif %}
   </head>
 
@@ -21,7 +21,7 @@ layout: compress
         <a class="project-local-nav__back" href="{{ '/' | relative_url }}#-publications"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Publications</span></a>
         <div class="project-local-nav__links">
           {% for item in page.project_navigation %}
-          <a href="{{ item.href }}">{{ item.label }}</a>
+          <a href="{{ item.href }}" target="_self">{{ item.label }}</a>
           {% endfor %}
         </div>
       </div>
@@ -32,7 +32,10 @@ layout: compress
       {{ content }}
     </main>
 
-    {% include scripts.html %}
+    {% if site.google_analytics_id %}
+    {% include analytics.html %}
+    {% endif %}
+    <script src="{{ '/assets/js/project-extras.js?v=20260916' | relative_url }}" defer></script>
     <script>
       (function () {
         function copyText(text, button) {

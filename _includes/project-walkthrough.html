@@ -1,0 +1,39 @@
+{% assign case = site.data.project_extras[page.project_theme].case %}
+<section class="project-content-section project-content-section--case" id="case">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">{{ include.index }} <span>FOLLOW THE EVIDENCE</span></p>
+      <h2>Case Walkthrough</h2>
+    </div>
+    <div class="project-extra-body">
+      <h3 class="project-extra-title">{{ case.title }}</h3>
+      <p class="project-extra-intro">{{ case.intro }}</p>
+      <div class="project-walkthrough" data-walkthrough>
+        <div class="project-case-tabs" role="tablist" aria-label="Case steps">
+          {% for step in case.steps %}
+          <button type="button" role="tab" id="case-tab-{{ forloop.index }}" aria-controls="case-panel-{{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"><span class="project-step-number">0{{ forloop.index }}</span>{{ step.label }}</button>
+          {% endfor %}
+        </div>
+        <div class="project-case-panels">
+          {% for step in case.steps %}
+          <div class="project-case-panel{% if forloop.first %} is-active{% endif %}" id="case-panel-{{ forloop.index }}" role="tabpanel" aria-labelledby="case-tab-{{ forloop.index }}" tabindex="0"{% unless forloop.first %} aria-hidden="true" inert{% endunless %}>
+            <h4>{{ step.title }}</h4>
+            <div class="project-case-columns">
+              <div><h5><i class="fas fa-search" aria-hidden="true"></i> {{ step.input_title }}</h5><ul>{% for point in step.input %}<li>{{ point }}</li>{% endfor %}</ul></div>
+              <div><h5><i class="fas fa-check-circle" aria-hidden="true"></i> {{ step.output_title }}</h5><ul>{% for point in step.output %}<li>{{ point }}</li>{% endfor %}</ul></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="project-case-controls">
+          <span data-case-status aria-live="polite" aria-atomic="true">Step 1 of {{ case.steps.size }}</span>
+          <div>
+            <button type="button" data-case-prev aria-label="Previous case step" title="Previous step" disabled><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+            <button type="button" data-case-next aria-label="Next case step" title="Next step"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+      <p class="project-extra-source">{{ case.source }} <a href="{{ case.image | relative_url }}" target="_blank" rel="noopener">View original figure <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></p>
+    </div>
+  </div>
+</section>
