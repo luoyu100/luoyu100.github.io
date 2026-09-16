@@ -1,0 +1,164 @@
+title: "The database looks guilty. The evidence says otherwise."
+intro: "Checkout requests start failing after an order-service release. Follow a diagnosis that tests several explanations, backs out of dead ends, and traces the failure to a missing connection release."
+nodes:
+  - {id: alert, kind: symptom, label: "Checkout failures", detail: "At 12:08, checkout requests begin returning HTTP 503. Order-service v2.8 was released at 12:00. Timing is a clue, not proof of a cause.", x: 590, y: 60, born: 1}
+  - {id: database, kind: hypothesis, label: "Database overload", detail: "The database may be taking too long to serve requests.", depth: 1, x: 210, y: 240, born: 2, confidence: 0.68}
+  - {id: payment, kind: hypothesis, label: "Payment slowdown", detail: "A slow payment dependency may be holding up checkout.", depth: 1, x: 590, y: 240, born: 2, confidence: 0.50}
+  - {id: orders, kind: hypothesis, label: "Order-service fault", detail: "The delay may originate inside the newly released order service.", depth: 1, x: 970, y: 240, born: 2, confidence: 0.42}
+  - {id: wait, kind: evidence, label: "Connection wait: 2 s", detail: "Application traces show roughly two seconds waiting to acquire a database connection. This does not yet distinguish a busy database from a local connection-pool problem.", x: 60, y: 335, born: 3}
+  - {id: queries, kind: hypothesis, label: "Slow SQL", detail: "Long-running SQL statements may be keeping connections busy.", depth: 2, x: 110, y: 440, born: 4, confidence: 0.72}
+  - {id: locks, kind: hypothesis, label: "Lock contention", detail: "Blocked transactions may be preventing queries from completing.", depth: 2, x: 350, y: 440, born: 4, confidence: 0.55}
+  - {id: fast, kind: evidence, label: "SQL p95: 18 ms", detail: "Database-side query latency remains at its healthy baseline, around 18 ms at p95. The slow-SQL explanation does not account for the application wait.", x: -50, y: 555, born: 5}
+  - {id: unlocked, kind: evidence, label: "No blocked sessions", detail: "Database inspection finds no blocked sessions and low CPU usage during the incident. There is no supporting evidence for lock contention or database saturation.", x: 350, y: 555, born: 6}
+  - {id: trace, kind: evidence, label: "Payment latency normal", detail: "A distributed trace places the delay in order-service's connection acquisition. Payment spans remain at their normal latency; payment is not on the delayed part of the request.", x: 610, y: 335, born: 8}
+  - {id: pool, kind: hypothesis, label: "Pool exhaustion", detail: "Order-service may have no free database connections to lend to new requests.", depth: 2, x: 800, y: 440, born: 9, confidence: 0.76}
+  - {id: runtime, kind: hypothesis, label: "CPU pressure", detail: "An overloaded application runtime may be delaying requests inside order-service.", depth: 2, x: 1090, y: 440, born: 9, confidence: 0.45}
+  - {id: leased, kind: evidence, label: "80 / 80 connections leased", detail: "All 80 pool connections are checked out and new requests queue for a connection. Many associated database sessions are idle: checked out does not mean actively running SQL.", x: 655, y: 550, born: 10}
+  - {id: cpu, kind: evidence, label: "CPU 32%; lag 4 ms", detail: "Order-service CPU is 32% and event-loop lag is 4 ms, both within the healthy range. A saturated runtime is not supported by these observations.", x: 1200, y: 555, born: 11}
+  - {id: capacity, kind: hypothesis, label: "Pool too small", detail: "Normal traffic demand may exceed the configured pool capacity.", depth: 3, x: 640, y: 650, born: 12, confidence: 0.64}
+  - {id: leak, kind: hypothesis, label: "Connection leak", detail: "Some request paths may borrow a connection without returning it.", depth: 3, x: 960, y: 650, born: 12, confidence: 0.50}
+  - {id: traffic, kind: evidence, label: "Same load; same pool size", detail: "Traffic and pool size are unchanged. The previous release used at most 35 of 80 connections under the same workload, weakening the pool-capacity explanation.", x: 470, y: 750, born: 13}
+  - {id: balance, kind: evidence, label: "Borrow / return gap grows", detail: "In v2.8, successful borrows increasingly outnumber returns after canceled requests. The previous release does not show this pattern under the same test.", x: 1200, y: 750, born: 16}
+  - {id: cancellation, kind: hypothesis, label: "Cancel path skips release", detail: "The new cancellation branch exits after acquiring a connection but before returning it to the pool.", depth: 4, x: 960, y: 860, born: 17, confidence: 0.83}
+  - {id: code, kind: evidence, label: "Early return before release", detail: "Inspection of the v2.8 change finds a cancellation branch that returns before connection.release(). Cleanup is not guaranteed by a finally block.", x: 660, y: 860, born: 17}
+  - {id: reproduce, kind: evidence, label: "20 cancels; 20 retained", detail: "In an isolated reproduction, canceling 20 requests after connection acquisition leaves 20 connections checked out. Other traffic is held constant.", x: 710, y: 990, born: 18}
+  - {id: repair, kind: evidence, label: "Fixed: 0 retained", detail: "After moving cleanup into a finally block, the same 20-request cancellation test retains zero connections. A canary under matched load stops exhausting the pool and checkout latency returns to baseline.", x: 1140, y: 990, born: 19}
+edges:
+  - {source: alert, target: database, relation: derive, born: 2}
+  - {source: alert, target: payment, relation: derive, born: 2}
+  - {source: alert, target: orders, relation: derive, born: 2}
+  - {source: wait, target: database, relation: support, born: 3}
+  - {source: wait, target: orders, relation: support, born: 3}
+  - {source: database, target: queries, relation: refine, born: 4}
+  - {source: database, target: locks, relation: refine, born: 4}
+  - {source: fast, target: queries, relation: refute, born: 5}
+  - {source: unlocked, target: locks, relation: refute, born: 6}
+  - {source: unlocked, target: database, relation: refute, born: 6}
+  - {source: trace, target: payment, relation: refute, born: 8}
+  - {source: trace, target: orders, relation: support, born: 8}
+  - {source: orders, target: pool, relation: refine, born: 9}
+  - {source: orders, target: runtime, relation: refine, born: 9}
+  - {source: leased, target: pool, relation: support, born: 10}
+  - {source: cpu, target: runtime, relation: refute, born: 11}
+  - {source: pool, target: capacity, relation: refine, born: 12}
+  - {source: pool, target: leak, relation: refine, born: 12}
+  - {source: traffic, target: capacity, relation: refute, born: 13}
+  - {source: traffic, target: leak, relation: support, born: 13}
+  - {source: balance, target: leak, relation: support, born: 16}
+  - {source: leak, target: cancellation, relation: refine, born: 17}
+  - {source: code, target: cancellation, relation: support, born: 17}
+  - {source: reproduce, target: cancellation, relation: support, born: 18}
+  - {source: repair, target: cancellation, relation: support, born: 19}
+steps:
+  - title: "Start with the symptom, not a verdict"
+    action: Observe
+    focus: alert
+    observation: "Checkout starts returning 503s eight minutes after order-service v2.8 is deployed."
+    decision: "Record the symptom and time window. A nearby deployment is a lead to investigate, not enough evidence to blame the release."
+  - title: "Keep three explanations open"
+    action: Hypothesize
+    focus: database
+    observation: "Checkout depends on order-service, the database, and payment. Each could explain a slow or failed request."
+    decision: "Create competing hypotheses in one belief state. Start with database overload, but retain payment and order-service as alternatives."
+  - title: "A database wait is only a clue"
+    action: Collect evidence
+    focus: database
+    observation: "An application trace shows a two-second wait to borrow a database connection."
+    decision: "Attach this observation to both plausible explanations. It may mean a busy database or a problem with the application's own pool; do not treat it as proof of either."
+    updates: {database: {confidence: 0.76}, orders: {confidence: 0.52}}
+  - title: "Look beneath database overload"
+    action: Drill down
+    focus: queries
+    observation: "The leading hypothesis is still broad: what would make the database slow?"
+    decision: "Refine it into slow SQL and lock contention. Ask for database-side measurements that can distinguish these explanations."
+  - title: "Fast SQL weakens the first branch"
+    action: Collect evidence
+    focus: locks
+    observation: "SQL latency is normal: 18 ms at p95. The long application wait happens before a query starts."
+    decision: "Connect the measurement to slow SQL with a refuting edge. Keep that branch in the graph and test lock contention next."
+    updates: {queries: {confidence: 0.12, status: rejected}, database: {confidence: 0.50}}
+  - title: "The second database branch also fails"
+    action: Collect evidence
+    focus: locks
+    observation: "There are no blocked sessions, and database CPU is low throughout the failure window."
+    decision: "Lower belief in both lock contention and database overload. Neither refined explanation fits the evidence; continuing here would repeat a dead end."
+    updates: {locks: {confidence: 0.08, status: rejected}, database: {confidence: 0.18, status: rejected}}
+  - title: "Backtrack to a different explanation"
+    action: Backtrack
+    focus: orders
+    observation: "Both children of database overload have been weakened by direct measurements."
+    decision: "Move from depth 2 back to depth 1 and select order-service. Preserve the rejected hypotheses and their evidence so later reasoning does not start the same investigation again."
+    updates: {orders: {confidence: 0.62}}
+  - title: "Locate the wait inside order-service"
+    action: Collect evidence
+    focus: orders
+    observation: "Payment latency is normal. The trace places the delay inside order-service's connection-acquisition span."
+    decision: "Refute payment slowdown and strengthen the order-service branch. The focus now follows measured request timing, not the initial guess."
+    updates: {payment: {confidence: 0.12, status: rejected}, orders: {confidence: 0.82}}
+  - title: "Separate pool pressure from CPU pressure"
+    action: Drill down
+    focus: pool
+    observation: "The fault is local to order-service, but that still does not explain what is failing."
+    decision: "Add pool exhaustion and CPU pressure as depth-2 hypotheses. Request pool counters and runtime measurements rather than choosing a cause by name."
+  - title: "Confirm the immediate bottleneck"
+    action: Collect evidence
+    focus: pool
+    observation: "All 80 connections are checked out. New requests queue, although many database sessions are idle."
+    decision: "Support pool exhaustion with the observed counters. Distinguish the bottleneck from its cause: a full pool does not yet explain why connections remain borrowed."
+    updates: {pool: {confidence: 0.90}, orders: {confidence: 0.90}}
+  - title: "Rule out a busy runtime"
+    action: Collect evidence
+    focus: pool
+    observation: "CPU usage is 32% and event-loop lag is 4 ms, both within the healthy range."
+    decision: "Mark CPU pressure as unsupported. Keep the pool as the current focus, with the alternative and its refuting evidence still visible."
+    updates: {runtime: {confidence: 0.10, status: rejected}}
+  - title: "Why is the pool full?"
+    action: Drill down
+    focus: capacity
+    observation: "Pool exhaustion could reflect too little capacity or connections that are never returned."
+    decision: "Refine the pool hypothesis into two depth-3 explanations. Test the simpler capacity explanation first, without discarding a possible leak."
+  - title: "A workload comparison rejects the easy fix"
+    action: Collect evidence
+    focus: capacity
+    observation: "Traffic and pool size are unchanged. Under the same load, the previous release peaked at 35 of 80 borrowed connections."
+    decision: "Lower belief in an undersized pool. Increasing capacity might delay the failure, but the comparison points to changed connection handling instead."
+    updates: {capacity: {confidence: 0.14, status: rejected}, leak: {confidence: 0.72}}
+  - title: "Backtrack instead of adding capacity"
+    action: Backtrack
+    focus: pool
+    observation: "The capacity branch does not explain why the same workload worked before the release."
+    decision: "Return from depth 3 to the depth-2 pool hypothesis. Reconsider its remaining child, using the stored comparison rather than restarting the whole diagnosis."
+  - title: "Follow the remaining pool explanation"
+    action: Drill down
+    focus: leak
+    observation: "A connection leak could explain an ever-full pool alongside mostly idle database sessions."
+    decision: "Select the existing leak hypothesis. Ask whether each successful borrow has a matching return, especially on failed or canceled requests."
+    updates: {leak: {confidence: 0.78}}
+  - title: "Connect the leak to canceled requests"
+    action: Collect evidence
+    focus: leak
+    observation: "Only v2.8 shows a growing borrow/return gap after canceled requests. The old release does not under the same test."
+    decision: "Attach this evidence to the leak hypothesis. It narrows the search to cancellation handling, but a matching code path and reproduction are still needed."
+    updates: {leak: {confidence: 0.90}}
+  - title: "Find the missing cleanup path"
+    action: Drill down
+    focus: cancellation
+    observation: "The new cancellation branch can return after borrowing a connection, before connection.release() runs."
+    decision: "Create a depth-4 hypothesis: cancellation skips cleanup. Link the code observation to it, then test that path before declaring a root cause."
+  - title: "Reproduce the suspected mechanism"
+    action: Verify
+    focus: cancellation
+    observation: "In isolation, 20 requests canceled after acquisition leave exactly 20 connections checked out."
+    decision: "The controlled reproduction links this path to retained connections. This is stronger than the earlier correlation between deployment time and failures."
+    updates: {cancellation: {confidence: 0.95}}
+  - title: "Test a targeted repair"
+    action: Verify
+    focus: cancellation
+    observation: "A finally block guarantees release. The same 20 cancellations now retain zero connections; a matched-load canary recovers."
+    decision: "Use the repair as another check of the explanation. The change removes the proposed mechanism and the observed bottleneck without enlarging the pool."
+    updates: {cancellation: {confidence: 0.99, status: confirmed}, leak: {confidence: 0.98, status: confirmed}, pool: {confidence: 0.98, status: confirmed}, orders: {confidence: 0.98, status: confirmed}}
+  - title: "Report a cause, not just a symptom"
+    action: Resolve
+    focus: cancellation
+    observation: "Canceled requests bypass cleanup in v2.8, leaking connections until the order-service pool is exhausted and checkout returns 503s."
+    decision: "Report the evidence-backed path and the verified fix: release the connection in finally. The graph retains the alternatives, two backtracks, and the observations behind the conclusion."
