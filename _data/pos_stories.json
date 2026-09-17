@@ -1,0 +1,613 @@
+[
+  {
+    "id": "execution",
+    "label": "Execution",
+    "title": "Put a hot mug in the cabinet.",
+    "subtitle": "ALFWorld #0096",
+    "runs": [
+      {
+        "id": "raw",
+        "label": "Raw Trajectory",
+        "source": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+        "note": "Independent run · Figure 1 · Interaction captions are paraphrased.",
+        "steps": [
+          {
+            "title": "One goal, written into the history.",
+            "phase": "Task",
+            "observation": "The task asks for a hot mug in the cabinet.",
+            "decision": "Both temperature and location matter, even though the instruction is a single sentence.",
+            "entry": {
+              "action": "Receive task",
+              "observation": "Put a hot mug in the cabinet."
+            },
+            "mug": "counter",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "One goal, written into the history."
+          },
+          {
+            "title": "The mug enters the microwave.",
+            "phase": "Action",
+            "observation": "The baseline puts the mug into the microwave.",
+            "decision": "Placing the mug in an appliance does not itself heat it.",
+            "entry": {
+              "action": "Put mug in microwave",
+              "observation": "The mug is in the microwave."
+            },
+            "mug": "microwave",
+            "door": "open",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "The mug enters the microwave."
+          },
+          {
+            "title": "The heating action is missed.",
+            "phase": "Omission",
+            "observation": "The baseline moves on without completing the heating requirement.",
+            "decision": "The action history contains placement, but no completed heating action.",
+            "entry": {
+              "action": "Continue without heating",
+              "observation": "The heating requirement has not been fulfilled."
+            },
+            "mug": "microwave",
+            "door": "closed",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "The heating action is missed."
+          },
+          {
+            "title": "The mug is moved to the cabinet.",
+            "phase": "Action",
+            "observation": "The unheated mug is placed in the target cabinet.",
+            "decision": "The location now looks right, but the task is still incomplete.",
+            "entry": {
+              "action": "Put mug in cabinet",
+              "observation": "The mug reaches the cabinet without being heated."
+            },
+            "mug": "cabinet",
+            "cabinet": "open",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "The mug is moved to the cabinet."
+          },
+          {
+            "title": "Examine the cabinet.",
+            "phase": "Observation",
+            "observation": "The baseline examines the cabinet again.",
+            "decision": "Another look cannot cause the missing temperature change.",
+            "entry": {
+              "action": "Examine cabinet",
+              "observation": "The mug remains in the cabinet."
+            },
+            "mug": "cabinet",
+            "cabinet": "open",
+            "inspect": true,
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Examine the cabinet."
+          },
+          {
+            "title": "The next interaction adds little.",
+            "phase": "Repetition",
+            "observation": "The same cabinet-examination pattern continues.",
+            "decision": "The context grows while the task-relevant state stays unchanged.",
+            "entry": {
+              "action": "Examine cabinet again",
+              "observation": "No heating action is added to the trajectory."
+            },
+            "mug": "cabinet",
+            "cabinet": "open",
+            "inspect": true,
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "The next interaction adds little."
+          },
+          {
+            "title": "Thirty-six cabinet checks.",
+            "phase": "Stalled",
+            "observation": "The paper summarizes 36 cabinet examinations in this run.",
+            "decision": "These repeated observations are activity, not progress toward a hot mug.",
+            "entry": {
+              "action": "Repeat cabinet examination",
+              "observation": "36 cabinet checks in the reported trajectory."
+            },
+            "mug": "cabinet",
+            "cabinet": "open",
+            "inspect": true,
+            "counter": "36 checks",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "36 checks"
+          },
+          {
+            "title": "The run ends without satisfying the goal.",
+            "phase": "Outcome",
+            "observation": "The baseline fails after 50 steps.",
+            "decision": "The mug reached the right place, but never reached the required state.",
+            "entry": {
+              "action": "End of run",
+              "observation": "Failed after 50 steps."
+            },
+            "mug": "cabinet",
+            "cabinet": "open",
+            "outcome": "Failed after 50 steps",
+            "tone": "stalled",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Failed after 50 steps"
+          }
+        ]
+      },
+      {
+        "id": "pos",
+        "label": "PoS",
+        "source": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+        "note": "Independent run · Figures 1-2 · Expanded method explanation.",
+        "steps": [
+          {
+            "title": "Start a separate run on the same task.",
+            "phase": "Task",
+            "observation": "PoS receives the same hot-mug task.",
+            "decision": "This is an independent trajectory, not a takeover of the baseline.",
+            "mug": "counter",
+            "understanding": "The task requires a mug that is hot and inside the cabinet.",
+            "unresolved": "Identify the relevant objects and satisfy both goal conditions.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Start a separate run on the same task."
+          },
+          {
+            "title": "Identify the objects that matter.",
+            "phase": "Observe",
+            "observation": "The schematic makes the mug, microwave, and cabinet explicit.",
+            "decision": "Represent the relevant entities and relations, rather than relying only on a long sequence of observations.",
+            "mug": "counter",
+            "understanding": "Mug 3, Microwave 1, and Cabinet 1 are the relevant objects.",
+            "unresolved": "Establish the mug's temperature and target location.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Identify the objects that matter."
+          },
+          {
+            "title": "Write down the current world.",
+            "phase": "Model",
+            "observation": "The belief separates the mug's current state from the desired final state.",
+            "decision": "Being near a microwave is not evidence that the mug is hot.",
+            "mug": "counter",
+            "understanding": "The mug has not yet been heated or placed in its target.",
+            "unresolved": "Make Mug 3 hot; place the hot mug in Cabinet 1.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Write down the current world."
+          },
+          {
+            "title": "Make the two unmet requirements explicit.",
+            "phase": "Requirements",
+            "observation": "Heating and placement appear as distinct achievement requirements.",
+            "decision": "The placement requirement cannot silently replace the heating requirement.",
+            "mug": "counter",
+            "understanding": "The current world does not yet meet either goal condition.",
+            "unresolved": "First: hot mug. Then: hot mug inside the cabinet.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Make the two unmet requirements explicit."
+          },
+          {
+            "title": "Choose the active gap: heat the mug.",
+            "phase": "Focus",
+            "observation": "The illustrated active gap is Make Mug 3 hot.",
+            "decision": "The next decision has a concrete state change to achieve.",
+            "mug": "counter",
+            "understanding": "Mug 3 still needs a temperature change.",
+            "unresolved": "Active: make Mug 3 hot. Pending: place it in Cabinet 1.",
+            "constraint": "Direct the next action toward heating, not repeated cabinet checks.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Choose the active gap: heat the mug."
+          },
+          {
+            "title": "Select an action that can change the state.",
+            "phase": "Plan",
+            "observation": "The task agent chooses to use the microwave.",
+            "decision": "The belief and active gap guide action selection; they do not supply the task's answer.",
+            "mug": "counter",
+            "door": "open",
+            "understanding": "The microwave provides a way to heat the mug.",
+            "unresolved": "Make Mug 3 hot.",
+            "constraint": "Take a goal-relevant action that addresses the active requirement.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Select an action that can change the state."
+          },
+          {
+            "title": "Put the mug in the microwave.",
+            "phase": "Act",
+            "observation": "The agent places Mug 3 in Microwave 1.",
+            "decision": "Location changes first. The heating requirement is still open.",
+            "mug": "microwave",
+            "door": "open",
+            "understanding": "Mug 3 is now inside Microwave 1, but is not yet recorded as hot.",
+            "unresolved": "Heat Mug 3 before placing it in Cabinet 1.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Put the mug in the microwave."
+          },
+          {
+            "title": "Heat the mug.",
+            "phase": "Act",
+            "observation": "The illustrated trajectory performs the previously missing heating action.",
+            "decision": "This action changes the state that repeated cabinet checks could not change.",
+            "mug": "microwave",
+            "door": "closed",
+            "heating": true,
+            "understanding": "The heating action is being carried out.",
+            "unresolved": "Confirm the resulting state from the environment's feedback.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Heat the mug."
+          },
+          {
+            "title": "Validate the update against feedback.",
+            "phase": "Validate",
+            "observation": "The method illustration shows feedback that the mug is hot.",
+            "decision": "The candidate update is checked for consistency and evidence support before it guides the next decision.",
+            "mug": "microwave",
+            "hot": true,
+            "door": "open",
+            "understanding": "The observation supports recording Mug 3 as hot.",
+            "unresolved": "The hot mug still needs to reach Cabinet 1.",
+            "constraint": "Use the supported state update; do not infer success from an action alone.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Validate the update against feedback."
+          },
+          {
+            "title": "Resolve heating. Focus on placement.",
+            "phase": "Update",
+            "observation": "The heating requirement is satisfied, while placement remains open.",
+            "decision": "The next action starts from the updated world, not the original cold-mug state.",
+            "mug": "counter",
+            "hot": true,
+            "cabinet": "open",
+            "understanding": "Mug 3 is hot. The remaining goal is its location.",
+            "unresolved": "Active: place the hot mug in Cabinet 1.",
+            "constraint": "Release temporary recovery constraints when progress is restored.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Resolve heating. Focus on placement."
+          },
+          {
+            "title": "Place the hot mug in the cabinet.",
+            "phase": "Act",
+            "observation": "The agent completes the placement shown in the paper.",
+            "decision": "Now the same object satisfies both the temperature and location requirements.",
+            "mug": "cabinet",
+            "hot": true,
+            "cabinet": "open",
+            "understanding": "Mug 3 is hot and located in Cabinet 1.",
+            "unresolved": "Check that the final goal conditions are satisfied.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Place the hot mug in the cabinet."
+          },
+          {
+            "title": "Both requirements are satisfied.",
+            "phase": "Outcome",
+            "observation": "The paper reports success in 17 steps for the independent PoS run.",
+            "decision": "The useful difference is a maintained decision context, not merely a shorter action history.",
+            "mug": "cabinet",
+            "hot": true,
+            "cabinet": "open",
+            "outcome": "Succeeded in 17 steps",
+            "understanding": "The mug is hot and inside the target cabinet.",
+            "unresolved": "None for this task.",
+            "constraint": "No recovery constraint remains active.",
+            "evidence": "Figures 1-2. Expanded schematic of the reported ALFWorld example; captions paraphrase the paper, not verbatim tool logs. Raw Trajectory and PoS are independent runs.",
+            "scene_note": "Succeeded in 17 steps"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis",
+    "label": "Diagnosis",
+    "title": "What explains the inventory-service delay?",
+    "subtitle": "RCA-100 · Diagnostic investigation",
+    "runs": [
+      {
+        "id": "raw",
+        "label": "Raw Trajectory",
+        "source": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+        "note": "Illustrative contrast · No matched baseline trace or scored outcome.",
+        "steps": [
+          {
+            "title": "Begin with the diagnostic request.",
+            "phase": "Task",
+            "observation": "This contrast uses the same inventory-service diagnostic question.",
+            "decision": "The following history illustrates Raw Trajectory; it is not a matched baseline run reported in the paper.",
+            "entry": {
+              "action": "Receive diagnostic request",
+              "observation": "Investigate the inventory-service delay."
+            },
+            "cards": 0,
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Begin with the diagnostic request."
+          },
+          {
+            "title": "Read the initial symptoms.",
+            "phase": "Observe",
+            "observation": "Slow requests and elevated GC activity enter the interaction history.",
+            "decision": "These clues alone do not settle which explanation is responsible.",
+            "entry": {
+              "action": "Inspect incident symptoms",
+              "observation": "Slow inventory requests coincide with elevated GC activity."
+            },
+            "cards": 1,
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Read the initial symptoms."
+          },
+          {
+            "title": "Consider two possible explanations.",
+            "phase": "Reason",
+            "observation": "The agent may consider database waiting and JVM-side processing in its reasoning.",
+            "decision": "Reasoning in the transcript is not an explicitly maintained belief-state object.",
+            "entry": {
+              "action": "Consider explanations",
+              "observation": "Database waiting or processing inside the inventory JVM?"
+            },
+            "cards": 1,
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Consider two possible explanations."
+          },
+          {
+            "title": "Search for more log evidence.",
+            "phase": "Investigate",
+            "observation": "A log search adds another interaction to the context.",
+            "decision": "A longer transcript is useful only when the new evidence resolves something.",
+            "entry": {
+              "action": "Search logs",
+              "observation": "The new material does not distinguish the two explanations."
+            },
+            "cards": 2,
+            "inspect": true,
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Search for more log evidence."
+          },
+          {
+            "title": "Continue the same line of investigation.",
+            "phase": "Investigate",
+            "observation": "The illustration adds a further search with little new diagnostic value.",
+            "decision": "Earlier clues remain available, but no structured gap is maintained beside the history.",
+            "entry": {
+              "action": "Continue log investigation",
+              "observation": "The diagnostic distinction remains open."
+            },
+            "cards": 2,
+            "inspect": true,
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Continue the same line of investigation."
+          },
+          {
+            "title": "Append another low-information result.",
+            "phase": "Repeat",
+            "observation": "Additional interaction can repeat facts that are already in the context.",
+            "decision": "The history records the activity without making it a new piece of discriminating evidence.",
+            "entry": {
+              "action": "Inspect further log material",
+              "observation": "No additional distinction is established in this schematic."
+            },
+            "cards": 2,
+            "inspect": true,
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Append another low-information result."
+          },
+          {
+            "title": "More history. The same question.",
+            "phase": "Stalled",
+            "observation": "Both explanations are still plausible in this illustrative sequence.",
+            "decision": "Raw history retention alone does not provide PoS's explicit progress checks and factorized recovery.",
+            "entry": {
+              "action": "Review accumulated interactions",
+              "observation": "The database-versus-JVM question is still unanswered."
+            },
+            "cards": 2,
+            "tone": "stalled",
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "More history. The same question."
+          },
+          {
+            "title": "End of the illustration, not a scored result.",
+            "phase": "Open question",
+            "observation": "The schematic ends with the diagnostic question unresolved.",
+            "decision": "No baseline failure rate, final diagnosis, or action count is claimed without its actual trace.",
+            "entry": {
+              "action": "Illustration ends",
+              "observation": "No matched baseline outcome is reported here."
+            },
+            "cards": 2,
+            "outcome": "Illustration ends: question open",
+            "tone": "stalled",
+            "evidence": "Illustrative Raw Trajectory contrast using the diagnostic question in Appendix F. No matched baseline trace is supplied in the paper; these interaction summaries are not recorded tool outputs or an experimental result.",
+            "scene_note": "Illustration ends: question open"
+          }
+        ]
+      },
+      {
+        "id": "pos",
+        "label": "PoS",
+        "source": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+        "note": "Reported case t024 · Kimi-K3 · One episode within a 28-action run.",
+        "steps": [
+          {
+            "title": "Resume the inventory diagnosis.",
+            "phase": "Context",
+            "observation": "The reported run investigates slow inventory-service requests.",
+            "decision": "This story expands one recovery episode, not the entire 28-action run.",
+            "cards": 0,
+            "understanding": "Inventory requests are slow during the incident.",
+            "unresolved": "Identify the source of the delay.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Resume the inventory diagnosis."
+          },
+          {
+            "title": "Bring earlier evidence into the current belief.",
+            "phase": "Evidence",
+            "observation": "Earlier observations include elevated garbage-collection activity.",
+            "decision": "Evidence from past interactions remains part of the current understanding.",
+            "cards": 1,
+            "understanding": "Slow requests coincide with elevated GC activity.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Bring earlier evidence into the current belief."
+          },
+          {
+            "title": "Keep the competing explanations explicit.",
+            "phase": "Hypotheses",
+            "observation": "Database waiting and processing inside the inventory JVM remain alternatives.",
+            "decision": "A diagnostic clue is not yet a resolved explanation.",
+            "cards": 1,
+            "understanding": "The current evidence has not distinguished the two explanations.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Keep the competing explanations explicit."
+          },
+          {
+            "title": "Name the information that is missing.",
+            "phase": "Active gap",
+            "observation": "The investigation needs evidence that separates the two explanations.",
+            "decision": "This epistemic gap gives the next investigation a specific purpose.",
+            "cards": 1,
+            "understanding": "GC activity is relevant, but the source of the delay is still uncertain.",
+            "unresolved": "Active: distinguish database waiting from JVM-side processing.",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Name the information that is missing."
+          },
+          {
+            "title": "Further log searches do not settle it.",
+            "phase": "Investigate",
+            "observation": "The paper describes further searches that leave the distinction unresolved.",
+            "decision": "New interaction does not necessarily change the relevant belief.",
+            "cards": 2,
+            "inspect": true,
+            "understanding": "Further logs have not separated the two explanations.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "None. Continue from the validated current state.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Further log searches do not settle it."
+          },
+          {
+            "title": "Carry forward only a supported update.",
+            "phase": "Validate",
+            "observation": "PoS checks candidate belief updates before progress monitoring.",
+            "decision": "The method explanation here does not assert that this case contained a particular rejected update.",
+            "cards": 2,
+            "understanding": "The supported diagnostic distinction remains unresolved.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Assess progress from validated belief transitions, not the volume of logs.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Carry forward only a supported update."
+          },
+          {
+            "title": "Recognize persistent low progress.",
+            "phase": "Monitor",
+            "observation": "The relevant belief has changed little while investigation continues.",
+            "decision": "Gap persistence and limited progress make the stalled investigation visible.",
+            "cards": 2,
+            "tone": "stalled",
+            "understanding": "The investigation has not resolved the active question.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Check the recent window of validated transitions for trapping.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Recognize persistent low progress."
+          },
+          {
+            "title": "Diagnose both the pattern and the gap.",
+            "phase": "Step 22",
+            "observation": "At step 22, PoS diagnoses Static Stagnation + Epistemic Gap.",
+            "decision": "This identifies how reasoning is stuck and what knowledge is still missing.",
+            "cards": 2,
+            "tone": "stalled",
+            "understanding": "Static stagnation is blocking an epistemic gap.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Construct a recovery constraint for each of these two factors.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Diagnose both the pattern and the gap."
+          },
+          {
+            "title": "First constraint: break the repetition.",
+            "phase": "Recovery / pattern",
+            "observation": "The pattern-specific constraint discourages the ineffective repetition.",
+            "decision": "Stopping the unproductive behavior is necessary, but does not say what useful evidence is needed.",
+            "cards": 2,
+            "understanding": "The same diagnostic question remains unresolved.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Avoid repeating the ineffective investigation under the unchanged belief.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "First constraint: break the repetition."
+          },
+          {
+            "title": "Second constraint: resolve the distinction.",
+            "phase": "Recovery / gap",
+            "observation": "The gap-specific constraint asks for discriminating evidence.",
+            "decision": "Together, the two constraints redirect the investigation without handing the agent a diagnosis.",
+            "cards": 2,
+            "understanding": "Neither alternative has yet been resolved by the collected evidence.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Break the repetition AND seek evidence that distinguishes the alternatives.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Second constraint: resolve the distinction."
+          },
+          {
+            "title": "The task agent selects CPU inspection.",
+            "phase": "Choose action",
+            "observation": "The agent chooses to inspect CPU activity.",
+            "decision": "The recovery module specifies what needs resolving, not a predetermined tool call.",
+            "cards": 2,
+            "cpuPending": true,
+            "understanding": "Additional CPU evidence may help test the remaining alternatives.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Keep targeting discriminating evidence; the agent chooses the tool action.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "The task agent selects CPU inspection."
+          },
+          {
+            "title": "Recovery is not immediate success.",
+            "phase": "Continue",
+            "observation": "Three further low-progress actions occur after recovery begins.",
+            "decision": "Keep this delay visible: a recovery constraint is guidance, not an instant solution.",
+            "cards": 2,
+            "cpuPending": true,
+            "counter": "3 low-progress actions",
+            "understanding": "More informative evidence is still needed.",
+            "unresolved": "Database waiting or JVM-side processing?",
+            "constraint": "Keep the same active gap while recovery continues.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "3 low-progress actions"
+          },
+          {
+            "title": "Integrate CPU and GC evidence.",
+            "phase": "Step 26",
+            "observation": "Later CPU queries show increased activity. Combined with earlier GC evidence, this supports JVM-side processing and weakens database waiting.",
+            "decision": "The paper records the targeted gap as resolved at step 26. CPU evidence alone does not uniquely identify the failure type.",
+            "cards": 2,
+            "cpu": true,
+            "resolved": true,
+            "understanding": "CPU and GC evidence increase support for JVM-side processing.",
+            "unresolved": "The targeted epistemic gap is recorded as resolved.",
+            "constraint": "Use the supported revision to move toward the final report.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "Integrate CPU and GC evidence."
+          },
+          {
+            "title": "Submit the supported final diagnosis.",
+            "phase": "Step 27",
+            "observation": "The agent reports inventory / memoryPressure; both match the benchmark label.",
+            "decision": "The final conclusion belongs to the full run's evidence, not to an isolated CPU observation.",
+            "cards": 2,
+            "cpu": true,
+            "resolved": true,
+            "outcome": "inventory / memoryPressure",
+            "understanding": "Final entity: inventory. Final failure type: memoryPressure.",
+            "unresolved": "The reported entity and failure type match the benchmark label.",
+            "constraint": "Progress has been restored toward the final report.",
+            "evidence": "Appendix F, pages 25-26. Expanded explanation of one recovery episode in a 28-action PoS run. Step indices are zero-based; frames are not one-to-one action logs.",
+            "scene_note": "inventory / memoryPressure"
+          }
+        ]
+      }
+    ]
+  }
+]

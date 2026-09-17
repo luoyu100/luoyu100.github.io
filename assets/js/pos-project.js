@@ -3,15 +3,18 @@
   var root = document.querySelector("[data-pos-project]");
   if (!root) return;
   var data = JSON.parse(root.querySelector("[data-pos-data]").textContent);
+  var stories = JSON.parse(root.querySelector("[data-pos-stories]").textContent);
   var story = root.querySelector("[data-pos-story]");
   var scene = story.querySelector(".pos-comic-scene");
   var caseIndex = 0;
+  var runIndex = 0;
   var frameIndex = 0;
   var storyTimer = null;
   var trapTimer = null;
   var previousFrame = null;
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   function text(selector, value) { root.querySelector(selector).textContent = value; }
+  function currentRun() { return stories[caseIndex].runs[runIndex]; }
   function setPlayButton(button, playing, label) {
     button.setAttribute("aria-pressed", String(playing));
     button.setAttribute("aria-label", (playing ? "Pause " : "Play ") + label);
@@ -20,57 +23,126 @@
   }
   function pauseStory() { window.clearInterval(storyTimer); storyTimer = null; setPlayButton(story.querySelector("[data-story-play]"), false, "story"); }
   function pauseTraps() { window.clearInterval(trapTimer); trapTimer = null; setPlayButton(root.querySelector("[data-trap-play]"), false, "trapping patterns"); }
+  function motion(element, keyframes, duration) {
+    if (!reducedMotion.matches && element.animate) element.animate(keyframes, {duration: duration || 650, easing: "cubic-bezier(.22,.7,.25,1)"});
+  }
+  function renderHistory(run) {
+    var list = story.querySelector("[data-trajectory-log]");
+    list.replaceChildren();
+    run.steps.slice(0, frameIndex + 1).forEach(function (step, i) {
+      var li = document.createElement("li");
+      var index = document.createElement("span"); index.className = "pos-log-index"; index.textContent = String(i + 1).padStart(2, "0");
+      var body = document.createElement("div");
+      ["action", "observation"].forEach(function (key) {
+        var label = document.createElement("h5"); label.textContent = key === "action" ? "Action" : "Observation";
+        var value = document.createElement("p"); value.textContent = step.entry[key];
+        body.append(label, value);
+      });
+      li.append(index, body); list.appendChild(li);
+    });
+    list.scrollTop = list.scrollHeight;
+    text("[data-log-count]", String(frameIndex + 1).padStart(2, "0"));
+    text("[data-history-note]", caseIndex === 0 ? "Paraphrased from Figure 1; not verbatim tool logs." : "Illustrative history, not a recorded baseline trace.");
+    if (previousFrame) motion(list.lastElementChild, [{opacity: .2, transform: "translateY(18px)"}, {opacity: 1, transform: "translateY(0)"}]);
+  }
   function showFrame(index) {
-    var currentCase = data.cases[caseIndex];
-    frameIndex = Math.max(0, Math.min(currentCase.steps.length - 1, index));
-    var frame = currentCase.steps[frameIndex];
-    scene.classList.toggle("is-new-run", !previousFrame || previousFrame.run !== frame.run);
+    var currentCase = stories[caseIndex];
+    var run = currentRun();
+    frameIndex = Math.max(0, Math.min(run.steps.length - 1, index));
+    var frame = run.steps[frameIndex];
+    var mug = scene.querySelector(".pos-mug");
+    var oldMug = mug.getBoundingClientRect();
+    scene.getAnimations({subtree: true}).forEach(function (animation) { animation.cancel(); });
+    scene.classList.toggle("is-new-run", !previousFrame);
     scene.dataset.comic = currentCase.id;
-    scene.dataset.stage = frame.stage;
-    scene.dataset.run = frame.run;
+    scene.dataset.mug = frame.mug || "counter";
+    scene.dataset.hot = Boolean(frame.hot);
+    scene.dataset.heating = Boolean(frame.heating);
+    scene.dataset.door = frame.door || "closed";
+    scene.dataset.cabinet = frame.cabinet || "closed";
+    scene.dataset.inspect = Boolean(frame.inspect);
+    scene.dataset.cards = frame.cards || 0;
+    scene.dataset.cpu = frame.cpu ? "evidence" : frame.cpuPending ? "pending" : "none";
+    scene.dataset.resolved = Boolean(frame.resolved);
+    scene.dataset.tone = frame.tone || (frame.outcome ? "complete" : "normal");
     scene.setAttribute("aria-label", frame.scene_note + " " + frame.observation);
+    story.dataset.method = run.id;
     text("[data-story-title]", currentCase.title);
     text("[data-story-subtitle]", currentCase.subtitle);
-    text("[data-run-label]", frame.badge);
+    text("[data-run-note]", run.note);
+    text("[data-run-label]", frame.phase);
     text("[data-frame-title]", frame.title);
     text("[data-scene-note]", frame.scene_note);
-    text("[data-frame-count]", String(frameIndex + 1).padStart(2, "0") + " / 06");
-    text("[data-story-status]", "Frame " + (frameIndex + 1) + " of " + currentCase.steps.length);
+    text("[data-frame-count]", String(frameIndex + 1).padStart(2, "0") + " / " + String(run.steps.length).padStart(2, "0"));
+    text("[data-story-status]", "Frame " + (frameIndex + 1) + " of " + run.steps.length);
     text("[data-frame-observation]", frame.observation);
     text("[data-frame-decision]", frame.decision);
     text("[data-frame-evidence]", frame.evidence);
-    text("[data-story-source]", currentCase.source);
-    var source = root.querySelector("[data-frame-source]");
-    source.hash = currentCase.id === "execution" ? "page=1" : "page=26";
-    ["understanding", "unresolved", "constraint"].forEach(function (key) {
-      var changed = previousFrame && previousFrame[key] !== frame[key];
-      root.querySelector('[data-belief-row="' + key + '"]').classList.toggle("is-changed", Boolean(changed));
-      text("[data-belief-" + key + "]", frame[key]);
-    });
-    var reveal = root.querySelector("[data-reveal-gap]");
-    reveal.hidden = !frame.reveal;
-    if (frame.reveal) text("[data-belief-unresolved]", "The goal still has an unmet requirement.");
+    text("[data-story-source]", run.source);
+    root.querySelector("[data-frame-source]").hash = currentCase.id === "execution" ? "page=1" : "page=26";
+    root.querySelector("[data-raw-panel]").hidden = run.id !== "raw";
+    root.querySelector("[data-belief-panel]").hidden = run.id !== "pos";
+    if (run.id === "raw") renderHistory(run);
+    else {
+      ["understanding", "unresolved", "constraint"].forEach(function (key) {
+        var changed = previousFrame && previousFrame[key] !== frame[key];
+        var row = root.querySelector('[data-belief-row="' + key + '"]');
+        row.getAnimations().forEach(function (animation) { animation.cancel(); });
+        row.classList.toggle("is-changed", Boolean(changed));
+        text("[data-belief-" + key + "]", frame[key]);
+        if (changed) motion(row, [{opacity: .35, transform: "translateX(8px)"}, {opacity: 1, transform: "translateX(0)"}], 450);
+      });
+      text("[data-belief-phase]", frame.phase.indexOf("Recovery") === 0 ? "RECOVER" : frame.phase === "Validate" ? "VALIDATE" : "MAINTAIN");
+    }
+    text("[data-mug-state]", frame.hot ? "Hot" : frame.heating ? "Heating" : "Not heated");
+    var places = {counter: "At the counter", microwave: "In the microwave", cabinet: "In the cabinet"};
+    text("[data-mug-place]", places[frame.mug] || "");
+    text(".pos-hypothesis--database small", frame.resolved ? "Less supported" : "Possible explanation");
+    text(".pos-hypothesis--jvm small", frame.resolved ? "More supported" : "Possible explanation");
+    var cpu = root.querySelector("[data-cpu-label]");
+    cpu.replaceChildren(document.createTextNode(frame.cpu ? "New observation" : "Agent-selected investigation"));
+    var cpuDetail = document.createElement("strong"); cpuDetail.textContent = frame.cpu ? "Increased CPU activity" : "Inspect CPU activity"; cpu.appendChild(cpuDetail);
+    text("[data-investigation-status]", frame.counter || (frame.resolved ? "CPU + GC evidence inform the revision." : frame.tone === "stalled" ? "More interactions. No resolved distinction." : frame.cpuPending ? "Seek evidence that separates the alternatives." : "The question remains open."));
+    root.querySelector("[data-scene-icon]").className = "fas " + (frame.outcome ? frame.tone === "stalled" ? "fa-minus-circle" : "fa-check-circle" : "fa-arrow-right");
     story.querySelector("[data-story-prev]").disabled = frameIndex === 0;
-    story.querySelector("[data-story-next]").disabled = frameIndex === currentCase.steps.length - 1;
+    story.querySelector("[data-story-next]").disabled = frameIndex === run.steps.length - 1;
     story.querySelectorAll("[data-pos-frame]").forEach(function (button, i) {
-      button.title = currentCase.steps[i].title;
-      button.setAttribute("aria-label", "Frame " + (i + 1) + ": " + currentCase.steps[i].title);
       button.classList.toggle("is-read", i < frameIndex);
       if (i === frameIndex) button.setAttribute("aria-current", "step");
       else button.removeAttribute("aria-current");
     });
+    // Scroll the timeline only inside its own strip, never move the document.
+    var active = story.querySelector('[data-pos-frame="' + frameIndex + '"]');
+    var strip = active.parentElement;
+    strip.scrollLeft = active.offsetLeft - strip.offsetLeft - strip.clientWidth / 2 + active.offsetWidth / 2;
     story.querySelector(".pos-step-evidence").open = false;
-    var resolved = frame.stage === "revised" || frame.stage === "resolved";
-    text(".pos-hypothesis--database small", resolved ? "Less supported" : "Possible explanation");
-    text(".pos-hypothesis--jvm small", resolved ? "More supported" : "Possible explanation");
-    var statuses = { investigating: "One unresolved question.", trapped: "Static stagnation + epistemic gap", redirecting: "The agent chooses to inspect CPU activity.", exploring: "3 further low-progress actions", revised: "Targeted gap resolved at step 26.", resolved: "Correct entity and failure type at step 27." };
-    text("[data-investigation-status]", statuses[frame.stage] || "");
-    previousFrame = frame;
     story.dataset.frame = frameIndex;
     story.dataset.case = currentCase.id;
-    if (frameIndex === currentCase.steps.length - 1) pauseStory();
-    // A new run resets the scene rather than animating a takeover of the preceding run.
-    window.requestAnimationFrame(function () { window.requestAnimationFrame(function () { scene.classList.remove("is-new-run"); }); });
+    if (previousFrame && currentCase.id === "execution" && previousFrame.mug !== frame.mug) {
+      var targetMug = mug.getBoundingClientRect();
+      var dx = oldMug.left - targetMug.left;
+      var dy = oldMug.top - targetMug.top;
+      motion(mug, [
+        {transform: "translate(" + dx + "px," + dy + "px) rotate(0deg)"},
+        {transform: "translate(" + dx * .5 + "px," + (dy * .5 - 26) + "px) rotate(" + (dx < 0 ? -8 : 8) + "deg)", offset: .5},
+        {transform: "translate(0,0) rotate(0deg)"}
+      ], 1000);
+    }
+    if (previousFrame && frame.inspect) motion(scene.querySelector(".pos-inspect-ring"), [
+      {transform:"translateX(-12px) rotate(-18deg)",opacity:0},
+      {transform:"translateX(10px) rotate(12deg)",opacity:1,offset:.5},
+      {transform:"translateX(0) rotate(0deg)",opacity:1}
+    ], 900);
+    if (previousFrame && currentCase.id === "diagnosis" && (previousFrame.cards !== frame.cards || previousFrame.cpu !== frame.cpu || previousFrame.cpuPending !== frame.cpuPending || frame.inspect)) {
+      var card = scene.querySelector(frame.cpu || frame.cpuPending ? ".pos-evidence--cpu" : frame.cards === 1 ? ".pos-evidence--gc" : ".pos-evidence--logs");
+      motion(card, [{opacity:0,transform:"translate(28px,14px) rotate(3deg)"},{opacity:1,transform:"translate(0,0) rotate(0deg)"}], 750);
+    }
+    if (previousFrame && (frame.hot || frame.heating)) motion(scene.querySelector(".pos-steam"), [{transform:"translateY(5px)",opacity:0},{transform:"translateY(-4px)",opacity:1}], 1100);
+    // Flush a run reset before enabling door transitions again.
+    void scene.offsetWidth;
+    scene.classList.remove("is-new-run");
+    previousFrame = frame;
+    if (frameIndex === run.steps.length - 1) pauseStory();
   }
   function activateTabs(buttons, active) {
     buttons.forEach(function (button) { var selected = button === active; button.setAttribute("aria-selected", String(selected)); button.tabIndex = selected ? 0 : -1; });
@@ -85,26 +157,40 @@
       buttons[next].focus(); buttons[next].click();
     });
   }
+  function startRun() {
+    pauseStory(); previousFrame = null;
+    var strip = story.querySelector(".pos-frame-steps"); strip.replaceChildren();
+    currentRun().steps.forEach(function (frame, i) {
+      var button = document.createElement("button"); button.type = "button"; button.dataset.posFrame = i;
+      button.textContent = i + 1; button.title = frame.title; button.setAttribute("aria-label", "Frame " + (i + 1) + ": " + frame.title);
+      strip.appendChild(button);
+    });
+    showFrame(0);
+  }
   var caseTabs = story.querySelectorAll("[data-pos-case]");
   caseTabs.forEach(function (button) {
     button.addEventListener("click", function () {
-      pauseStory(); caseIndex = Number(button.dataset.posCase); previousFrame = null;
-      activateTabs(caseTabs, button);
-      story.querySelector('[role="tabpanel"]').setAttribute("aria-labelledby", button.id);
-      showFrame(0);
+      caseIndex = Number(button.dataset.posCase); activateTabs(caseTabs, button);
+      story.querySelector("#pos-story-reader").setAttribute("aria-labelledby", button.id); startRun();
     });
   });
-  story.querySelectorAll("[data-pos-frame]").forEach(function (button) { button.addEventListener("click", function () { pauseStory(); showFrame(Number(button.dataset.posFrame)); }); });
+  var runTabs = story.querySelectorAll("[data-pos-run]");
+  runTabs.forEach(function (button) {
+    button.addEventListener("click", function () {
+      runIndex = Number(button.dataset.posRun); activateTabs(runTabs, button);
+      story.querySelector("#pos-run-reader").setAttribute("aria-labelledby", button.id); startRun();
+    });
+  });
+  story.querySelector(".pos-frame-steps").addEventListener("click", function (event) {
+    var button = event.target.closest("[data-pos-frame]"); if (button) { pauseStory(); showFrame(Number(button.dataset.posFrame)); }
+  });
   story.querySelector("[data-story-prev]").addEventListener("click", function () { pauseStory(); showFrame(frameIndex - 1); });
   story.querySelector("[data-story-next]").addEventListener("click", function () { pauseStory(); showFrame(frameIndex + 1); });
   story.querySelector("[data-story-play]").addEventListener("click", function () {
     if (storyTimer) { pauseStory(); return; }
-    if (frameIndex === data.cases[caseIndex].steps.length - 1) showFrame(0);
+    if (frameIndex === currentRun().steps.length - 1) showFrame(0);
     setPlayButton(this, true, "story");
-    storyTimer = window.setInterval(function () { showFrame(frameIndex + 1); }, 7000);
-  });
-  root.querySelector("[data-reveal-gap]").addEventListener("click", function () {
-    pauseStory(); text("[data-belief-unresolved]", data.cases[caseIndex].steps[frameIndex].unresolved); this.hidden = true;
+    storyTimer = window.setInterval(function () { showFrame(frameIndex + 1); }, 8000);
   });
 
   var validationStates = {
@@ -166,5 +252,5 @@
     new IntersectionObserver(function (entries) { if (!entries[0].isIntersecting) pauseTraps(); }).observe(root.querySelector(".pos-traps"));
   }
   reducedMotion.addEventListener("change", function () { pauseStory(); pauseTraps(); });
-  showFrame(0); showResults(0);
+  startRun(); showResults(0);
 }());
