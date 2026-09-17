@@ -7,9 +7,11 @@ layout: compress
   <head>
     {% include head.html %}
     {% include head/custom.html %}
+    {% if page.robots %}<meta name="robots" content="{{ page.robots | escape }}">{% endif %}
     {% if page.project_theme %}
-    <link rel="stylesheet" href="{{ '/assets/css/main.css?v=20260917-gos-polish' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css?v=20260917-pos' | relative_url }}">
     {% endif %}
+    {% if page.project_stylesheet %}<link rel="stylesheet" href="{{ page.project_stylesheet | relative_url }}">{% endif %}
   </head>
 
   <body class="project-page-body{% if page.project_theme %} project-page-body--{{ page.project_theme }}{% endif %}">
@@ -36,6 +38,9 @@ layout: compress
     {% include analytics.html %}
     {% endif %}
     <script src="{{ '/assets/js/project-extras.js?v=20260916' | relative_url }}" defer></script>
+    {% if page.project_theme == 'progression-of-states' %}
+    <script src="{{ '/assets/js/pos-project.js?v=20260917' | relative_url }}" defer></script>
+    {% endif %}
     {% if page.project_theme == 'graph-of-states' %}
     <script src="{{ '/assets/js/lib/cytoscape-3.33.1.min.js' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/gos-case.js?v=20260917-polish' | relative_url }}" defer></script>

@@ -1,0 +1,37 @@
+{% assign story = pos.cases.first %}{% assign frame = story.steps.first %}
+<div class="pos-story" data-pos-story>
+  <div class="pos-case-tabs" role="tablist" aria-label="Case study">{% for item in pos.cases %}<button type="button" role="tab" id="pos-case-{{ item.id }}" aria-controls="pos-story-reader" data-pos-case="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"><i class="fas {% if item.id == 'execution' %}fa-coffee{% else %}fa-search{% endif %}" aria-hidden="true"></i>{{ item.label }}</button>{% endfor %}</div>
+  <div id="pos-story-reader" role="tabpanel" aria-labelledby="pos-case-execution" tabindex="0">
+    <div class="pos-story-heading"><h3 data-story-title>{{ story.title }}</h3><p data-story-subtitle>{{ story.subtitle }}</p></div>
+    <div class="pos-story-stage-heading"><span class="pos-run-label" data-run-label>{{ frame.badge }}</span><h4 data-frame-title>{{ frame.title }}</h4><span class="pos-frame-count" data-frame-count>01 / 06</span></div>
+    <div class="pos-story-spread">
+      <div class="pos-comic-scene" data-comic="execution" data-stage="task" data-run="task" role="img" aria-label="Kitchen scene: the goal is to heat a mug and put it in the cabinet.">
+        <div class="pos-kitchen" aria-hidden="true">
+          <div class="pos-scene-task">Put a <strong>hot</strong> mug in the cabinet.</div>
+          <div class="pos-microwave"><span>MICROWAVE</span><div class="pos-microwave-window"></div><i class="pos-microwave-button"></i></div>
+          <div class="pos-cabinet"><span>CABINET 1</span><div class="pos-cabinet-shelf"></div><div class="pos-cabinet-door"></div></div>
+          <div class="pos-counter"></div>
+          <div class="pos-mug"><span class="pos-steam"><i></i><i></i><i></i></span><i class="fas fa-coffee"></i><small>Mug 3</small></div>
+          <div class="pos-check-stamp"><i class="fas fa-redo"></i><strong>36</strong><span>cabinet checks</span></div>
+          <div class="pos-heat-label"><i class="fas fa-fire"></i> Hot</div>
+          <div class="pos-success-label"><i class="fas fa-check-circle"></i> Goal satisfied</div>
+          <div class="pos-outcomes"><div><span>Baseline run</span><strong>50 steps</strong><small>Failed</small></div><div><span>PoS run</span><strong>17 steps</strong><small>Succeeded</small></div></div>
+        </div>
+        <div class="pos-investigation" aria-hidden="true">
+          <div class="pos-scene-task">What explains the inventory delay?</div>
+          <div class="pos-hypotheses"><div class="pos-hypothesis--database"><i class="fas fa-database"></i><strong>Database<br>waiting</strong><small>Possible explanation</small></div><span>or</span><div class="pos-hypothesis--jvm"><i class="fas fa-microchip"></i><strong>JVM-side<br>processing</strong><small>Possible explanation</small></div></div>
+          <div class="pos-evidence-stack"><div class="pos-evidence--gc"><i class="fas fa-file-alt"></i><span>Earlier evidence<strong>Elevated GC activity</strong></span></div><div class="pos-evidence--logs"><i class="fas fa-search"></i><span>More log searches<strong>The distinction stays open</strong></span></div><div class="pos-evidence--cpu"><i class="fas fa-microchip"></i><span>New evidence<strong>Increased CPU activity</strong></span></div></div>
+          <div class="pos-investigation-status" data-investigation-status>One unresolved question.</div>
+        </div>
+        <p class="pos-scene-caption" data-scene-note>{{ frame.scene_note }}</p>
+      </div>
+      <aside class="pos-current-belief" aria-label="Current belief"><div class="pos-belief-heading"><i class="fas fa-layer-group" aria-hidden="true"></i><h4>Current Belief</h4></div><div class="pos-belief-row" data-belief-row="understanding"><h5>Current understanding</h5><p data-belief-understanding>{{ frame.understanding }}</p></div><div class="pos-belief-row pos-belief-row--gap" data-belief-row="unresolved"><h5>Still unresolved</h5><p data-belief-unresolved>{{ frame.unresolved }}</p><button type="button" class="pos-reveal" data-reveal-gap hidden>What is still missing? <i class="fas fa-arrow-right" aria-hidden="true"></i></button></div><div class="pos-belief-row" data-belief-row="constraint"><h5>Recovery constraint</h5><p data-belief-constraint>{{ frame.constraint }}</p></div></aside>
+    </div>
+    <div class="pos-story-controls"><div class="pos-playback"><button class="pos-icon-button" type="button" data-story-prev aria-label="Previous frame" title="Previous frame" disabled><i class="fas fa-arrow-left" aria-hidden="true"></i></button><button class="pos-icon-button pos-play-button" type="button" data-story-play aria-label="Play story" title="Play story" aria-pressed="false"><i class="fas fa-play" aria-hidden="true"></i></button><button class="pos-icon-button" type="button" data-story-next aria-label="Next frame" title="Next frame"><i class="fas fa-arrow-right" aria-hidden="true"></i></button></div><div class="pos-frame-steps" aria-label="Story frames">{% for item in story.steps %}<button type="button" data-pos-frame="{{ forloop.index0 }}" title="{{ item.title }}" aria-label="Frame {{ forloop.index }}: {{ item.title }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ forloop.index }}</button>{% endfor %}</div><span class="pos-story-status" data-story-status aria-live="polite" aria-atomic="true">Frame 1 of 6</span></div>
+    <div class="pos-story-reasoning"><div><h5>What happened</h5><p data-frame-observation>{{ frame.observation }}</p></div><div><h5>Why it matters</h5><p data-frame-decision>{{ frame.decision }}</p></div></div>
+    <details class="pos-step-evidence"><summary>Inspect this step</summary><p data-frame-evidence>{{ frame.evidence }}</p><a data-frame-source href="{{ '/assets/papers/progression-of-states.pdf' | relative_url }}#page=1" target="_blank" rel="noopener">Source in the paper <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></details>
+  </div>
+</div>
+<p class="pos-source" data-story-source>{{ story.source }}</p>
+<details class="pos-disclosure pos-story-transcript"><summary>Read both cases as text</summary>{% for item in pos.cases %}<h3>{{ item.title }}</h3><p class="pos-source">{{ item.source }}</p><ol>{% for step in item.steps %}<li><h4>{{ step.title }} <small>{{ step.badge }}</small></h4><p>{{ step.observation }}</p><p>{{ step.decision }}</p></li>{% endfor %}</ol>{% endfor %}</details>
+<details class="pos-disclosure"><summary>Original motivation figure</summary><figure class="project-page-figure"><img src="{{ '/images/projects/pos/motivation.webp' | relative_url }}" width="1788" height="624" alt="Figure 1: overall performance and the two independent ALFWorld mug-task trajectories" loading="lazy" decoding="async"><figcaption>Figure 1 from the manuscript. The story above expands the ALFWorld example without presenting it as a continuous takeover of the baseline run.</figcaption></figure></details>

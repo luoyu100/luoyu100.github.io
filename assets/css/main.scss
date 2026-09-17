@@ -889,6 +889,7 @@ h1:before, .anchor:before {
 /* Editorial treatment shared by the featured research project pages. */
 .project-page-body--trioxpert,
 .project-page-body--graph-of-states,
+.project-page-body--progression-of-states,
 .project-page-body--opsagent {
     color: #243344;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -973,6 +974,7 @@ h1:before, .anchor:before {
 
     .research-project-page.project-theme--trioxpert,
     .research-project-page.project-theme--graph-of-states,
+    .research-project-page.project-theme--progression-of-states,
     .research-project-page.project-theme--opsagent {
         --project-primary-color: #2f8b8c;
         --project-primary-hover: #216b6c;
@@ -1523,6 +1525,7 @@ h1:before, .anchor:before {
 @media screen and (max-width: 768px) {
     .project-page-body--trioxpert,
     .project-page-body--graph-of-states,
+    .project-page-body--progression-of-states,
     .project-page-body--opsagent {
         .project-local-nav__inner {
             gap: .8rem;
@@ -1547,6 +1550,7 @@ h1:before, .anchor:before {
 
         .research-project-page.project-theme--trioxpert,
         .research-project-page.project-theme--graph-of-states,
+        .research-project-page.project-theme--progression-of-states,
         .research-project-page.project-theme--opsagent {
             .project-page-hero {
                 padding: 3.4rem 1.25rem 2.6rem;
