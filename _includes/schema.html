@@ -1,0 +1,57 @@
+{% comment %}
+  GEO structured data. Renders only when a page opts in:
+  - page.geo_person == true  -> Person (homepage)
+  - page.geo_paper <slug>    -> ScholarlyArticle for that paper
+  Never renders on pages excluded from the sitemap or marked noindex
+  (e.g. papers under review). Unknown slugs produce no output.
+{% endcomment %}
+{% assign geo_blocked = false %}
+{% if page.sitemap == false %}{% assign geo_blocked = true %}{% endif %}
+{% if page.robots contains 'noindex' %}{% assign geo_blocked = true %}{% endif %}
+{% unless geo_blocked %}
+{% if page.geo_person %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://luoyu100.github.io/#person",
+  "name": "Yu Luo",
+  "alternateName": "罗宇",
+  "url": "https://luoyu100.github.io/",
+  "jobTitle": "PhD student",
+  "affiliation": { "@type": "Organization", "name": "Nankai University" },
+  "sameAs": [
+    "https://github.com/luoyu100",
+    "https://scholar.google.com/citations?user=GK-Oor4AAAAJ",
+    "https://orcid.org/0009-0008-8708-1187"
+  ]
+}
+</script>
+{% endif %}
+{% if page.geo_paper %}
+{% assign paper = site.data.geo_papers[page.geo_paper] %}
+{% if paper %}
+{% capture geo_date %}{{ paper.date_published | default: paper.year }}{% endcapture %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": {{ paper.title | jsonify }},
+  "headline": {{ paper.title | jsonify }},
+  "author": [{% for author in paper.authors %}{"@type": "Person", "name": {{ author | jsonify }}}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "url": {{ paper.project_url | jsonify }},
+  "description": {{ paper.description | jsonify }},
+  "abstract": {{ paper.abstract | jsonify }},
+  "datePublished": {{ geo_date | jsonify }},
+  "isAccessibleForFree": true,
+  "sameAs": [
+    {{ paper.arxiv_url | jsonify }}{% if paper.openreview_url %},
+    {{ paper.openreview_url | jsonify }}{% endif %}{% if paper.doi_url %},
+    {{ paper.doi_url | jsonify }}{% endif %}{% if paper.code_url %},
+    {{ paper.code_url | jsonify }}{% endif %}
+  ]
+}
+</script>
+{% endif %}
+{% endif %}
+{% endunless %}

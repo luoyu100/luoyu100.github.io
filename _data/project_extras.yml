@@ -331,3 +331,35 @@ trioxpert:
     output: The RCL example evaluates root-cause localization. The repository also provides separate AD, FT, and textual-processing scripts.
     docs: https://github.com/luoyu100/TrioXpert#demo
     entry: https://github.com/luoyu100/TrioXpert/blob/master/run_RCL.py
+
+opsmem:
+  results:
+    context: Evaluation on 120 real-world failure incidents from Huawei production microservice systems, against agentic-reasoning and knowledge-augmented baselines (ReAct, GoS, VectorRAG, GraphRAG, LinearRAG). Improvements are relative to the strongest baseline (Table I).
+    items:
+      - label: Match
+        value: up to +46.88%
+        metric: Relative improvement over strongest baseline
+        detail: Match measures agreement with the reference diagnosis. The figure is a relative improvement, not an accuracy value.
+        source: Table I
+      - label: Relevant
+        value: up to +18.39%
+        metric: Relative improvement over strongest baseline
+        detail: Relevant measures how much of the reference diagnosis the answer covers. Also a relative improvement, not accuracy points.
+        source: Table I
+      - label: Evaluation data
+        value: 120 incidents
+        metric: Real-world Huawei failures
+        detail: Production microservice incidents. The public release contains one sanitized case and a small sanitized seed knowledge base, not the full dataset.
+        source: Experiments
+  run:
+    intro: The public release contains the framework code, one sanitized example case, and a small sanitized seed knowledge base. The full dataset and knowledge base are not publicly released.
+    requirements:
+      - Create a Python 3.10 conda environment and install requirements.txt.
+      - Configure the model settings in code/config.yaml before running.
+      - Run the entry script from the code directory of the repository.
+    command: |
+      # From the repository's code directory, after configuring config.yaml
+      python main.py
+    output: The pipeline runs failure diagnosis over the configured case and writes evaluation outputs.
+    docs: https://github.com/gaorch85/OpsMem#readme
+    entry: https://github.com/gaorch85/OpsMem/blob/main/code/main.py

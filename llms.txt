@@ -1,0 +1,31 @@
+---
+layout: null
+permalink: /llms.txt
+sitemap: false
+---
+# Yu Luo (罗宇) — Nankai University
+
+Yu Luo (罗宇) is a PhD student at Nankai University working on LLM agents and AIOps: multi-agent systems for incident management and failure diagnosis, abductive reasoning, and agent memory.
+
+- Personal site: https://luoyu100.github.io/
+- GitHub: https://github.com/luoyu100
+- Google Scholar: https://scholar.google.com/citations?user=GK-Oor4AAAAJ
+- ORCID: https://orcid.org/0009-0008-8708-1187
+
+## Papers
+
+{% assign geo_papers = site.data.geo_papers %}
+{% assign geo_order = "graph-of-states|opsagent|opsmem|trioxpert|krca" | split: "|" %}
+{% for slug in geo_order %}
+{% assign paper = geo_papers[slug] %}
+{% if paper %}
+### {{ paper.title }} — {{ paper.venue }}
+
+{{ paper.description }}
+{% if paper.arxiv_url %}- arXiv: {{ paper.arxiv_url }}
+{% endif %}{% if paper.code_url %}- Code: {{ paper.code_url }}
+{% endif %}{% if paper.project_url %}- Project page: {{ paper.project_url }}
+{% endif %}{% if paper.openreview_url %}- OpenReview: {{ paper.openreview_url }}
+{% endif %}
+{% endif %}
+{% endfor %}

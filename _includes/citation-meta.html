@@ -1,0 +1,22 @@
+{% comment %}
+  Highwire citation_* meta tags (Google Scholar indexing).
+  Renders only on GEO-marked paper pages that are publicly indexed.
+  Fields come from _data/geo_papers.yml (verified facts only).
+{% endcomment %}
+{% assign geo_blocked = false %}
+{% if page.sitemap == false %}{% assign geo_blocked = true %}{% endif %}
+{% if page.robots contains 'noindex' %}{% assign geo_blocked = true %}{% endif %}
+{% unless geo_blocked %}
+{% if page.geo_paper %}
+{% assign paper = site.data.geo_papers[page.geo_paper] %}
+{% if paper %}
+<meta name="citation_title" content="{{ paper.title | escape }}">
+{% for author in paper.authors %}<meta name="citation_author" content="{{ author | escape }}">
+{% endfor %}{% if paper.conference_title %}<meta name="citation_conference_title" content="{{ paper.conference_title | escape }}">{% endif %}
+{% if paper.date_published %}<meta name="citation_publication_date" content="{{ paper.date_published | replace: '-', '/' }}">{% endif %}
+{% if paper.doi %}<meta name="citation_doi" content="{{ paper.doi }}">{% endif %}
+{% if paper.firstpage %}<meta name="citation_firstpage" content="{{ paper.firstpage }}"><meta name="citation_lastpage" content="{{ paper.lastpage }}">{% endif %}
+{% if paper.arxiv_id %}<meta name="citation_arxiv_id" content="{{ paper.arxiv_id }}">{% endif %}
+{% endif %}
+{% endif %}
+{% endunless %}

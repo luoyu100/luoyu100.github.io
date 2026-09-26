@@ -1,8 +1,11 @@
 ---
 permalink: /
 title: ""
+seo_title: "Yu Luo (罗宇) | LLM Agents and AIOps"
+description: "Yu Luo (罗宇) is a PhD student at Nankai University working on LLM agents and AIOps: multi-agent systems for incident management and failure diagnosis, abductive reasoning, and agent memory. Papers include Graph of States (ICML 2026), OpsAgent (ASE 2026), OpsMem (ISSRE 2026), and TrioXpert (ASE 2025)."
 excerpt: ""
 author_profile: true
+geo_person: true
 redirect_from: 
   - /about/
   - /about.html
@@ -17,7 +20,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 10 papers at venues including ICML, EMNLP, KDD, ASE, and TOSEM.
+Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under the supervision of Prof. [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/). He received his Bachelor's degree in Software Engineering from Nankai University in 2025. His research interests include **AIOps, multi-agent systems, and reinforcement learning**, with a specific focus on **building collaborative multi-agent systems that leverage LLM reasoning, memory, RAG, and RL to solve complex downstream tasks**. He has published 10 papers at venues including ICML, EMNLP, KDD, ASE, and TOSEM. His public agent systems include **Graph of States** (ICML 2026, abductive reasoning with explicit belief states), **OpsAgent** (ASE 2026, self-evolving incident management), **OpsMem** (ISSRE 2026, dual-memory failure diagnosis), and **TrioXpert** (ASE 2025, multimodal incident management).
 
 ---
 
@@ -139,6 +142,16 @@ Yongqian Sun, Rongchen Gao, **Yu Luo**, Wenwei Gu, et al.
 - OpsMem is a dual-memory framework for failure diagnosis that couples a graph-structured short-term memory of the evolving diagnostic state with a long-term memory of reusable operational experience. Through cross-memory resonance, it activates state-relevant cases and procedures during multi-agent diagnosis, then consolidates solved incidents into long-term memory for continual improvement.
 
 <div class="paper-actions">
+  <a class="paper-story-link paper-story-link--project" target="_self" href="{{ '/projects/opsmem/project/' | relative_url }}">
+    <i class="fas fa-project-diagram" aria-hidden="true"></i>
+    <span>Project</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://arxiv.org/abs/2607.11357">
+    <i class="fas fa-file-alt" aria-hidden="true"></i>
+    <span>arXiv</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
   <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/gaorch85/OpsMem">
     <i class="fas fa-code" aria-hidden="true"></i>
     <span>Code</span>
@@ -159,10 +172,10 @@ Binpeng Shi, Shenglin Zhang, Jingya Wang, Bowen Hao, Minyi Shao, **Yu Luo**, et 
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2026</div><a href="https://arxiv.org/pdf/2607.01788"><img src='images/krca.png' alt="sym" width="100%"></a></div></div>
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ASE 2026</div><a href="https://arxiv.org/abs/2607.01788"><img src='images/krca.png' alt="sym" width="100%"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
-[KRCA: An Efficient Root Cause Analysis System in Hyper-Scale Microservice Systems via Agentic AI](https://arxiv.org/pdf/2607.01788)
+[KRCA: An Efficient Root Cause Analysis System in Hyper-Scale Microservice Systems via Agentic AI](https://arxiv.org/abs/2607.01788)
 
 Jiamin Jiang, Jingfei Feng, **Yu Luo**, Qingliang Zhang, et al.
 
@@ -189,6 +202,11 @@ Yongqian Sun, **Yu Luo**, Xidao Wen*, Yuan Yuan, et al.
     <i class="fas fa-project-diagram" aria-hidden="true"></i>
     <span>Project</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://arxiv.org/abs/2506.10043">
+    <i class="fas fa-file-alt" aria-hidden="true"></i>
+    <span>arXiv</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
   <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/luoyu100/TrioXpert">
     <i class="fas fa-code" aria-hidden="true"></i>

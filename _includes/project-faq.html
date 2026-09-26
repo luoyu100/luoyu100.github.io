@@ -1,0 +1,24 @@
+{% comment %}
+  Server-rendered FAQ block sourced from _data/geo_papers.yml for the
+  page's geo_paper slug. Plain h3 + paragraph HTML; readable without
+  JavaScript. Questions and answers are verified facts only.
+{% endcomment %}
+{% assign paper = site.data.geo_papers[page.geo_paper] %}
+{% if paper and paper.faq %}
+<section class="project-content-section project-content-section--faq" id="faq">
+  <div class="project-section-shell">
+    <div class="project-section-heading">
+      <p class="project-section-index">{{ include.index }} <span>FREQUENTLY ASKED</span></p>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="project-faq">
+      {% for item in paper.faq %}
+      <article class="project-faq-item">
+        <h3>{{ item.question }}</h3>
+        <p>{{ item.answer }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
