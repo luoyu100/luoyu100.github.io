@@ -79,7 +79,6 @@
     text("[data-frame-decision]", frame.decision);
     text("[data-frame-evidence]", frame.evidence);
     text("[data-story-source]", run.source);
-    root.querySelector("[data-frame-source]").hash = currentCase.id === "execution" ? "page=1" : "page=26";
     root.querySelector("[data-raw-panel]").hidden = run.id !== "raw";
     root.querySelector("[data-belief-panel]").hidden = run.id !== "pos";
     if (run.id === "raw") renderHistory(run);

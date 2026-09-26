@@ -15,7 +15,7 @@ project_navigation:
   - {label: Belief, href: "#overview"}
   - {label: Method, href: "#method"}
   - {label: Results, href: "#results"}
-  - {label: Paper, href: "#resources"}
+  - {label: Code, href: "#resources"}
   - {label: BibTeX, href: "#bibtex"}
 ---
 {% assign pos = site.data.pos_project %}
@@ -31,7 +31,6 @@ project_navigation:
   <p class="project-page-authors">{% for author in pos.authors %}<span>{% if forloop.first %}<strong>{{ author.name }}</strong>{% else %}{{ author.name }}{% endif %}<sup>{{ author.affiliation }}</sup>{% unless forloop.last %},{% endunless %}</span> {% endfor %}</p>
   <p class="project-page-affiliations"><span><sup>1</sup>Nankai University</span> <span><sup>2</sup>Alibaba Cloud</span> <span><sup>3</sup>Tsinghua University</span></p>
   <div class="project-page-links">
-    <a class="project-page-link" href="{{ '/assets/papers/progression-of-states.pdf' | relative_url }}" target="_blank" rel="noopener"><i class="fas fa-file-pdf" aria-hidden="true"></i> Paper</a>
     <a class="project-page-link project-page-link--code" href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Code</a>
     <a class="project-page-link pos-primary-link" href="#story" target="_self"><i class="fas fa-play" aria-hidden="true"></i> Explore the story</a>
   </div>
@@ -100,7 +99,7 @@ project_navigation:
     <p class="pos-section-lead">With Qwen3.7-Plus, factorized recovery improves final task performance over a generic recovery prompt on all four benchmarks.</p>
     <div class="pos-chart-heading"><span><i class="pos-swatch pos-swatch--generic"></i>Generic recovery</span><span><i class="pos-swatch pos-swatch--pos"></i>PoS recovery</span><small>Final task performance (%)</small></div>
     <div class="pos-recovery-chart">{% for result in pos.recovery %}<div class="pos-comparison-row"><div class="pos-benchmark-label"><strong>{{ result.benchmark }}</strong><small>{{ result.metric }}</small></div><div class="pos-bar-pair"><div><span class="pos-bar pos-bar--generic" style="--bar-value: {{ result.generic }}%"></span><span>{{ result.generic }}<small>%</small></span></div><div><span class="pos-bar pos-bar--pos" style="--bar-value: {{ result.pos }}%"></span><span>{{ result.pos }}<small>%</small></span></div></div></div>{% endfor %}</div>
-    <p class="pos-source">Figure 3 (right). These are final outcomes over all evaluated cases, not trap-recovery success rates. <a href="{{ '/assets/papers/progression-of-states.pdf' | relative_url }}#page=8" target="_blank" rel="noopener">Paper, page 8 <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></p>
+    <p class="pos-source">Figure 3 (right). These are final outcomes over all evaluated cases, not trap-recovery success rates.</p>
     <details class="pos-disclosure"><summary>Original trapping and recovery analysis</summary><figure class="project-page-figure"><a href="{{ '/images/projects/pos/trapping-analysis.webp' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/trapping-analysis.webp' | relative_url }}" width="1704" height="447" loading="lazy" decoding="async" alt="Figure 3: trapping incidence, trapping-pattern distribution, and recovery comparison"></a><figcaption>Figure 3. Trapping incidence across backbones, the distribution of Static, Cycle, and Drift events, and final task performance with generic versus factorized recovery.</figcaption></figure></details>
 
     <div class="pos-method-block">
@@ -124,7 +123,7 @@ project_navigation:
 </section>
 
 <section class="project-content-section project-content-section--foundation" id="resources">
-  <div class="project-section-shell"><div class="project-section-heading"><p class="project-section-index">05 <span>GO DEEPER</span></p><h2>The paper and implementation.</h2></div><div class="pos-resource-links"><a href="{{ '/assets/papers/progression-of-states.pdf' | relative_url }}" target="_blank" rel="noopener"><i class="fas fa-file-pdf" aria-hidden="true"></i><span><strong>Read the paper</strong><small>Full manuscript, figures, evaluation details, and case study</small></span><i class="fas fa-arrow-up" aria-hidden="true"></i></a><a href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i><span><strong>Explore the code</strong><small>PoS implementation · repository linked in the manuscript</small></span><i class="fas fa-arrow-up" aria-hidden="true"></i></a></div></div>
+  <div class="project-section-shell"><div class="project-section-heading"><p class="project-section-index">05 <span>GO DEEPER</span></p><h2>Implementation.</h2></div><div class="pos-resource-links"><a href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i><span><strong>Explore the code</strong><small>PoS implementation · repository linked in the manuscript</small></span><i class="fas fa-arrow-up" aria-hidden="true"></i></a></div></div>
 </section>
 
 <section class="project-content-section project-content-section--bibtex project-bibtex-section" id="bibtex">
