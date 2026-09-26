@@ -15,7 +15,7 @@ google_scholar_stats_use_cdn : true
 google_analytics_id      :  # get google_analytics_id from https://analytics.google.com/analytics/
 
 # SEO Related
-google_site_verification :  # get google_site_verification from https://search.google.com/search-console/about
+google_site_verification : 3yRsfc7zVKIef23LhRjrMunkOIS1zCXon4PQwosJS38 # Google Search Console ownership verification (do not remove)
 bing_site_verification   :  # get bing_site_verification from https://www.bing.com/webmasters/about
 baidu_site_verification  :  # get baidu_site_verification from https://ziyuan.baidu.com/login/index?u=/site/index
 
@@ -127,6 +127,11 @@ defaults:
     values:
       layout: default
       author_profile: true
+  # PoS paper PDF stays out of the sitemap during ICLR 2027 double-blind review
+  - scope:
+      path: "assets/papers"
+    values:
+      sitemap: false
 
 
 # Sass/SCSS

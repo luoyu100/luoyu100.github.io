@@ -169,8 +169,5 @@ krca:
   year: 2026
   arxiv_id: "2607.01788"
   arxiv_url: "https://arxiv.org/abs/2607.01788"
-  code_url: ""
-  code_license: ""
-  project_url: ""
   description: "KRCA is an end-to-end agentic root cause analysis system for hyper-scale microservice systems, published at ASE 2026 and deployed at Kuaishou."
   listed_only: true
