@@ -23,27 +23,9 @@
     .pos-intro-description { color: #8a9692; font-size: 14px; line-height: 1.9; margin: 0; }
     .pos-intro-entry { display: inline-flex; gap: 28px; align-items: center; color: #527c6d; font-size: 12px; text-decoration: none; margin-top: 36px; border-bottom: 1px solid #c9dbd0; padding: 12px 0; }
     .pos-kicker { font: 500 10px ui-monospace,monospace; color: #5d9481; }
-    .pos-intro-film { min-width: 0; }
-    .pos-hero-visual { position: relative; width: 100%; height: 430px; overflow: hidden; }
-    .pos-hero-visual canvas { display: block; width: 100%; height: 100%; }
-    .pos-hero-fallback { display: flex; flex-direction: column; align-items: center; gap: 9px; padding-top: 24px; font-size: 14px; color: #588170; }
-    .pos-hero-fallback strong { color: #3e7796; font-size: 18px; }
-    .pos-hero-fallback small { font-size: 11px; color: #8a9892; }
-    .pos-hero-fallback i { font-size: 12px; color: #bad0c9; }
-    .pos-hero-visual.has-webgl .pos-hero-fallback { display: none; }
-    .pos-hero-labels { display: none; position: absolute; inset: 0; pointer-events: none; }
-    .has-webgl .pos-hero-labels { display: block; }
-    .pos-hero-label { position: absolute; transform: translateX(-50%); width: 142px; text-align: center; line-height: 1.4; color: #4d666d; }
-    .pos-hero-label strong { display: block; font-size: 12px; font-weight: 550; }
-    .pos-hero-label small { display: block; margin-top: 4px; font-size: 10px; color: #8d9b98; }
-    .pos-hero-activity { position: absolute; transform: translateX(-50%); font: 500 9px ui-monospace,monospace; width: 135px; text-align: center; color: #b67d6a; }
-    .pos-film-caption { min-height: 92px; padding-top: 18px; margin-top: 6px; border-top: 1px solid #e3eae7; display: grid; grid-template-columns: 54px 1fr; gap: 10px; }
-    .pos-film-caption > span { font: 500 10px ui-monospace,monospace; color: #a5b0ab; padding-top: 3px; }
-    .pos-film-caption strong { font-size: 14px; font-weight: 500; color: #497464; }
-    .pos-film-caption p { margin: 7px 0 0; font-size: 12px; color: #84908d; line-height: 1.6; }
-    .pos-film-track { display: flex; gap: 8px; margin-top: 20px; }
-    .pos-film-track span { width: 30px; height: 2px; background: #e0e9e3; }
-    .pos-film-track span.is-active { background: #42927b; }
+    .pos-intro-logo { display: grid; place-items: center; min-width: 0; height: 430px; }
+    .pos-mark { display: block; width: min(100%,400px); height: auto; aspect-ratio: 1; animation: pos-mark-appear 1.4s ease-out both; }
+    @keyframes pos-mark-appear { from { opacity: 0; } to { opacity: 1; } }
     .pos-hero { padding: 76px 32px 60px; max-width: 1100px; border-top: 1px solid #e6ece7; }
     .pos-paper-title { font-family: "Iowan Old Style",Palatino,Georgia,serif; font-size: 42px; font-weight: 400; line-height: 1.2; max-width: 1000px; margin: 0 auto 30px; }
     .project-page-eyebrow { font-size: 10px; color: #548874; margin-bottom: 24px; }
@@ -138,10 +120,8 @@
     @media (max-width: 1000px) {
       .pos-intro { padding: 28px 32px; gap: 8px; }
       .pos-intro h1 { font-size: 62px; }
-      .pos-hero-visual { height: 360px; }
-      .pos-hero-label { width: 105px; }
-      .pos-hero-label strong { font-size: 10px; }
-      .pos-hero-label small { font-size: 8px; }
+      .pos-intro-logo { height: 360px; }
+      .pos-mark { max-width: 330px; }
       .pos-story-spread { grid-template-columns: 1fr; }
       .pos-comic-scene { height: 540px; }
       .pos-world-stage { top: 120px; bottom: 130px; }
@@ -160,17 +140,8 @@
       .pos-intro-description { font-size: 12px; }
       .pos-intro-description br { display: none; }
       .pos-intro-entry { margin-top: 10px; padding: 9px 0; }
-      .pos-hero-visual { height: 265px; margin-top: 8px; }
-      .pos-hero-label { width: 90px; }
-      .pos-hero-label strong { font-size: 9px; }
-      .pos-hero-label small { font-size: 8px; line-height: 1.25; }
-      .pos-hero-activity { width: 90px; font-size: 8px; }
-      .pos-hero-fallback { gap: 5px; padding-top: 0; font-size: 11px; }
-      .pos-hero-fallback strong { font-size: 14px; }
-      .pos-film-caption { min-height: 80px; padding-top: 14px; grid-template-columns: 44px 1fr; }
-      .pos-film-caption strong { font-size: 12px; }
-      .pos-film-caption p { font-size: 11px; }
-      .pos-film-track { margin-top: 12px; }
+      .pos-intro-logo { height: 230px; margin-top: 8px; }
+      .pos-mark { max-width: 230px; }
       .pos-hero { padding: 48px 24px; }
       .pos-paper-title { font-size: 30px; }
       .project-page-authors { font-size: 12px; }
@@ -203,9 +174,13 @@
     @media (max-height: 760px) and (min-width: 1001px) {
       .pos-intro { padding-block: 24px; min-height: calc(100svh - 132px); }
       .pos-intro h1 { font-size: 66px; }
-      .pos-hero-visual { height: 340px; }
+      .pos-intro-logo { height: 340px; }
+      .pos-mark { max-width: 340px; }
       .pos-hero { padding-top: 36px; }
     }
-    @media (prefers-reduced-motion: reduce) { .pos-reveal { opacity: 1; transform: none; transition: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .pos-mark { animation: none; opacity: 1; }
+      .pos-reveal { opacity: 1; transform: none; transition: none; }
+    }
   }
 }

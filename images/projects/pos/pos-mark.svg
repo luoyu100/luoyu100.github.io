@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="440" viewBox="0 0 440 440" fill="none">
+  <title>Progression of States</title>
+  <g stroke-width="18" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M208 300V368H72V232H140" stroke="#a4bbc9"/>
+    <path d="M276 232V300H140V164H208" stroke="#fff" stroke-width="30"/>
+    <path d="M276 232V300H140V164H208" stroke="#78a99b"/>
+    <path d="M344 142V232H208V96H298M326 96H344V114" stroke="#fff" stroke-width="30"/>
+    <path d="M344 142V232H208V96H298M326 96H344V114" stroke="#368775"/>
+  </g>
+</svg>
