@@ -164,7 +164,7 @@
         .project-faq-item { padding-block: 25px; border-color: #e2e8dc; }
         .project-faq-item h3 { color: #48623c; font-size: 18px; font-weight: 500; }
         .project-faq-item p { color: #626d72; font-size: 14px; line-height: 1.9; }
-        .bibtex-header { align-items: end; }
+        .bibtex-header { align-items: flex-end; flex-direction: row; }
         .copy-bibtex-btn { background: #497845; border: 1px solid #497845; border-radius: 5px; font-size: 13px; padding: 12px 20px; box-shadow: none; }
         #bibtex-code { border-color: #dde5d8; background: #fff; border-radius: 6px; box-shadow: none; font-size: 16px; color: #425663; padding: 30px; line-height: 1.9; }
         .project-bibtex-section #bibtex-code { margin: 0; max-width: none; width: 100%; box-sizing: border-box; white-space: pre-wrap; overflow-wrap: anywhere; }

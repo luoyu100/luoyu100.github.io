@@ -32,6 +32,9 @@ if (page) {
     progress = reduced.matches ? 0 : THREE.MathUtils.clamp((64 - rect.top) / distance, 0, 1);
     intro.style.setProperty("--gos-intro-progress", progress.toFixed(3));
     meter.style.setProperty("--gos-page-progress", `${scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight) * 100}%`);
+    if (page.querySelector("#overview").getBoundingClientRect().top > innerHeight * .45) {
+      document.querySelectorAll(".project-local-nav__links a.is-active").forEach(link => link.classList.remove("is-active"));
+    }
     const next = Math.min(5, Math.floor(progress * 6));
     if (next !== chapter) {
       chapter = next;
