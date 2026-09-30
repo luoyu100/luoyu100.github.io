@@ -19,6 +19,10 @@
   var programmatic = false;
   var manualViewport = false;
   var snapshot;
+  var confidenceFrame = null;
+  var flowFrame = null;
+  var graphVisible = false;
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var minZoom = 0.6;
   var maxZoom = 1.6;
   var cy = window.cytoscape({
@@ -30,43 +34,53 @@
     autounselectify: true,
     style: [
       { selector: "node", style: {
-        "label": "data(displayLabel)", "font-family": "-apple-system, BlinkMacSystemFont, Arial, sans-serif",
-        "font-size": 18, "font-weight": 600, "text-wrap": "wrap", "text-max-width": 128,
-        "text-valign": "center", "text-halign": "center", "color": "#275b5c",
-        "background-color": "#e6f0f2", "border-width": 1.5, "border-color": "#7b9ea8",
-        "width": 146, "height": 82, "overlay-opacity": 0, "text-events": "yes"
+        "label": "", "shape": "round-rectangle", "background-image": "data(cardImage)",
+        "background-fit": "contain", "background-clip": "none", "background-opacity": 0,
+        "border-width": 0, "width": 178, "height": 98, "overlay-opacity": 0
       } },
       { selector: "node[kind = 'evidence']", style: {
-        "shape": "round-rectangle", "width": 168, "height": 58,
-        "background-color": "#fff7e7", "border-color": "#c6ae79", "color": "#77592e",
-        "font-size": 16, "font-weight": 500, "text-max-width": 146
+        "width": 178, "height": 78
       } },
       { selector: "node[kind = 'symptom']", style: {
-        "shape": "round-rectangle", "width": 180, "height": 60,
-        "background-color": "#e4edf2", "border-color": "#8098a9", "color": "#35576c"
+        "width": 178, "height": 78
       } },
-      { selector: "node[status = 'rejected']", style: {
-        "background-color": "#f0f2f3", "border-color": "#a9b5bb", "border-style": "dashed", "color": "#788990"
-      } },
-      { selector: "node[status = 'confirmed']", style: { "background-color": "#bde0d5", "border-color": "#3a8b78", "border-width": 2.5 } },
-      { selector: "node.fresh", style: { "border-width": 3 } },
-      { selector: "node.focus", style: { "background-color": "#cde8df", "border-color": "#1a7478", "border-width": 3.5, "underlay-color": "#2f8b8c", "underlay-opacity": 0.08, "underlay-padding": 8 } },
-      { selector: "node.inspected", style: { "outline-width": 2, "outline-color": "#b98942", "outline-offset": 4 } },
+      { selector: "node.focus", style: { "underlay-color": "#8dcab0", "underlay-opacity": 0.09, "underlay-padding": 7, "underlay-shape": "round-rectangle" } },
+      { selector: "node.inspected", style: { "outline-width": 1.5, "outline-color": "#bfa576", "outline-offset": 5 } },
       { selector: "edge", style: {
-        "curve-style": "bezier", "width": 1.8, "line-color": "#a3b5bf", "target-arrow-color": "#a3b5bf",
+        "curve-style": "bezier", "width": 1.4, "line-color": "#7b9597", "target-arrow-color": "#7b9597",
         "target-arrow-shape": "triangle", "arrow-scale": 0.8, "opacity": 0.55,
-        "font-size": 12, "color": "#677b84", "text-background-color": "#fcfdfd",
+        "font-size": 11, "color": "#a8c2b9", "text-background-color": "#1c242a",
         "text-background-opacity": 0.95, "text-background-padding": 3, "text-rotation": "autorotate", "overlay-opacity": 0
       } },
-      { selector: "edge[relation = 'support']", style: { "line-color": "#69a18b", "target-arrow-color": "#69a18b", "color": "#3b8167" } },
-      { selector: "edge[relation = 'refute']", style: { "line-style": "dashed", "line-color": "#c8877d", "target-arrow-color": "#c8877d", "color": "#a65c51" } },
-      { selector: "edge.highlight", style: { "label": "data(relation)", "opacity": 1, "width": 2.7 } },
-      { selector: "edge.path", style: { "line-color": "#328579", "target-arrow-color": "#328579", "width": 3.5, "opacity": 1 } }
+      { selector: "edge[relation = 'support']", style: { "line-color": "#71ad91", "target-arrow-color": "#71ad91", "color": "#91c3a8" } },
+      { selector: "edge[relation = 'refute']", style: { "line-style": "dashed", "line-color": "#c48573", "target-arrow-color": "#c48573", "color": "#d49f8c" } },
+      { selector: "edge.highlight", style: { "label": "data(relation)", "opacity": 1, "width": 2.2 } },
+      { selector: "edge.path", style: { "line-color": "#87c4a7", "target-arrow-color": "#87c4a7", "width": 2.4, "opacity": 1 } },
+      { selector: "edge.fresh-edge, edge.path, edge.highlight", style: { "line-style": "dashed", "line-dash-pattern": [7, 5] } }
     ]
   });
   fallback.hidden = true;
 
   function setText(attribute, value) { root.querySelector("[" + attribute + "]").textContent = value; }
+  function xml(value) { return String(value).replace(/[&<>"']/g, function (char) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"}[char]; }); }
+  function cardImage(node, focused) {
+    var hypothesis = node.kind === "hypothesis";
+    var height = hypothesis ? 98 : 78;
+    var rejected = node.status === "rejected";
+    var accent = rejected ? "#71817f" : focused || node.status === "confirmed" ? "#91cbb1" : node.kind === "evidence" ? "#c3a477" : node.kind === "symptom" ? "#94bace" : "#8ca7b3";
+    var background = rejected ? "#2b3237" : focused || node.status === "confirmed" ? "#28453b" : node.kind === "evidence" ? "#37332a" : "#283a43";
+    var foreground = rejected ? "#a2b0a9" : "#e3ece6";
+    var words = node.label.split(" "), lines = [""];
+    words.forEach(function (word) { var last = lines.length - 1; if (lines[last] && (lines[last] + " " + word).length > 19) { lines.push(word); } else lines[last] += (lines[last] ? " " : "") + word; });
+    var type = hypothesis ? "HYPOTHESIS / D" + node.depth : node.kind === "evidence" ? "EVIDENCE / " + String(node.born).padStart(2,"0") : "SURFACE SYMPTOM";
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="178" height="' + height + '" viewBox="0 0 178 ' + height + '"><rect x="1" y="1" width="176" height="' + (height-2) + '" rx="6" fill="' + background + '" stroke="' + accent + '" stroke-opacity="' + (focused ? 1 : .5) + '"' + (rejected ? ' stroke-dasharray="4 3"' : '') + '/><text x="14" y="20" font-family="Arial,sans-serif" font-size="8" fill="' + accent + '">' + type + '</text>';
+    lines.slice(0,2).forEach(function (line,i) { svg += '<text x="14" y="' + (41 + i*18) + '" font-family="Arial,sans-serif" font-size="16" font-weight="500" fill="' + foreground + '">' + xml(line) + '</text>'; });
+    if (hypothesis) {
+      svg += '<rect x="14" y="80" width="109" height="3" rx="1" fill="#ffffff14"/><rect x="14" y="80" width="' + (node.confidence*109).toFixed(1) + '" height="3" rx="1" fill="' + accent + '"/><text x="158" y="85" text-anchor="end" font-family="monospace" font-size="10" fill="' + accent + '">' + node.confidence.toFixed(2) + '</text>';
+    }
+    svg += '<circle cx="170" cy="' + (height/2) + '" r="2.5" fill="' + accent + '"/></svg>';
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  }
   // Rebuild knowledge from step one, so revisiting an earlier snapshot never leaks later evidence.
   function stateAt(index) {
     var nodes = data.nodes.filter(function (node) { return node.born <= index + 1; }).map(function (node) {
@@ -93,15 +107,16 @@
     root.querySelector('[data-graph-tool="zoom-out"]').disabled = zoom <= minZoom + 0.001;
     root.querySelector('[data-graph-tool="zoom-in"]').disabled = zoom >= maxZoom - 0.001;
   }
-  function fitGraph() {
+  function fitGraph(animate) {
     programmatic = true;
     var bounds = cy.elements().boundingBox();
     var fitted = Math.min((canvas.clientWidth - 80) / bounds.w, (canvas.clientHeight - 80) / bounds.h);
-    cy.zoom(Math.max(minZoom, Math.min(1.1, fitted)));
-    // Never fit by shrinking below the readable floor; center the active branch instead.
-    cy.center(fitted < minZoom ? cy.getElementById(data.steps[stepIndex].focus) : cy.elements());
-    programmatic = false;
-    updateZoomControls();
+    var zoom = Math.max(minZoom, Math.min(1.1, fitted));
+    var center = fitted < minZoom ? cy.getElementById(data.steps[stepIndex].focus).position() : {x:(bounds.x1+bounds.x2)/2,y:(bounds.y1+bounds.y2)/2};
+    var pan = {x:canvas.clientWidth/2-center.x*zoom,y:canvas.clientHeight/2-center.y*zoom};
+    cy.stop();
+    if (animate && !reducedMotion.matches) cy.animate({zoom:zoom,pan:pan},{duration:650,easing:"ease-in-out-cubic",complete:function(){programmatic=false;updateZoomControls();}});
+    else { cy.zoom(zoom); cy.pan(pan); programmatic=false; updateZoomControls(); }
   }
   function inspect(id) {
     var node = snapshot.nodes.find(function (item) { return item.id === id; });
@@ -129,20 +144,45 @@
     });
   }
   function render(index) {
+    var hadSnapshot = Boolean(snapshot);
     stepIndex = Math.max(0, Math.min(data.steps.length - 1, index));
     var step = data.steps[stepIndex];
     snapshot = stateAt(stepIndex);
+    window.cancelAnimationFrame(confidenceFrame);
+    var changed = [];
     programmatic = true;
     cy.batch(function () {
-      cy.elements().remove();
-      cy.add(snapshot.nodes.map(function (node) {
-        return {
-          data: Object.assign({}, node, { displayLabel: node.label + (node.kind === "hypothesis" ? "\n" + node.confidence.toFixed(2) : "") }),
-          position: positions[node.id] || { x: node.x, y: node.y },
-          classes: (node.id === step.focus ? "focus " : "") + (node.born === stepIndex + 1 ? "fresh" : "")
-        };
-      }));
-      cy.add(snapshot.edges.map(function (edge, i) { return { data: Object.assign({ id: "edge-" + i }, edge) }; }));
+      var ids = snapshot.nodes.map(function (node) { return node.id; });
+      cy.nodes().filter(function (node) { return ids.indexOf(node.id()) === -1; }).remove();
+      cy.nodes().removeClass("focus fresh inspected");
+      cy.edges().removeClass("path highlight fresh-edge");
+      snapshot.nodes.forEach(function (node) {
+        var element = cy.getElementById(node.id);
+        var focused = node.id === step.focus;
+        var next = Object.assign({},node,{cardImage:cardImage(node,focused)});
+        if (element.length) {
+          var previousConfidence = element.data("confidence");
+          element.data(next);
+          if (previousConfidence !== undefined && previousConfidence !== node.confidence) changed.push({element:element,from:previousConfidence,node:node,focused:focused});
+        } else {
+          var position = positions[node.id] || {x:node.x,y:node.y};
+          element = cy.add({data:next,position:position});
+          if (hadSnapshot && !reducedMotion.matches) {
+            element.style("opacity",0);
+            if (node.kind === "evidence") element.position({x:position.x,y:position.y+18});
+            element.animate({position:position,style:{opacity:1}},{duration:550,easing:"ease-out-cubic"});
+          }
+        }
+        if (focused) element.addClass("focus");
+        if (node.born === stepIndex+1) element.addClass("fresh");
+      });
+      var edgeIds = snapshot.edges.map(function (edge) { return "edge-"+edge.source+"-"+edge.target+"-"+edge.relation; });
+      cy.edges().filter(function (edge) { return edgeIds.indexOf(edge.id()) === -1; }).remove();
+      snapshot.edges.forEach(function (edge,i) {
+        var element = cy.getElementById(edgeIds[i]);
+        if (!element.length) element=cy.add({data:Object.assign({id:edgeIds[i]},edge)});
+        if (edge.born === stepIndex+1) element.addClass("fresh-edge");
+      });
       var ancestor = step.focus;
       while (ancestor !== "alert") {
         var parent = cy.edges().filter(function (edge) { return edge.data("target") === ancestor && ["derive", "refine"].indexOf(edge.data("relation")) !== -1; }).first();
@@ -152,6 +192,20 @@
       }
     });
     programmatic = false;
+    if (changed.length && !reducedMotion.matches) {
+      var start = performance.now(), lastPaint = 0;
+      function interpolate(now) {
+        var t = Math.min(1,(now-start)/650);
+        if (now-lastPaint > 55 || t === 1) {
+          lastPaint = now;
+          cy.batch(function () { changed.forEach(function (item) {
+            if (!item.element.removed()) item.element.data("cardImage",cardImage(Object.assign({},item.node,{confidence:item.from+(item.node.confidence-item.from)*(1-Math.pow(1-t,3))}),item.focused));
+          }); });
+        }
+        confidenceFrame = t < 1 ? window.requestAnimationFrame(interpolate) : null;
+      }
+      confidenceFrame = window.requestAnimationFrame(interpolate);
+    }
     setText("data-step-count", String(stepIndex + 1).padStart(2, "0") + " / 20");
     setText("data-step-action", step.action);
     root.querySelector("[data-step-action]").dataset.action = step.action;
@@ -185,7 +239,7 @@
     setText("data-focus-depth", focus.depth ? "Hypothesis depth " + focus.depth : "Surface symptom");
     canvas.setAttribute("aria-label", "Snapshot " + (stepIndex + 1) + ": " + step.title + ". " + snapshot.nodes.length + " nodes. Current focus: " + focus.label + ". Use Inspect a node for details.");
     inspect(step.focus);
-    if (!manualViewport) fitGraph();
+    if (!manualViewport) fitGraph(hadSnapshot);
     if (stepIndex === 19) pause();
     root.dataset.snapshot = stepIndex + 1;
   }
@@ -214,7 +268,7 @@
   }
   cy.on("pan zoom", function () { if (!programmatic) manualViewport = true; drawRows(); updateZoomControls(); });
   cy.on("render", drawRows);
-  cy.on("grab", "node", pause);
+  cy.on("grab", "node", function () { pause(); cy.stop(); programmatic=false; manualViewport=true; });
   cy.on("dragfree", "node", function (event) {
     var node = event.target;
     if (node.data("kind") === "hypothesis" || node.data("kind") === "symptom") node.position("y", node.data("y"));
@@ -249,14 +303,36 @@
     button.addEventListener("click", function () {
       pause();
       var action = button.dataset.graphTool;
-      if (action === "reset") { positions = Object.create(null); manualViewport = false; render(stepIndex); return; }
+      if (action === "reset") { positions = Object.create(null); cy.nodes().forEach(function(node){node.stop();node.position({x:node.data("x"),y:node.data("y")});}); manualViewport = false; render(stepIndex); return; }
       if (action === "fit") { fitGraph(); manualViewport = false; return; }
       manualViewport = true;
       cy.zoom({ level: Math.max(minZoom, Math.min(maxZoom, cy.zoom() * (action === "zoom-in" ? 1.2 : 1 / 1.2))), renderedPosition: { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 } });
     });
   });
-  document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
-  if ("IntersectionObserver" in window) new IntersectionObserver(function (entries) { if (!entries[0].isIntersecting) pause(); }).observe(root);
+  canvas.addEventListener("wheel",function(){cy.stop();programmatic=false;manualViewport=true;},{passive:true,capture:true});
+  var lastFlowPaint = 0;
+  function animateFlow(now) {
+    flowFrame = null;
+    if (!graphVisible || document.hidden || reducedMotion.matches) return;
+    if (now-lastFlowPaint > 55) {
+      lastFlowPaint = now;
+      var offset = (now/65)%120;
+      cy.edges(".highlight, .fresh-edge").style("line-dash-offset",-offset);
+      cy.edges(".path").style("line-dash-offset",data.steps[stepIndex].action === "Backtrack" ? offset : -offset);
+    }
+    flowFrame = window.requestAnimationFrame(animateFlow);
+  }
+  function syncFlow() {
+    window.cancelAnimationFrame(flowFrame); flowFrame=null;
+    if (graphVisible && !document.hidden && !reducedMotion.matches) flowFrame=window.requestAnimationFrame(animateFlow);
+  }
+  document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); syncFlow(); });
+  reducedMotion.addEventListener("change",function(){pause();syncFlow();});
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (entries) {
+    graphVisible=entries[0].isIntersecting;
+    if (!graphVisible) pause();
+    syncFlow();
+  }).observe(canvas);
   new ResizeObserver(function () { cy.resize(); if (!manualViewport) fitGraph(); drawRows(); }).observe(canvas);
   render(0);
 }());

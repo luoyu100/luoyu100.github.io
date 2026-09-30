@@ -7,6 +7,7 @@ layout: project
 author_profile: false
 geo_paper: graph-of-states
 project_theme: graph-of-states
+project_stylesheet: /assets/css/graph-of-states.css?v=20260930-motion1
 project_navigation:
   - label: Overview
     href: "#overview"
@@ -30,9 +31,11 @@ project_navigation:
 
 <div class="research-project-page project-theme--graph-of-states">
 
-<header class="project-page-hero">
+{% include gos-intro.html %}
+
+<header class="project-page-hero" id="paper" data-gos-reveal>
   <p class="project-page-eyebrow">ICML 2026 <span aria-hidden="true">/</span> Abductive Reasoning</p>
-  <h1 class="project-page-title">Graph of States: Solving Abductive Tasks with Large Language Models</h1>
+  <h2 class="project-page-title">Solving Abductive Tasks<br>with Large Language Models</h2>
   <p class="project-page-authors">
     <strong>Yu Luo</strong><sup>1</sup>, Rongchen Gao<sup>1</sup>, Lu Teng<sup>2</sup>, Xidao Wen<sup>3</sup>, Jiamin Jiang<sup>1</sup>, Qingliang Zhang<sup>1</sup>, Yongqian Sun<sup>1,*</sup>, Shenglin Zhang<sup>1</sup>, Jiasong Feng<sup>4</sup>, Tong Liu<sup>4</sup>, Wenjie Zhang<sup>4</sup>, Dan Pei<sup>5</sup>
   </p>
@@ -51,7 +54,7 @@ project_navigation:
   </div>
 </header>
 
-<figure class="project-page-teaser">
+<figure class="project-page-teaser" data-gos-reveal>
   <img src="{{ '/images/projects/gos-teaser.png' | relative_url }}" alt="Reasoning deficiencies in abductive tasks" decoding="async">
   <figcaption>Deductive reasoning frameworks can solve static logic problems, but abductive tasks expose evidence fabrication, context drift, failed backtracking, and early stopping.</figcaption>
 </figure>
@@ -113,6 +116,13 @@ project_navigation:
       <p class="project-section-index">03 <span>THE FRAMEWORK</span></p>
       <h2>Method</h2>
     </div>
+
+    <ol class="gos-method-flow" data-gos-method-flow aria-label="The GoS reasoning cycle">
+      <li><span class="gos-flow-number">01</span><i class="fas fa-crosshairs" aria-hidden="true"></i><h3>Choose a focus</h3><p>Select a hypothesis from the current belief state.</p></li>
+      <li><span class="gos-flow-number">02</span><i class="fas fa-search" aria-hidden="true"></i><h3>Seek evidence</h3><p>Expert agents investigate the focused explanation.</p></li>
+      <li><span class="gos-flow-number">03</span><i class="fas fa-project-diagram" aria-hidden="true"></i><h3>Update the graph</h3><p>Connect observations and revise hypothesis confidence.</p></li>
+      <li><span class="gos-flow-number">04</span><i class="fas fa-code-branch" aria-hidden="true"></i><h3>Change direction</h3><p>Backtrack, drill down, or report when the state allows it.</p></li>
+    </ol>
 
 <figure class="project-page-figure">
   <img src="{{ '/images/graph-of-states.png' | relative_url }}" alt="Graph of States method overview" decoding="async">
