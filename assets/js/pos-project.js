@@ -28,22 +28,31 @@
   }
   function renderHistory(run) {
     var list = story.querySelector("[data-trajectory-log]");
-    list.replaceChildren();
-    run.steps.slice(0, frameIndex + 1).forEach(function (step, i) {
+    if (!previousFrame) list.replaceChildren();
+    while (list.children.length > frameIndex + 1) list.lastElementChild.remove();
+    var firstNewEntry = list.children.length;
+    run.steps.slice(firstNewEntry, frameIndex + 1).forEach(function (step, offset) {
+      var i = firstNewEntry + offset;
       var li = document.createElement("li");
       var index = document.createElement("span"); index.className = "pos-log-index"; index.textContent = String(i + 1).padStart(2, "0");
       var body = document.createElement("div");
       ["action", "observation"].forEach(function (key) {
-        var label = document.createElement("h5"); label.textContent = key === "action" ? "Action" : "Observation";
+        var label = document.createElement("h5");
+        var icon = document.createElement("i"); icon.className = "fas " + (key === "action" ? i === 0 ? "fa-flag" : "fa-arrow-right" : "fa-eye"); icon.setAttribute("aria-hidden", "true");
+        label.append(icon, document.createTextNode(key === "action" ? i === 0 ? "Task / context" : "Action" : "Observation"));
         var value = document.createElement("p"); value.textContent = step.entry[key];
         body.append(label, value);
       });
       li.append(index, body); list.appendChild(li);
     });
+    Array.prototype.forEach.call(list.children, function (entry, i) {
+      if (i === frameIndex) entry.setAttribute("aria-current", "step");
+      else entry.removeAttribute("aria-current");
+    });
     list.scrollTop = list.scrollHeight;
     text("[data-log-count]", String(frameIndex + 1).padStart(2, "0"));
     text("[data-history-note]", caseIndex === 0 ? "Paraphrased from Figure 1; not verbatim tool logs." : "Illustrative history, not a recorded baseline trace.");
-    if (previousFrame) motion(list.lastElementChild, [{opacity: .2, transform: "translateY(18px)"}, {opacity: 1, transform: "translateY(0)"}]);
+    if (previousFrame && firstNewEntry <= frameIndex) motion(list.lastElementChild, [{opacity: .2, transform: "translateY(18px)"}, {opacity: 1, transform: "translateY(0)"}]);
   }
   function showFrame(index) {
     var currentCase = stories[caseIndex];
@@ -64,6 +73,8 @@
     scene.dataset.cards = frame.cards || 0;
     scene.dataset.cpu = frame.cpu ? "evidence" : frame.cpuPending ? "pending" : "none";
     scene.dataset.resolved = Boolean(frame.resolved);
+    scene.dataset.hypotheses = frameIndex >= 2;
+    scene.dataset.recovering = run.id === "pos" && frame.phase.indexOf("Recovery") === 0;
     scene.dataset.tone = frame.tone || (frame.outcome ? "complete" : "normal");
     scene.setAttribute("aria-label", frame.scene_note + " " + frame.observation);
     story.dataset.method = run.id;
@@ -74,6 +85,7 @@
     text("[data-frame-title]", frame.title);
     text("[data-scene-note]", frame.scene_note);
     text("[data-frame-count]", String(frameIndex + 1).padStart(2, "0") + " / " + String(run.steps.length).padStart(2, "0"));
+    story.querySelector("[data-story-progress]").style.transform = "scaleX(" + ((frameIndex + 1) / run.steps.length) + ")";
     text("[data-story-status]", "Frame " + (frameIndex + 1) + " of " + run.steps.length);
     text("[data-frame-observation]", frame.observation);
     text("[data-frame-decision]", frame.decision);
@@ -91,11 +103,16 @@
         text("[data-belief-" + key + "]", frame[key]);
         if (changed) motion(row, [{opacity: .35, transform: "translateX(8px)"}, {opacity: 1, transform: "translateX(0)"}], 450);
       });
-      text("[data-belief-phase]", frame.phase.indexOf("Recovery") === 0 ? "RECOVER" : frame.phase === "Validate" ? "VALIDATE" : "MAINTAIN");
+      text("[data-belief-phase]", frame.outcome ? "COMPLETE" : frame.phase.indexOf("Recovery") === 0 ? "RECOVER" : frame.phase === "Validate" ? "VALIDATE" : "MAINTAIN");
     }
     text("[data-mug-state]", frame.hot ? "Hot" : frame.heating ? "Heating" : "Not heated");
     var places = {counter: "At the counter", microwave: "In the microwave", cabinet: "In the cabinet"};
     text("[data-mug-place]", places[frame.mug] || "");
+    story.querySelector("[data-scene-counter]").hidden = currentCase.id !== "execution" || !frame.counter;
+    text("[data-scene-counter-text]", frame.counter || "");
+    var focus = frame.resolved ? {icon: "fa-check-circle", label: "Combine the evidence"} : frame.cpu || frame.cpuPending ? {icon: "fa-microchip", label: "Inspect CPU activity"} : scene.dataset.recovering === "true" ? {icon: "fa-compass", label: "Redirect the investigation"} : frame.tone === "stalled" ? {icon: "fa-pause-circle", label: "The question remains open"} : {icon: "fa-search", label: frame.cards === 2 ? "Investigate the logs" : "Investigate the delay"};
+    text("[data-focus-label]", focus.label);
+    story.querySelector("[data-focus-icon]").className = "fas " + focus.icon;
     text(".pos-hypothesis--database small", frame.resolved ? "Less supported" : "Possible explanation");
     text(".pos-hypothesis--jvm small", frame.resolved ? "More supported" : "Possible explanation");
     var cpu = root.querySelector("[data-cpu-label]");
@@ -117,15 +134,15 @@
     story.querySelector(".pos-step-evidence").open = false;
     story.dataset.frame = frameIndex;
     story.dataset.case = currentCase.id;
-    if (previousFrame && currentCase.id === "execution" && previousFrame.mug !== frame.mug) {
+    if (previousFrame && currentCase.id === "execution") {
       var targetMug = mug.getBoundingClientRect();
       var dx = oldMug.left - targetMug.left;
       var dy = oldMug.top - targetMug.top;
-      motion(mug, [
-        {transform: "translate(" + dx + "px," + dy + "px) rotate(0deg)"},
-        {transform: "translate(" + dx * .5 + "px," + (dy * .5 - 26) + "px) rotate(" + (dx < 0 ? -8 : 8) + "deg)", offset: .5},
-        {transform: "translate(0,0) rotate(0deg)"}
-      ], 1000);
+      if (Math.abs(dx) + Math.abs(dy) > 1) motion(mug, [
+          {transform: "translate(" + dx + "px," + dy + "px) rotate(0deg)"},
+          {transform: "translate(" + dx * .5 + "px," + (dy * .5 - 26) + "px) rotate(" + (dx < 0 ? -8 : 8) + "deg)", offset: .5},
+          {transform: "translate(0,0) rotate(0deg)"}
+        ], 1000);
     }
     if (previousFrame && frame.inspect) motion(scene.querySelector(".pos-inspect-ring"), [
       {transform:"translateX(-12px) rotate(-18deg)",opacity:0},
@@ -136,6 +153,10 @@
       var card = scene.querySelector(frame.cpu || frame.cpuPending ? ".pos-evidence--cpu" : frame.cards === 1 ? ".pos-evidence--gc" : ".pos-evidence--logs");
       motion(card, [{opacity:0,transform:"translate(28px,14px) rotate(3deg)"},{opacity:1,transform:"translate(0,0) rotate(0deg)"}], 750);
     }
+    if (previousFrame && currentCase.id === "diagnosis" && !previousFrame.resolved && frame.resolved) {
+      motion(scene.querySelector(".pos-hypothesis--jvm"), [{transform:"translateY(8px)",opacity:.5},{transform:"translateY(0)",opacity:1}], 700);
+    }
+    if (!previousFrame) motion(scene.querySelector(currentCase.id === "execution" ? ".pos-kitchen" : ".pos-investigation"), [{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"translateY(0)"}], 450);
     if (previousFrame && (frame.hot || frame.heating)) motion(scene.querySelector(".pos-steam"), [{transform:"translateY(5px)",opacity:0},{transform:"translateY(-4px)",opacity:1}], 1100);
     // Flush a run reset before enabling door transitions again.
     void scene.offsetWidth;
@@ -245,9 +266,11 @@
     showResults(Number(button.dataset.posBackbone));
   }); });
   root.querySelectorAll('[role="tablist"]').forEach(keyboardTabs);
-  document.addEventListener("visibilitychange", function () { if (document.hidden) { pauseStory(); pauseTraps(); } });
+  var storyInView = false;
+  function updateSceneVisibility() { story.classList.toggle("is-in-view", storyInView && !document.hidden); }
+  document.addEventListener("visibilitychange", function () { updateSceneVisibility(); if (document.hidden) { pauseStory(); pauseTraps(); } });
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) { if (!entries[0].isIntersecting) pauseStory(); }).observe(story);
+    new IntersectionObserver(function (entries) { storyInView = entries[0].isIntersecting; updateSceneVisibility(); if (!storyInView) pauseStory(); }).observe(story);
     new IntersectionObserver(function (entries) { if (!entries[0].isIntersecting) pauseTraps(); }).observe(root.querySelector(".pos-traps"));
   }
   reducedMotion.addEventListener("change", function () { pauseStory(); pauseTraps(); });
