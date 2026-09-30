@@ -27,9 +27,16 @@
         .gos-intro-visual.is-rendered .gos-intro-fallback { display: none; }
         .gos-hero-labels { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
         .is-rendered .gos-hero-labels { opacity: 1; }
-        .gos-hero-label { position: absolute; left: 0; top: 0; width: max-content; max-width: 146px; text-align: center; color: #6c7c83; font-size: 10px; font-weight: 500; line-height: 1.4; opacity: 0; transition: opacity .7s ease,color .7s ease; }
+        .gos-hero-label { position: absolute; left: 0; top: 0; width: 126px; text-align: center; color: #49647a; background: rgba(255,255,255,.94); font-size: 12px; font-weight: 500; line-height: 1.35; opacity: 0; transition: opacity .35s ease,color .45s ease; }
+        .gos-hero-label-title { display: block; }
+        .gos-hero-label small { display: block; margin-top: 3px; color: inherit; font-size: 9px; font-weight: 400; }
+        .gos-hero-label small:empty { display: none; }
+        .gos-hero-label--evidence { color: #936b33; font-size: 11px; }
         .gos-hero-label.is-focus { color: #247c70; }
-        .gos-hero-label.is-rejected { color: #a9857b; }
+        .gos-hero-label.is-rejected { color: #a06f60; }
+        .gos-intro-visual.is-compact .gos-hero-label { width: 86px; font-size: 10px; line-height: 1.2; }
+        .gos-intro-visual.is-compact .gos-hero-label--evidence { font-size: 9px; }
+        .gos-intro-visual.is-compact .gos-hero-label small { margin-top: 1px; font-size: 8px; line-height: 1.2; }
         .gos-intro-identity { position: absolute; top: 64%; left: 24px; right: 24px; text-align: center; transform: translateY(calc(var(--gos-intro-progress,0) * -12px)); }
         .gos-intro-kicker { margin: 0 0 17px; color: #6c7c80; font: 500 10px ui-monospace,monospace; }
         .gos-intro-kicker span { color: #b48d68; padding-inline: 7px; }
@@ -194,7 +201,9 @@
             .gos-intro-identity h1::after { height: 24px; }
             .gos-intro-kicker { font-size: 8px; margin-bottom: 16px; }
             .gos-intro-tagline { font-size: 14px; margin-top: 32px; }
-            .gos-hero-label { font-size: 8px; max-width: 80px; }
+            .gos-hero-label { font-size: 10px; width: 86px; }
+            .gos-hero-label small { font-size: 8px; }
+            .gos-hero-label--evidence { font-size: 9px; }
             .gos-intro-footer { left: 20px; right: 20px; width: auto; transform: none; gap: 10px; }
             .gos-hero-progress { gap: 4px; }
             .gos-hero-progress span { width: 9px; }
