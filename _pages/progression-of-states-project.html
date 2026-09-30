@@ -6,60 +6,69 @@ description: "Explicit belief states, consistency validation, and targeted recov
 layout: project
 author_profile: false
 project_theme: progression-of-states
-project_stylesheet: /assets/css/progression-of-states.css?v=20260930-stories3
+project_stylesheet: /assets/css/progression-of-states.css?v=20260930-pos4
 sitemap: false
 search: false
 robots: noindex, nofollow
 project_navigation:
-  - {label: Story, href: "#story"}
-  - {label: Belief, href: "#overview"}
+  - {label: Overview, href: "#overview"}
+  - {label: Video, href: "#video"}
   - {label: Method, href: "#method"}
+  - {label: Case, href: "#story"}
   - {label: Results, href: "#results"}
-  - {label: Code, href: "#resources"}
   - {label: BibTeX, href: "#bibtex"}
 ---
 {% assign pos = site.data.pos_project %}
 <div class="research-project-page project-theme--progression-of-states" data-pos-project>
 <script type="application/json" data-pos-data>{{ pos | jsonify }}</script>
 
-<header class="project-page-hero pos-hero">
-  <p class="project-page-eyebrow">LONG-HORIZON AGENTS <span aria-hidden="true">/</span> EXPLICIT BELIEF</p>
-  <h1 class="project-page-title">Progression of States</h1>
-  <p class="pos-tagline">Still acting. <em>No longer progressing.</em></p>
-  <p class="pos-hero-description">An agent can keep interacting without getting closer to its goal. PoS maintains what the agent believes now, checks its updates, and redirects stalled action toward what is still missing.</p>
+{% include pos-intro.html %}
+<header class="project-page-hero pos-hero" id="paper">
+  <p class="project-page-eyebrow">MANUSCRIPT / OCTOBER 2026</p>
   <h2 class="pos-paper-title">{{ pos.paper_title }}</h2>
-  <p class="project-page-authors">{% for author in pos.authors %}<span>{% if forloop.first %}<strong>{{ author.name }}</strong>{% else %}{{ author.name }}{% endif %}<sup>{{ author.affiliation }}</sup>{% unless forloop.last %},{% endunless %}</span> {% endfor %}</p>
-  <p class="project-page-affiliations"><span><sup>1</sup>Nankai University</span> <span><sup>2</sup>Alibaba Cloud</span> <span><sup>3</sup>Tsinghua University</span></p>
+  <p class="project-page-authors">{% for author in pos.authors %}<span>{% if forloop.first %}<strong>{{ author.name }}</strong>{% else %}{{ author.name }}{% endif %}<sup>{{ author.affiliation }}{% if author.corresponding %},*{% endif %}</sup>{% unless forloop.last %},{% endunless %}</span> {% endfor %}</p>
+  <p class="project-page-affiliations"><span><sup>1</sup>Nankai University</span> <span><sup>2</sup>Alibaba Group</span> <span><sup>3</sup>Tsinghua University</span></p>
+  <p class="project-page-note">* Corresponding author: Yongqian Sun</p>
   <div class="project-page-links">
     <a class="project-page-link project-page-link--code" href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i> Code</a>
-    <a class="project-page-link pos-primary-link" href="#story" target="_self"><i class="fas fa-play" aria-hidden="true"></i> Explore the story</a>
+    <a class="project-page-link" href="{{ pos.paper_url }}"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper <small>soon</small></a>
+    <a class="project-page-link" href="{{ pos.download_url }}"><i class="fas fa-download" aria-hidden="true"></i> Download <small>soon</small></a>
+    <a class="project-page-link pos-primary-link" href="#story"><i class="fas fa-play" aria-hidden="true"></i> Case Walkthrough</a>
   </div>
 </header>
 
-<section class="project-content-section pos-story-section" id="story">
-  <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">01 <span>ACTIVITY IS NOT PROGRESS</span></p><h2>Still acting. But is the task progressing?</h2></div>
-    {% include pos-story.html %}
-  </div>
-</section>
+<figure class="project-page-teaser pos-teaser"><img src="{{ '/images/projects/pos/motivation.webp?v=20260930-pos4' | relative_url }}" alt="PoS performance across four benchmarks and an ALFWorld case: Raw Trajectory fails after 50 steps; explicit belief and recovery succeed in 17 steps." decoding="async"><figcaption>A long interaction history is not the same as progress. PoS keeps the current state and the remaining requirements explicit.</figcaption></figure>
 
 <section class="project-content-section project-content-section--foundation" id="overview">
   <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">02 <span>BEYOND RETAINING HISTORY</span></p><h2>What is true now? What is still missing?</h2></div>
+    <div class="project-section-heading"><p class="project-section-index">01 <span>BEYOND RETAINING HISTORY</span></p><h2>Abstract &amp; Overview</h2></div>
+    <p class="project-abstract">{{ pos.abstract }}</p>
+    <h3 class="project-subsection-title">What is true now? What is still missing?</h3>
     <p class="pos-section-lead">Memory makes past evidence available. A belief state makes the agent's current understanding explicit, together with what it still needs to learn or accomplish.</p>
     <div class="pos-belief-definition">
       <div><span>WORLD STATE</span><h3>What the agent currently understands</h3><p>Task-relevant entities, their states, and their relations, with provenance, confidence, and supporting evidence when available.</p></div>
       <div><span>EPISTEMIC GAP</span><h3>What it still needs to learn</h3><p>An unresolved question or a claim that needs stronger evidence, such as distinguishing database waiting from JVM-side processing.</p></div>
       <div><span>ACHIEVEMENT GAP</span><h3>What it still needs to change</h3><p>A difference between the current world and the goal, such as making the mug hot before placing it in the cabinet.</p></div>
     </div>
-    <details class="pos-disclosure"><summary>Abstract</summary><p class="project-abstract">{{ pos.abstract }} Code is available at <a href="{{ pos.code_url }}" target="_blank" rel="noopener">PoS-321C</a>.</p></details>
+  </div>
+</section>
+
+<section class="project-content-section pos-video-section" id="video">
+  <div class="project-section-shell">
+    <div class="project-section-heading"><p class="project-section-index">02 <span>A FIRST LOOK</span></p><h2>One video.<br>The idea comes into focus.</h2></div>
+    <p class="pos-section-lead">Temporary preview: the Graph of States overview. A dedicated PoS video will replace it.</p>
+    <div class="project-video-player">
+      <video controls playsinline preload="none" poster="{{ '/images/projects/gos-teaser.png' | relative_url }}" aria-label="Temporary Graph of States video preview"><source src="{{ '/assets/videos/gos-video.mp4' | relative_url }}" type="video/mp4">Your browser does not support HTML video.</video>
+      <button class="project-video-play" type="button" aria-label="Play temporary video preview" title="Play preview"><i class="fas fa-play" aria-hidden="true"></i></button>
+    </div>
   </div>
 </section>
 
 <section class="project-content-section project-content-section--method" id="method">
   <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">03 <span>MAINTAIN. VALIDATE. RECOVER.</span></p><h2>Keep the belief useful.</h2></div>
-    <figure class="project-page-figure pos-method-figure"><a href="{{ '/images/projects/pos/method.webp' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/method.webp' | relative_url }}" width="1746" height="1101" loading="lazy" decoding="async" alt="PoS framework: belief modeling, belief-guided interaction, the Belief Sentinel, and trapping-aware recovery"></a><figcaption>Figure 2. Actions are conditioned on the current belief and an active gap. Candidate updates are checked before they guide the next action or contribute to progress monitoring.</figcaption></figure>
+    <div class="project-section-heading"><p class="project-section-index">03 <span>MAINTAIN. VALIDATE. RECOVER.</span></p><h2>Inside PoS.</h2></div>
+    <p class="pos-section-lead">The Task Agent acts on a current belief, not the entire raw history. A candidate state update is checked against the evidence before it becomes the next decision context. Progress monitoring then asks whether the active gap is actually closing.</p>
+    <figure class="project-page-figure pos-method-figure"><a href="{{ '/images/projects/pos/method.webp?v=20260930-pos4' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/method.webp?v=20260930-pos4' | relative_url }}" width="1824" height="1112" loading="lazy" decoding="async" alt="PoS framework: belief modeling, belief-guided interaction, the Belief Sentinel, and trapping-aware recovery"></a><figcaption>Figure 2. Actions are conditioned on the current belief and an active gap. Candidate updates are checked before they guide the next action or contribute to progress monitoring.</figcaption></figure>
 
     <div class="pos-method-block">
       <p class="pos-kicker">CONSISTENCY COMES FIRST</p><h3>Before measuring progress, check the belief.</h3>
@@ -71,6 +80,20 @@ project_navigation:
       </div>
     </div>
 
+  </div>
+</section>
+
+<section class="project-content-section pos-story-section" id="story">
+  <div class="project-section-shell">
+    <div class="project-section-heading"><p class="project-section-index">04 <span>FROM ACTIVITY TO PROGRESS</span></p><h2>Case Walkthrough.</h2></div>
+    <p class="pos-section-lead">Follow the same task through two different decision contexts. The scene, interaction record, and current belief advance together.</p>
+    {% include pos-story.html %}
+  </div>
+</section>
+
+<section class="project-content-section" id="trapping">
+  <div class="project-section-shell">
+    <div class="project-section-heading"><p class="project-section-index">05 <span>RECOGNIZE. REDIRECT.</span></p><h2>When progress stalls.</h2></div>
     <div class="pos-method-block pos-traps" data-trap-phase="0">
       <div class="pos-subheading"><div><p class="pos-kicker">BELIEF TRAPPING</p><h3>Three ways to keep acting without moving forward.</h3></div><button class="pos-icon-button" type="button" data-trap-play aria-label="Play trapping patterns" title="Play trapping patterns" aria-pressed="false"><i class="fas fa-play" aria-hidden="true"></i></button></div>
       <div class="pos-trap-grid">
@@ -95,12 +118,13 @@ project_navigation:
 
 <section class="project-content-section project-content-section--results" id="results">
   <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">04 <span>TEST THE IDEA</span></p><h2>Does targeted recovery improve outcomes?</h2></div>
+    <div class="project-section-heading"><p class="project-section-index">06 <span>TEST THE IDEA</span></p><h2>Results.</h2></div>
+    <h3 class="project-subsection-title">Does targeted recovery improve outcomes?</h3>
     <p class="pos-section-lead">With Qwen3.7-Plus, factorized recovery improves final task performance over a generic recovery prompt on all four benchmarks.</p>
     <div class="pos-chart-heading"><span><i class="pos-swatch pos-swatch--generic"></i>Generic recovery</span><span><i class="pos-swatch pos-swatch--pos"></i>PoS recovery</span><small>Final task performance (%)</small></div>
     <div class="pos-recovery-chart">{% for result in pos.recovery %}<div class="pos-comparison-row"><div class="pos-benchmark-label"><strong>{{ result.benchmark }}</strong><small>{{ result.metric }}</small></div><div class="pos-bar-pair"><div><span class="pos-bar pos-bar--generic" style="--bar-value: {{ result.generic }}%"></span><span>{{ result.generic }}<small>%</small></span></div><div><span class="pos-bar pos-bar--pos" style="--bar-value: {{ result.pos }}%"></span><span>{{ result.pos }}<small>%</small></span></div></div></div>{% endfor %}</div>
     <p class="pos-source">Figure 3 (right). These are final outcomes over all evaluated cases, not trap-recovery success rates.</p>
-    <details class="pos-disclosure"><summary>Original trapping and recovery analysis</summary><figure class="project-page-figure"><a href="{{ '/images/projects/pos/trapping-analysis.webp' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/trapping-analysis.webp' | relative_url }}" width="1704" height="447" loading="lazy" decoding="async" alt="Figure 3: trapping incidence, trapping-pattern distribution, and recovery comparison"></a><figcaption>Figure 3. Trapping incidence across backbones, the distribution of Static, Cycle, and Drift events, and final task performance with generic versus factorized recovery.</figcaption></figure></details>
+    <details class="pos-disclosure"><summary>Original trapping and recovery analysis</summary><figure class="project-page-figure"><a href="{{ '/images/projects/pos/trapping-analysis.webp?v=20260930-pos4' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/trapping-analysis.webp?v=20260930-pos4' | relative_url }}" width="1872" height="484" loading="lazy" decoding="async" alt="Figure 3: trapping incidence, trapping-pattern distribution, and recovery comparison"></a><figcaption>Figure 3. Trapping incidence across backbones, the distribution of Static, Cycle, and Drift events, and final task performance with generic versus factorized recovery.</figcaption></figure></details>
 
     <div class="pos-method-block">
       <p class="pos-kicker">OVERALL PERFORMANCE</p><h3>Four benchmarks. Three backbones.</h3><p>PoS has the highest overall metric among the tested methods in all 12 benchmark-backbone settings. Each comparison below uses the strongest evaluated baseline with the same backbone.</p>
@@ -118,19 +142,16 @@ project_navigation:
       <p class="pos-source">Table 2. RCA-100, Qwen3.7-Plus, mean input + output tokens across 103 cases; compared with Raw Trajectory.</p>
     </div>
 
-    <div class="pos-method-block"><p class="pos-kicker">GROWING CONTEXT</p><h3>A current belief, even as history grows.</h3><figure class="project-page-figure"><img src="{{ '/images/projects/pos/context-scaling.webp' | relative_url }}" width="1467" height="573" alt="Figure 4: LOCA-Bench task success from 8K to 256K context across three backbones" loading="lazy" decoding="async"><figcaption>Figure 4. At 256K context, PoS exceeds the strongest tested baseline by 10.67-16.00 percentage points across the three backbones. The experiment varies LOCA-Bench environment-description length.</figcaption></figure></div>
+    <div class="pos-method-block"><p class="pos-kicker">GROWING CONTEXT</p><h3>A current belief, even as history grows.</h3><figure class="project-page-figure"><img src="{{ '/images/projects/pos/context-scaling.webp?v=20260930-pos4' | relative_url }}" width="1872" height="728" alt="Figure 4: LOCA-Bench task success from 8K to 256K context across three backbones" loading="lazy" decoding="async"><figcaption>Figure 4. At 256K context, PoS exceeds the strongest tested baseline by 10.67-16.00 percentage points across the three backbones. The experiment varies LOCA-Bench environment-description length.</figcaption></figure></div>
   </div>
 </section>
 
-<section class="project-content-section project-content-section--foundation" id="resources">
-  <div class="project-section-shell"><div class="project-section-heading"><p class="project-section-index">05 <span>GO DEEPER</span></p><h2>Implementation.</h2></div><div class="pos-resource-links"><a href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i><span><strong>Explore the code</strong><small>PoS implementation · repository linked in the manuscript</small></span><i class="fas fa-arrow-up" aria-hidden="true"></i></a></div></div>
-</section>
-
-<section class="project-content-section project-content-section--bibtex project-bibtex-section" id="bibtex">
-  <div class="project-section-shell"><div class="bibtex-header"><div class="project-section-heading"><p class="project-section-index">06 <span>CITE THIS WORK</span></p><h2>BibTeX</h2></div><button class="copy-bibtex-btn" type="button" title="Copy BibTeX" aria-label="Copy BibTeX"><i class="fas fa-copy" aria-hidden="true"></i><span class="copy-text">Copy</span></button></div>
+<section class="project-content-section project-content-section--bibtex project-bibtex-section" id="resources">
+  <div class="project-section-shell"><div class="project-section-heading"><p class="project-section-index">07 <span>GO DEEPER</span></p><h2>Resources &amp; BibTeX.</h2></div><div class="pos-resource-links"><a href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i><span><strong>Explore the code</strong><small>PoS implementation · repository linked in the manuscript</small></span><i class="fas fa-arrow-up" aria-hidden="true"></i></a></div><p class="pos-source">Paper and download links are awaiting the public manuscript URL. The citation below is a temporary manuscript entry.</p>
+  <div class="bibtex-header" id="bibtex"><h3 class="project-subsection-title">BibTeX</h3><button class="copy-bibtex-btn" type="button" title="Copy BibTeX" aria-label="Copy BibTeX"><i class="fas fa-copy" aria-hidden="true"></i><span class="copy-text">Copy</span></button></div>
 <pre id="bibtex-code"><code>@misc{luo2026beyond,
   title={Beyond Memory: Harnessing Long-Horizon Agents with Explicit Belief States},
-  author={Luo, Yu and Jiang, Jiamin and Zuo, Yimin and Wen, Xidao and Gao, Rongchen and Sun, Yongqian and Zhang, Shenglin and Liu, Guiyang and Zhang, Cheng and Situ, Fang and Zhou, Qi and Pei, Dan},
+  author={Luo, Yu and Jiang, Jiamin and Zuo, Yiming and Wen, Xidao and Gao, Rongchen and Sun, Yongqian and Zhang, Shenglin and Liu, Guiyang and Zhang, Cheng and Situ, Fang and Zhou, Qi and Pei, Dan},
   year={2026},
   note={Manuscript},
   url={https://luoyu100.github.io/projects/progression-of-states/project/}

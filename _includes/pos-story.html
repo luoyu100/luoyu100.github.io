@@ -1,20 +1,21 @@
-{% assign stories = site.data.pos_stories %}{% assign story = stories.first %}{% assign run = story.runs.first %}{% assign frame = run.steps.first %}
+{% assign stories = site.data.pos_stories %}{% assign story = stories.first %}{% assign run = story.runs[1] %}{% assign frame = run.steps.first %}
 <script type="application/json" data-pos-stories>{{ stories | jsonify }}</script>
-<div class="pos-story" data-pos-story data-method="raw">
+<div class="pos-story" data-pos-story data-method="pos">
   <div class="pos-story-selectors">
     <div class="pos-case-tabs" role="tablist" aria-label="Case study">{% for item in stories %}<button type="button" role="tab" id="pos-case-{{ item.id }}" aria-controls="pos-story-reader" data-pos-case="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"><i class="fas {% if item.id == 'execution' %}fa-coffee{% else %}fa-search{% endif %}" aria-hidden="true"></i>{{ item.label }}</button>{% endfor %}</div>
     <div class="pos-method-tabs" role="tablist" aria-label="Agent method">
-      <button type="button" role="tab" id="pos-run-raw" aria-controls="pos-run-reader" aria-selected="true" data-pos-run="0"><i class="fas fa-stream" aria-hidden="true"></i> Raw Trajectory</button>
-      <button type="button" role="tab" id="pos-run-pos" aria-controls="pos-run-reader" aria-selected="false" tabindex="-1" data-pos-run="1"><i class="fas fa-layer-group" aria-hidden="true"></i> PoS</button>
+      <button type="button" role="tab" id="pos-run-raw" aria-controls="pos-run-reader" aria-selected="false" tabindex="-1" data-pos-run="0"><i class="fas fa-stream" aria-hidden="true"></i> Raw Trajectory</button>
+      <button type="button" role="tab" id="pos-run-pos" aria-controls="pos-run-reader" aria-selected="true" data-pos-run="1"><i class="fas fa-layer-group" aria-hidden="true"></i> PoS</button>
     </div>
   </div>
   <div id="pos-story-reader" role="tabpanel" aria-labelledby="pos-case-execution" tabindex="0">
     <div class="pos-story-heading"><div><p class="pos-story-eyebrow" data-story-subtitle>{{ story.subtitle }}</p><h3 data-story-title>{{ story.title }}</h3></div><p class="pos-run-note" data-run-note>{{ run.note }}</p></div>
-    <div id="pos-run-reader" role="tabpanel" aria-labelledby="pos-run-raw" tabindex="0">
-      <div class="pos-story-stage-heading"><span class="pos-run-label" data-run-label>{{ frame.phase }}</span><h4 data-frame-title>{{ frame.title }}</h4><span class="pos-frame-count" data-frame-count>01 / 08</span></div>
+    <div id="pos-run-reader" role="tabpanel" aria-labelledby="pos-run-pos" tabindex="0">
+      <div class="pos-story-stage-heading"><span class="pos-run-label" data-run-label>{{ frame.phase }}</span><h4 data-frame-title>{{ frame.title }}</h4><span class="pos-frame-count" data-frame-count>01 / 16</span></div>
       <div class="pos-story-progress" aria-hidden="true"><span data-story-progress></span></div>
       <div class="pos-story-spread">
         <div class="pos-comic-scene" data-comic="execution" data-mug="counter" role="img" aria-label="Kitchen scene: the goal is to heat a mug and put it in the cabinet.">
+          <div class="pos-world-stage" data-pos-world aria-hidden="true"></div>
           <div class="pos-kitchen" aria-hidden="true">
             <div class="pos-scene-task"><span class="pos-scene-kicker">THE GOAL</span>Put a <strong>hot</strong> mug in the cabinet.</div>
             <div class="pos-kitchen-wall"></div>
@@ -36,27 +37,31 @@
           <div class="pos-scene-caption"><i class="fas fa-arrow-right" data-scene-icon aria-hidden="true"></i><p data-scene-note>{{ frame.scene_note }}</p></div>
         </div>
         <aside class="pos-decision-panel">
-          <div class="pos-raw-panel" data-raw-panel>
+          <div class="pos-raw-panel" data-raw-panel hidden>
             <div class="pos-panel-heading"><i class="fas fa-stream" aria-hidden="true"></i><h4>Raw Trajectory</h4><span data-log-count>01</span></div>
             <p class="pos-panel-note">The task and the interaction record so far.</p>
             <ol class="pos-trajectory-log" data-trajectory-log tabindex="0" aria-label="Accumulated interaction history"><li><span class="pos-log-index">01</span><div><h5>Action</h5><p>{{ frame.entry.action }}</p><h5>Observation</h5><p>{{ frame.entry.observation }}</p></div></li></ol>
             <p class="pos-panel-footnote" data-history-note>Paraphrased from Figure 1; not verbatim tool logs.</p>
           </div>
-          <div class="pos-current-belief" data-belief-panel hidden>
+          <div class="pos-current-belief" data-belief-panel>
             <div class="pos-panel-heading"><i class="fas fa-layer-group" aria-hidden="true"></i><h4>Current Belief</h4><span data-belief-phase>MAINTAIN</span></div>
-            <p class="pos-panel-note">The current world and what still needs to change.</p>
-            <div class="pos-belief-row" data-belief-row="understanding"><h5>Current understanding</h5><p data-belief-understanding></p></div>
-            <div class="pos-belief-row pos-belief-row--gap" data-belief-row="unresolved"><h5>Still unresolved / active gap</h5><p data-belief-unresolved></p></div>
-            <div class="pos-belief-row" data-belief-row="constraint"><h5>Action guidance / recovery constraint</h5><p data-belief-constraint></p></div>
+            <div class="pos-belief-row pos-belief-row--gap" data-belief-row="unresolved"><h5>Active gap / pending requirements</h5><p data-belief-unresolved>{{ frame.unresolved }}</p></div>
+            <div class="pos-graph-toolbar"><span>ENTITY · STATE · RELATION</span><div><button class="pos-icon-button" data-graph-zoom="out" title="Zoom out" aria-label="Zoom out" type="button"><i class="fas fa-minus" aria-hidden="true"></i></button><button class="pos-icon-button" data-graph-zoom="in" title="Zoom in" aria-label="Zoom in" type="button"><i class="fas fa-plus" aria-hidden="true"></i></button><button class="pos-icon-button" data-graph-zoom="reset" title="Reset graph view" aria-label="Reset graph view" type="button"><i class="fas fa-expand" aria-hidden="true"></i></button></div></div>
+            <div class="pos-belief-graph" data-pos-graph aria-label="Draggable current belief graph"><p class="pos-graph-fallback" data-graph-fallback>{{ frame.understanding }}</p></div>
+            <p class="pos-graph-description" data-belief-understanding>{{ frame.understanding }}</p>
+            <div class="pos-belief-validation"><i class="fas fa-check-circle" aria-hidden="true"></i><span data-sentinel>{{ frame.sentinel }}</span><small data-belief-health></small></div>
+            <div class="pos-belief-row" data-belief-row="constraint"><h5>Action guidance / recovery</h5><p data-belief-constraint>{{ frame.constraint }}</p></div>
           </div>
         </aside>
       </div>
-      <div class="pos-story-controls"><div class="pos-playback"><button class="pos-icon-button" type="button" data-story-prev aria-label="Previous frame" title="Previous frame" disabled><i class="fas fa-arrow-left" aria-hidden="true"></i></button><button class="pos-icon-button pos-play-button" type="button" data-story-play aria-label="Play story" title="Play story" aria-pressed="false"><i class="fas fa-play" aria-hidden="true"></i></button><button class="pos-icon-button" type="button" data-story-next aria-label="Next frame" title="Next frame"><i class="fas fa-arrow-right" aria-hidden="true"></i></button></div><div class="pos-frame-steps" aria-label="Story frames">{% for item in run.steps %}<button type="button" data-pos-frame="{{ forloop.index0 }}" title="{{ item.title }}" aria-label="Frame {{ forloop.index }}: {{ item.title }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ forloop.index }}</button>{% endfor %}</div><span class="pos-story-status" data-story-status aria-live="polite" aria-atomic="true">Frame 1 of 8</span></div>
+      <div class="pos-story-controls"><div class="pos-playback"><button class="pos-icon-button" type="button" data-story-prev aria-label="Previous frame" title="Previous frame" disabled><i class="fas fa-arrow-left" aria-hidden="true"></i></button><button class="pos-icon-button pos-play-button" type="button" data-story-play aria-label="Play story" title="Play story" aria-pressed="false"><i class="fas fa-play" aria-hidden="true"></i></button><button class="pos-icon-button" type="button" data-story-next aria-label="Next frame" title="Next frame"><i class="fas fa-arrow-right" aria-hidden="true"></i></button></div><label class="pos-scrubber">Replay timeline<input type="range" min="0" max="15" value="0" step="1" data-story-timeline aria-label="Case replay frame"></label><span class="pos-story-status" data-story-status aria-live="polite" aria-atomic="true">Frame 1 of 16</span><span class="pos-action-index" data-action-index>Display frame · mechanism view</span></div>
+      <div class="pos-milestones" data-story-milestones aria-label="Key phases"></div>
+      <div class="pos-frame-steps" aria-label="Story frames">{% for item in run.steps %}<button type="button" data-pos-frame="{{ forloop.index0 }}" title="{{ item.title }}" aria-label="Frame {{ forloop.index }}: {{ item.title }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ forloop.index }}</button>{% endfor %}</div>
       <div class="pos-story-reasoning"><div><h5>What happened</h5><p data-frame-observation>{{ frame.observation }}</p></div><div><h5>Why it matters</h5><p data-frame-decision>{{ frame.decision }}</p></div></div>
       <details class="pos-step-evidence"><summary>Inspect this step</summary><p data-frame-evidence>{{ frame.evidence }}</p></details>
     </div>
   </div>
 </div>
-<p class="pos-source" data-story-source>{{ run.source }}</p>
+<details class="pos-disclosure"><summary>Case source and action indices</summary><p class="pos-source" data-story-source>{{ run.source }}</p></details>
 <details class="pos-disclosure pos-story-transcript"><summary>Read all four trajectories as text</summary>{% for item in stories %}{% for trajectory in item.runs %}<h3>{{ item.label }} / {{ trajectory.label }}</h3><p class="pos-source">{{ trajectory.source }}</p><ol>{% for step in trajectory.steps %}<li><h4>{{ step.title }} <small>{{ step.phase }}</small></h4><p>{{ step.observation }}</p><p>{{ step.decision }}</p>{% if trajectory.id == 'raw' %}<p><strong>Action:</strong> {{ step.entry.action }}<br><strong>Observation:</strong> {{ step.entry.observation }}</p>{% else %}<p><strong>Current understanding:</strong> {{ step.understanding }}<br><strong>Unresolved:</strong> {{ step.unresolved }}<br><strong>Guidance:</strong> {{ step.constraint }}</p>{% endif %}</li>{% endfor %}</ol>{% endfor %}{% endfor %}</details>
-<details class="pos-disclosure"><summary>Original motivation figure</summary><figure class="project-page-figure"><img src="{{ '/images/projects/pos/motivation.webp' | relative_url }}" width="1788" height="624" alt="Figure 1: overall performance and the two independent ALFWorld mug-task trajectories" loading="lazy" decoding="async"><figcaption>Figure 1. Raw Trajectory and PoS are separate runs on the same task.</figcaption></figure></details>
+<details class="pos-disclosure"><summary>Original motivation figure</summary><figure class="project-page-figure"><img src="{{ '/images/projects/pos/motivation.webp?v=20260930-pos4' | relative_url }}" width="1872" height="640" alt="Figure 1: overall performance and the two independent ALFWorld mug-task trajectories" loading="lazy" decoding="async"><figcaption>Figure 1. Raw Trajectory and PoS are separate runs on the same task.</figcaption></figure></details>

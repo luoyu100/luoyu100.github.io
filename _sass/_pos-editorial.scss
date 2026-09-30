@@ -1,0 +1,211 @@
+.project-page-body--progression-of-states {
+  background: #fff;
+  color: #263238;
+  .project-main { padding-bottom: 0; }
+  .project-local-nav { background: rgba(255,255,255,.94); border-color: #e5ece8; }
+  .project-local-nav__inner { max-width: 1320px; min-height: 64px; }
+  .project-local-nav__links a { min-height: 64px; font-size: 12px; color: #77817f; font-weight: 500; }
+  .project-local-nav__back { font-size: 12px; color: #3b5550; }
+  .research-project-page.project-theme--progression-of-states {
+    --project-primary-color: #368775;
+    --project-text-primary: #263238;
+    --project-text-secondary: #687673;
+    letter-spacing: 0;
+    h1, h2 { font-family: "Iowan Old Style", Palatino, Georgia, serif; font-weight: 400; }
+    h2 { font-size: 46px; line-height: 1.18; color: #263238; }
+    h1::before, h2::before { display: none; }
+    .pos-intro { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; align-items: center; max-width: 1320px; margin: auto; padding: 48px 48px 46px; min-height: min(760px,calc(100svh - 144px)); }
+    .pos-intro-heading { padding-block: 32px; }
+    .pos-intro h1 { font-size: 78px; line-height: 1.03; margin: 24px 0 28px; color: #263238; }
+    .pos-intro h1 > span { color: #418c79; }
+    .pos-intro-tagline { font-size: 21px; color: #6b7877; margin: 0 0 22px; }
+    .pos-intro-tagline em { font-family: Georgia,serif; color: #3a8975; }
+    .pos-intro-description { color: #8a9692; font-size: 14px; line-height: 1.9; margin: 0; }
+    .pos-intro-entry { display: inline-flex; gap: 28px; align-items: center; color: #527c6d; font-size: 12px; text-decoration: none; margin-top: 36px; border-bottom: 1px solid #c9dbd0; padding: 12px 0; }
+    .pos-kicker { font: 500 10px ui-monospace,monospace; color: #5d9481; }
+    .pos-intro-film { min-width: 0; }
+    .pos-hero-visual { position: relative; width: 100%; height: 430px; overflow: hidden; }
+    .pos-hero-visual canvas { display: block; width: 100%; height: 100%; }
+    .pos-hero-fallback { display: flex; flex-direction: column; align-items: center; gap: 9px; padding-top: 24px; font-size: 14px; color: #588170; }
+    .pos-hero-fallback strong { color: #3e7796; font-size: 18px; }
+    .pos-hero-fallback small { font-size: 11px; color: #8a9892; }
+    .pos-hero-fallback i { font-size: 12px; color: #bad0c9; }
+    .pos-hero-visual.has-webgl .pos-hero-fallback { display: none; }
+    .pos-hero-labels { display: none; position: absolute; inset: 0; pointer-events: none; }
+    .has-webgl .pos-hero-labels { display: block; }
+    .pos-hero-label { position: absolute; transform: translateX(-50%); width: 142px; text-align: center; line-height: 1.4; color: #4d666d; }
+    .pos-hero-label strong { display: block; font-size: 12px; font-weight: 550; }
+    .pos-hero-label small { display: block; margin-top: 4px; font-size: 10px; color: #8d9b98; }
+    .pos-hero-activity { position: absolute; transform: translateX(-50%); font: 500 9px ui-monospace,monospace; width: 135px; text-align: center; color: #b67d6a; }
+    .pos-film-caption { min-height: 92px; padding-top: 18px; margin-top: 6px; border-top: 1px solid #e3eae7; display: grid; grid-template-columns: 54px 1fr; gap: 10px; }
+    .pos-film-caption > span { font: 500 10px ui-monospace,monospace; color: #a5b0ab; padding-top: 3px; }
+    .pos-film-caption strong { font-size: 14px; font-weight: 500; color: #497464; }
+    .pos-film-caption p { margin: 7px 0 0; font-size: 12px; color: #84908d; line-height: 1.6; }
+    .pos-film-track { display: flex; gap: 8px; margin-top: 20px; }
+    .pos-film-track span { width: 30px; height: 2px; background: #e0e9e3; }
+    .pos-film-track span.is-active { background: #42927b; }
+    .pos-hero { padding: 76px 32px 60px; max-width: 1100px; border-top: 1px solid #e6ece7; }
+    .pos-paper-title { font-family: "Iowan Old Style",Palatino,Georgia,serif; font-size: 42px; font-weight: 400; line-height: 1.2; max-width: 1000px; margin: 0 auto 30px; }
+    .project-page-eyebrow { font-size: 10px; color: #548874; margin-bottom: 24px; }
+    .project-page-authors { font-size: 14px; line-height: 2; color: #657571; }
+    .project-page-affiliations { font-size: 12px; margin: 20px auto 12px; color: #8b9893; }
+    .project-page-note { font-size: 11px; color: #8b9893; }
+    .project-page-links { margin-top: 26px; gap: 8px; }
+    .project-page-link { border-radius: 5px; font-size: 12px; padding: 10px 15px; font-weight: 500; color: #517164 !important; background: #fff; border-color: #dce6e0; box-shadow: none; }
+    .project-page-link small { margin-left: 4px; font-size: 9px; color: #9aaba1; }
+    .pos-primary-link { background: #3b8874; color: #fff !important; border-color: #3b8874; }
+    .project-page-teaser { max-width: 1184px; padding: 0 32px 80px; }
+    .project-page-teaser img, .project-page-figure img { border: 0; border-radius: 0; box-shadow: none; }
+    .project-page-teaser figcaption, .project-page-figure figcaption { color: #8c9992; font-size: 12px; line-height: 1.8; margin-top: 22px; }
+    .project-page-figure { border: 0; padding: 0; background: none; }
+    .project-content-section { background: #fff; padding: 90px 0; border-color: #e5ece8; scroll-margin-top: 64px; }
+    .pos-video-section, .pos-story-section, .project-content-section--results, .project-content-section--bibtex { background: #f6f8f6; }
+    .project-section-shell { max-width: 1184px; padding: 0 32px; }
+    .project-section-heading { display: block; border: 0; padding: 0; margin-bottom: 36px; }
+    .project-section-index { display: flex; align-items: center; gap: 15px; font: 500 11px ui-monospace,monospace; color: #438b77; margin: 0 0 22px; }
+    .project-section-index span { display: inline; font: 500 9px ui-monospace,monospace; color: #9ba9a1; margin: 0; }
+    .project-abstract { max-width: 930px; font-size: 16px; line-height: 1.95; color: #65726f; }
+    .project-subsection-title { font-size: 24px; color: #3c5c4c; font-weight: 450; margin: 58px 0 24px; }
+    .pos-section-lead { font-size: 15px; line-height: 1.9; color: #7b8982; }
+    .pos-belief-definition { gap: 30px; margin-top: 40px; }
+    .pos-belief-definition > div { border-top-width: 1px; padding-top: 22px; }
+    .pos-belief-definition span { font: 500 10px ui-monospace,monospace; }
+    .pos-belief-definition h3 { font-size: 17px; font-weight: 500; color: #4e7263; }
+    .pos-belief-definition p { font-size: 13px; color: #7e8d84; line-height: 1.85; }
+    .pos-method-block { margin-top: 50px; padding-top: 34px; }
+    #trapping .pos-traps { border-top: 0; padding-top: 0; }
+    .pos-method-block > h3, .pos-method-block > div > h3, .pos-subheading h3 { font-size: 24px; font-weight: 450; color: #3d5d4c; }
+    .pos-method-block > p:not(.pos-kicker):not(.pos-source):not(.pos-recovery-summary), .pos-cost > div > p:not(.pos-kicker) { font-size: 14px; color: #7b8981; }
+    .pos-source { font-size: 11px; }
+    .pos-disclosure summary { font-size: 13px; font-weight: 500; color: #648875; }
+    .pos-disclosure > p { font-size: 14px; }
+    .project-video-player { margin: 32px 0 0; border-radius: 6px; box-shadow: none; background: #24312b; }
+    .pos-story { border-top-width: 1px; box-shadow: 0 20px 45px #233b2e08; }
+    .pos-story-heading h3 { font-family: "Iowan Old Style",Georgia,serif; font-size: 26px; color: #335b4b; font-weight: 400; }
+    .pos-story-spread { grid-template-columns: 1.05fr 1fr; }
+    .pos-comic-scene { height: 660px; background: #f5f8f6; }
+    .pos-decision-panel { height: 660px; }
+    .pos-raw-panel, .pos-current-belief { height: 100%; padding: 22px; }
+    .pos-current-belief { overflow-y: auto; }
+    .pos-world-stage { position: absolute; top: 135px; left: 0; right: 0; bottom: 130px; display: none; }
+    .has-world .pos-world-stage { display: block; }
+    .pos-world-stage canvas { width: 100%; height: 100%; display: block; }
+    .has-world .pos-kitchen > :not(.pos-scene-task):not(.pos-scene-state):not(.pos-scene-counter), .has-world .pos-investigation > :not(.pos-scene-task):not(.pos-investigation-focus):not(.pos-investigation-status) { display: none; }
+    .has-world .pos-kitchen, .has-world .pos-investigation { pointer-events: none; }
+    .pos-world-labels { position: absolute; inset: 0; pointer-events: none; }
+    .pos-world-labels span { position: absolute; transform: translateX(-50%); color: #5c7567; font: 500 10px ui-monospace,monospace; width: 132px; text-align: center; }
+    .pos-scene-task { top: 7%; font-size: 18px; font-weight: 500; color: #4b6c5c; }
+    .pos-scene-counter { top: 21%; font-size: 10px; padding: 6px 8px; }
+    .pos-investigation-focus { top: 23%; font-size: 11px; }
+    .pos-investigation-status { bottom: 6%; }
+    .pos-panel-heading h4 { font-size: 15px; font-weight: 500; }
+    .pos-panel-heading { margin-bottom: 12px; }
+    .pos-belief-row { padding: 10px 12px; }
+    .pos-belief-row--gap { min-height: 78px; background: #fbf8f0; }
+    .pos-belief-row h5 { font: 500 10px ui-monospace,monospace; margin-bottom: 6px; }
+    .pos-belief-row p { font-size: 12px; line-height: 1.6; }
+    .pos-graph-toolbar { display: flex; justify-content: space-between; align-items: center; margin: 15px 0 0; gap: 5px; }
+    .pos-graph-toolbar > span { font: 500 9px ui-monospace,monospace; color: #9ba9a2; }
+    .pos-graph-toolbar > div { display: flex; gap: 3px; }
+    .pos-graph-toolbar .pos-icon-button { width: 26px; height: 26px; font-size: 9px; border: 0; background: #f1f6f3; }
+    .pos-belief-graph { height: 280px; position: relative; overflow: hidden; }
+    .pos-belief-graph.is-empty::after { content: "World model is formed in the next frame."; position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: #a0aca4; font-size: 12px; pointer-events: none; }
+    .pos-evidence-pulse { position: absolute; top: 0; left: 0; width: 7px; height: 7px; margin: -3px; border-radius: 50%; background: #408f78; pointer-events: none; z-index: 2; }
+    .pos-graph-fallback { font-size: 13px; color: #8c9a93; padding: 40px 16px; text-align: center; line-height: 1.8; }
+    .pos-graph-description { font-size: 11px; color: #84948b; line-height: 1.6; min-height: 34px; margin: 8px 0; }
+    .pos-belief-validation { display: flex; align-items: center; gap: 8px; font-size: 10px; color: #4f8d73; border-top: 1px solid #e7eee9; padding: 10px 0; }
+    .pos-belief-validation small { margin-left: auto; color: #b08859; font-size: 9px; }
+    .pos-belief-row[data-belief-row="constraint"] { background: #f4f8f5; border-color: #9abeb0; min-height: 72px; }
+    .pos-story-controls { display: grid; grid-template-columns: auto 1fr auto; gap: 12px 20px; padding-block: 18px; }
+    .pos-scrubber { font: 500 9px ui-monospace,monospace; color: #8fa197; margin: 0; }
+    .pos-scrubber input { width: 100%; display: block; margin: 10px 0 0; accent-color: #438e78; cursor: pointer; }
+    .pos-action-index { grid-column: 2 / -1; text-align: right; font: 500 10px ui-monospace,monospace; color: #7d9284; }
+    .pos-milestones { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 12px 24px; }
+    .pos-milestones:empty { display: none; }
+    .pos-milestones button { border: 0; background: none; border-bottom: 1px solid #dce6df; padding: 5px 0; font-size: 11px; color: #a2ada6; }
+    .pos-milestones button.is-active { color: #4f8e73; border-color: #9fc2ae; }
+    .pos-frame-steps { margin: 0 20px 12px; }
+    .pos-frame-steps button { border-radius: 4px; }
+    .pos-story-reasoning { min-height: 175px; background: #f8faf8; }
+    .pos-story-reasoning p { font-size: 13px; color: #7a8d80; }
+    .pos-recovery-chart { background: #fff; border-color: #dee8e1; padding: 26px; }
+    .pos-resource-links { margin-bottom: 18px; }
+    .bibtex-header { margin-top: 45px; }
+    #bibtex-code { font-size: 15px; line-height: 1.8; background: #eef3ef; border-color: #dbe5de; padding: 30px; box-shadow: none; }
+    .copy-bibtex-btn { font-size: 12px; border-radius: 5px; background: #3e8874; border-color: #3e8874; }
+    .pos-reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s ease,transform .7s ease; }
+    .pos-reveal.is-visible { opacity: 1; transform: none; }
+    @media (max-width: 1000px) {
+      .pos-intro { padding: 28px 32px; gap: 8px; }
+      .pos-intro h1 { font-size: 62px; }
+      .pos-hero-visual { height: 360px; }
+      .pos-hero-label { width: 105px; }
+      .pos-hero-label strong { font-size: 10px; }
+      .pos-hero-label small { font-size: 8px; }
+      .pos-story-spread { grid-template-columns: 1fr; }
+      .pos-comic-scene { height: 540px; }
+      .pos-world-stage { top: 120px; bottom: 130px; }
+      .pos-current-belief { height: auto; }
+      .pos-decision-panel { height: auto; min-height: 650px; border-left: 0; border-top: 1px solid #e0e8e3; }
+      .pos-raw-panel { height: 520px; }
+      .pos-belief-graph { height: 280px; max-width: 640px; margin: auto; }
+    }
+    @media (max-width: 680px) {
+      h2 { font-size: 34px; }
+      .pos-intro { display: block; padding: 24px 24px 26px; min-height: 0; }
+      .pos-intro-heading { padding: 0; }
+      .pos-intro h1 { font-size: 46px; margin: 18px 0 18px; }
+      .pos-intro h1 br { display: none; }
+      .pos-intro-tagline { font-size: 17px; margin-bottom: 12px; }
+      .pos-intro-description { font-size: 12px; }
+      .pos-intro-description br { display: none; }
+      .pos-intro-entry { margin-top: 10px; padding: 9px 0; }
+      .pos-hero-visual { height: 265px; margin-top: 8px; }
+      .pos-hero-label { width: 90px; }
+      .pos-hero-label strong { font-size: 9px; }
+      .pos-hero-label small { font-size: 8px; line-height: 1.25; }
+      .pos-hero-activity { width: 90px; font-size: 8px; }
+      .pos-hero-fallback { gap: 5px; padding-top: 0; font-size: 11px; }
+      .pos-hero-fallback strong { font-size: 14px; }
+      .pos-film-caption { min-height: 80px; padding-top: 14px; grid-template-columns: 44px 1fr; }
+      .pos-film-caption strong { font-size: 12px; }
+      .pos-film-caption p { font-size: 11px; }
+      .pos-film-track { margin-top: 12px; }
+      .pos-hero { padding: 48px 24px; }
+      .pos-paper-title { font-size: 30px; }
+      .project-page-authors { font-size: 12px; }
+      .project-page-affiliations { font-size: 11px; }
+      .project-page-teaser { padding: 0 24px 50px; }
+      .project-content-section { padding: 60px 0; }
+      .project-section-shell { padding: 0 24px; }
+      .project-section-index { gap: 12px; }
+      .project-section-index span { font-size: 8px; }
+      .project-abstract { font-size: 14px; line-height: 1.9; }
+      .project-subsection-title { font-size: 21px; }
+      .pos-belief-definition { grid-template-columns: 1fr; gap: 26px; }
+      .pos-comic-scene { height: 470px; }
+      .pos-world-stage { top: 120px; bottom: 120px; }
+      .pos-scene-task { font-size: 15px; }
+      .pos-world-labels span { width: 95px; font-size: 8px; }
+      .pos-current-belief { padding: 18px; }
+      .pos-story-stage-heading { min-height: 112px; height: auto; }
+      .pos-story-controls { grid-template-columns: auto 1fr; gap: 16px; padding: 16px; }
+      .pos-story-status { grid-row: 2; }
+      .pos-action-index { grid-column: 2; line-height: 1.5; }
+      .pos-milestones { padding: 10px 18px; gap: 6px 14px; }
+      .pos-graph-toolbar > span { font-size: 8px; }
+      .pos-belief-row--gap { min-height: 88px; }
+      .pos-story-reasoning { grid-template-columns: 1fr; gap: 16px; min-height: 240px; }
+      .pos-story-reasoning > div + div { border-left: 0; border-top: 1px solid #e1e9e3; padding: 16px 0 0; }
+      .pos-trap-grid { grid-template-columns: 1fr; }
+      #bibtex-code { padding: 20px; font-size: 12px; }
+    }
+    @media (max-height: 760px) and (min-width: 1001px) {
+      .pos-intro { padding-block: 24px; min-height: calc(100svh - 132px); }
+      .pos-intro h1 { font-size: 66px; }
+      .pos-hero-visual { height: 340px; }
+      .pos-hero { padding-top: 36px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .pos-reveal { opacity: 1; transform: none; transition: none; } }
+  }
+}
