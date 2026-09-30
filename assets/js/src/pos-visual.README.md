@@ -18,3 +18,9 @@ await esbuild.build({
 ```
 
 The hero uses the static vector mark in `images/projects/pos/pos-mark.svg`. Its only motion is a one-time opacity fade in `_sass/_pos-editorial.scss`; reduced motion shows it immediately. It does not depend on JavaScript or WebGL. Case playback remains separately controlled and can be replayed.
+
+State perception uses `pos-perception.js` for the execution scene and the `pos:perception` snapshot emitted by `pos-experience.js`. The same snapshot updates the history, current facts, provenance, and gap. Diagnosis has a semantic HTML scene that also works without WebGL.
+
+Build `pos-experience.js` to `assets/js/pos-experience.min.js` with the same esbuild settings (no Three.js dependency). Its demonstrations run once on first visibility, suspend offscreen or in a background tab, and allow explicit replay. Reduced motion disables automatic playback.
+
+`pos-metrics.js` implements the paper's window-level calculations for the worked examples. These are symbolic examples, not measured episode curves. The recorded case only shows reported health values. Run the calculation tests with `node --test tests/pos-metrics.test.mjs`.

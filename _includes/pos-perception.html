@@ -1,0 +1,38 @@
+<div class="pos-perception pos-exhibit" data-pos-perception data-frame="0" data-motion="idle">
+  <div class="pos-exhibit-top"><p class="pos-small-label">STATE AWARENESS</p><div class="pos-segments" role="tablist" aria-label="State perception task"><button type="button" role="tab" id="pos-perception-execution" aria-controls="pos-perception-panel" data-perception-mode="execution" aria-selected="true">Execution</button><button type="button" role="tab" id="pos-perception-diagnosis" aria-controls="pos-perception-panel" data-perception-mode="diagnosis" aria-selected="false" tabindex="-1">Diagnosis</button></div></div>
+  <div class="pos-perception-spread" id="pos-perception-panel" role="tabpanel" aria-labelledby="pos-perception-execution">
+    <div class="pos-perception-history">
+      <div class="pos-exhibit-label"><i class="fas fa-stream" aria-hidden="true"></i><span>Interaction history</span><b data-perception-count>01</b></div>
+      <ol data-perception-history aria-label="Interaction history"><li aria-current="step"><span>01</span><div><strong>Inspect the mug and microwave.</strong><p>Mug 3 is on the counter and is not hot. Microwave 1 is closed.</p></div></li></ol>
+      <p class="pos-perception-history-note">Earlier observations remain part of the record.</p>
+    </div>
+    <div class="pos-perception-world">
+      <div class="pos-exhibit-label"><i class="fas fa-cube" aria-hidden="true"></i><span>The current world</span></div>
+      <div class="pos-perception-stage" data-perception-stage role="img" aria-label="Mug 3 is on the counter beside a closed microwave.">
+        <div class="pos-perception-fallback"><i class="fas fa-coffee" aria-hidden="true"></i><span data-perception-fallback>Mug 3 / at counter / not hot</span><i class="fas fa-arrow-right" aria-hidden="true"></i><i class="fas fa-box" aria-hidden="true"></i></div>
+      </div>
+      <div class="pos-perception-diagnosis" data-perception-diagnosis hidden role="img" aria-label="Inventory depends on a database and runs inside a JVM.">
+        <div class="pos-perception-service"><i class="fas fa-cubes" aria-hidden="true"></i><strong>Inventory</strong><span>Slow requests</span></div>
+        <div class="pos-diagnostic-branches"><div><i class="fas fa-database" aria-hidden="true"></i><strong>Database</strong><span data-perception-db>Waiting?</span></div><div><i class="fas fa-microchip" aria-hidden="true"></i><strong>JVM</strong><span data-perception-jvm>Processing?</span></div></div>
+        <div class="pos-diagnostic-evidence"><span data-perception-gc><i class="fas fa-file-alt" aria-hidden="true"></i> GC</span><i class="fas fa-plus" aria-hidden="true"></i><span data-perception-cpu><i class="fas fa-chart-line" aria-hidden="true"></i> CPU</span></div>
+        <p data-perception-combination>Two possible explanations. Evidence must distinguish them.</p>
+      </div>
+      <div class="pos-perception-observation"><span class="pos-small-label">LATEST OBSERVATION</span><p data-perception-observation>Mug 3 is on the counter and is not hot. Microwave 1 is closed.</p></div>
+    </div>
+    <div class="pos-perception-belief">
+      <div class="pos-exhibit-label"><i class="fas fa-layer-group" aria-hidden="true"></i><span>Current belief</span><b data-perception-phase>Observe</b></div>
+      <div class="pos-perception-facts">
+        <button type="button" class="pos-perception-fact" data-perception-fact="location" aria-pressed="false"><span data-perception-location-kind>RELATION</span><strong><span data-perception-location-entity>Mug 3</span> <i class="fas fa-arrow-right" aria-hidden="true"></i> <b data-perception-location>Counter</b></strong><small data-perception-location-source>Observation 01</small><i class="fas fa-angle-down" aria-hidden="true"></i></button>
+        <button type="button" class="pos-perception-fact" data-perception-fact="temperature" aria-pressed="false"><span>STATE</span><strong><span data-perception-temperature-entity>Mug 3</span> <i class="fas fa-arrow-right" aria-hidden="true"></i> <b data-perception-temperature>Not hot</b></strong><small data-perception-temperature-source>Observation 01</small><i class="fas fa-angle-down" aria-hidden="true"></i></button>
+        <button type="button" class="pos-perception-fact" data-perception-fact="door" aria-pressed="false"><span>STATE</span><strong><span data-perception-door-entity>Microwave 1</span> <i class="fas fa-arrow-right" aria-hidden="true"></i> <b data-perception-door>Closed</b></strong><small data-perception-door-source>Observation 01</small><i class="fas fa-angle-down" aria-hidden="true"></i></button>
+      </div>
+      <p class="pos-perception-source" data-perception-source hidden></p>
+      <div class="pos-perception-gap"><span class="pos-small-label">ACTIVE GAP <b data-perception-gap-status> / Unresolved</b></span><strong data-perception-gap>Make Mug 3 hot.</strong><p data-perception-gap-note>The place is known. The temperature requirement is still unmet.</p></div>
+      <div class="pos-perception-validation"><i class="fas fa-check-circle" aria-hidden="true"></i><span>Current states supported by observations</span></div>
+    </div>
+  </div>
+  <div class="pos-exhibit-caption"><span data-perception-number>01 / 07</span><div><h3 data-perception-title>Observe the current world.</h3><p data-perception-caption>An observation becomes a supported description of the current world.</p></div></div>
+  <div class="pos-exhibit-controls" data-playback="perception"><div><button type="button" data-exhibit-prev class="pos-icon-button" aria-label="Previous state" title="Previous state"><i class="fas fa-arrow-left" aria-hidden="true"></i></button><button type="button" data-exhibit-play class="pos-icon-button" aria-label="Play state awareness" title="Play state awareness" aria-pressed="false"><i class="fas fa-play" aria-hidden="true"></i></button><button type="button" data-exhibit-next class="pos-icon-button" aria-label="Next state" title="Next state"><i class="fas fa-arrow-right" aria-hidden="true"></i></button><button type="button" data-exhibit-replay class="pos-icon-button" aria-label="Replay state awareness" title="Replay state awareness"><i class="fas fa-redo-alt" aria-hidden="true"></i></button></div><label>State sequence<input type="range" min="0" max="6" value="0" data-exhibit-range aria-label="State awareness frame"></label></div>
+</div>
+<div class="pos-concept-outcomes"><div><span>MEMORY</span><p>What happened before.</p></div><div><span>BELIEF</span><p>What holds now, and what remains unresolved.</p></div><div><span>PROGRESSION</span><p>Whether these interactions advance the task.</p></div></div>
+<p class="pos-source">A mechanism illustration of belief maintenance. The recorded ALFWorld comparison appears in the Case Walkthrough.</p>

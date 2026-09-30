@@ -10,7 +10,7 @@
   var runIndex = 1;
   var frameIndex = 0;
   var storyTimer = null;
-  var trapTimer = null;
+  var caseView = "progress";
   var previousFrame = null;
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var graph = null;
@@ -26,7 +26,7 @@
     graphWidth = width;
   }
   function ensureGraph() {
-    if (graph || !window.cytoscape) return;
+    if (graph || !window.cytoscape || !graphContainer.clientWidth) return;
     graphContainer.querySelector("[data-graph-fallback]").hidden = true;
     graph = window.cytoscape({container: graphContainer, elements: [], layout: {name: "preset"}, minZoom: .75, maxZoom: 1.35, wheelSensitivity: .12, zoom: 1,
       style: [
@@ -113,7 +113,6 @@
   }
   function pauseStory() { window.clearTimeout(storyTimer); storyTimer = null; setPlayButton(story.querySelector("[data-story-play]"), false, "story"); }
   function queueFrame() { storyTimer = window.setTimeout(function () { showFrame(frameIndex + 1); if (frameIndex < currentRun().steps.length - 1) queueFrame(); }, currentRun().steps[frameIndex].duration); }
-  function pauseTraps() { window.clearInterval(trapTimer); trapTimer = null; setPlayButton(root.querySelector("[data-trap-play]"), false, "trapping patterns"); }
   function motion(element, keyframes, duration) {
     if (!reducedMotion.matches && element.animate) element.animate(keyframes, {duration: duration || 650, easing: "cubic-bezier(.22,.7,.25,1)"});
   }
@@ -186,6 +185,7 @@
     root.querySelector("[data-belief-panel]").hidden = run.id !== "pos";
     if (run.id === "raw") renderHistory(run);
     else {
+      var trappedAt = caseIndex === 0 ? 8 : 7, restoredAt = caseIndex === 0 ? 13 : 16;
       ["unresolved", "constraint"].forEach(function (key) {
         var changed = previousFrame && previousFrame[key] !== frame[key];
         var row = root.querySelector('[data-belief-row="' + key + '"]');
@@ -194,10 +194,25 @@
         text("[data-belief-" + key + "]", frame[key]);
         if (changed) motion(row, [{opacity: .35, transform: "translateX(8px)"}, {opacity: 1, transform: "translateX(0)"}], 450);
       });
-      text("[data-belief-phase]", frame.outcome ? "COMPLETE" : frame.phase.indexOf("Recovery") === 0 ? "RECOVER" : frame.phase === "Validate" ? "VALIDATE" : "MAINTAIN");
+      text("[data-belief-phase]", frame.outcome ? "COMPLETE" : frameIndex >= restoredAt ? "PROGRESS" : frameIndex > trappedAt ? "RECOVER" : frameIndex === trappedAt ? "TRAPPED" : frame.phase === "Validate" ? "VALIDATE" : "MAINTAIN");
+      story.querySelector('[data-belief-row="unresolved"]').dataset.fulfilled = Boolean(frame.outcome || (caseIndex === 1 && frame.resolved));
       drawBelief(frame, !previousFrame);
       text("[data-sentinel]", frame.sentinel || "Validated belief");
       text("[data-belief-health]", frame.health || (frame.tone === "stalled" ? "Low progress" : frame.resolved ? "Progress restored" : ""));
+      text("[data-case-progress-title]", frame.title);
+      text("[data-case-progress-description]", frame.decision);
+      text("[data-case-progress-guidance]", frame.constraint);
+      text("[data-case-reported-health]", frame.health ? "Reported health: " + frame.health : "");
+      var ongoingLowProgress = caseIndex === 1 && frameIndex >= 11 && frameIndex <= 13;
+      text("[data-case-progress-status]", frame.outcome ? "Goal satisfied / result submitted" : frameIndex >= restoredAt ? "Targeted gap resolved" : ongoingLowProgress ? "Further low-progress action / gap still open" : frameIndex > trappedAt ? "Recovery active / reassess after validation" : frameIndex === trappedAt ? "Trapping identified" : frame.tone === "stalled" ? "Low progress / requirement persists" : "Establish and assess current requirements");
+      var events = caseIndex === 0 ? [[4,"Select the heating requirement"],[8,"Detect Static + Achievement Gap"],[9,"Compose escape and progress constraints"],[13,"Validate the heating transition"],[15,"Satisfy both goal requirements"]] : [[3,"Make the diagnostic distinction explicit"],[7,"Action 22 / identify Static + Epistemic Gap"],[9,"Compose constraints around the same question"],[13,"Three further low-progress actions"],[16,"Action 26 / resolve the targeted gap"],[17,"Action 27 / submit inventory / memoryPressure"]];
+      var eventList = story.querySelector("[data-case-progress-events]"); eventList.replaceChildren();
+      var reached = events.filter(function (item) { return item[0] <= frameIndex; }).length - 1;
+      events.forEach(function (item,i) { var li = document.createElement("li"); li.textContent = item[1]; li.classList.toggle("is-reached", frameIndex >= item[0]); if (i === reached) li.setAttribute("aria-current","step"); eventList.append(li); });
+      text("[data-case-evidence-observation]", frame.observation);
+      text("[data-case-evidence-validation]", frame.sentinel || "The world model is being formed.");
+      text("[data-case-evidence-detail]", frame.evidence);
+      text("[data-case-evidence-source]", run.source);
     }
     text("[data-mug-state]", frame.hot ? "Hot" : frame.heating ? "Heating" : "Not heated");
     var places = {counter: "At the counter", microwave: "In the microwave", cabinet: "In the cabinet"};
@@ -277,6 +292,7 @@
   }
   function startRun() {
     pauseStory(); previousFrame = null;
+    caseView = "progress"; selectCaseView();
     var strip = story.querySelector(".pos-frame-steps"); strip.replaceChildren();
     currentRun().steps.forEach(function (frame, i) {
       var button = document.createElement("button"); button.type = "button"; button.dataset.posFrame = i;
@@ -288,6 +304,13 @@
     story.querySelector("[data-story-timeline]").max = currentRun().steps.length - 1;
     showFrame(0);
   }
+  var viewTabs = story.querySelectorAll("[data-case-view]");
+  function selectCaseView() {
+    story.querySelectorAll("[data-case-view-panel]").forEach(function (panel) { panel.hidden = panel.dataset.caseViewPanel !== caseView; });
+    activateTabs(viewTabs, story.querySelector('[data-case-view="' + caseView + '"]'));
+    if (caseView === "belief") { drawBelief(currentRun().steps[frameIndex], !graph); graphViewport(); }
+  }
+  viewTabs.forEach(function (button) { button.addEventListener("click", function () { pauseStory(); caseView = button.dataset.caseView; selectCaseView(); }); });
   var caseTabs = story.querySelectorAll("[data-pos-case]");
   caseTabs.forEach(function (button) {
     button.addEventListener("click", function () {
@@ -330,16 +353,6 @@
     root.querySelector("[data-validation-icon]").className = "fas " + state.icon;
     text("[data-validation-title]", state.title); text("[data-validation-text]", state.description);
   }); });
-  root.querySelector("[data-trap-play]").addEventListener("click", function () {
-    if (trapTimer) { pauseTraps(); return; }
-    setPlayButton(this, true, "trapping patterns");
-    trapTimer = window.setInterval(function () { var el = root.querySelector(".pos-traps"); el.dataset.trapPhase = (Number(el.dataset.trapPhase) + 1) % 3; }, reducedMotion.matches ? 2000 : 1100);
-  });
-  var patterns = { static: "Do not repeat the ineffective action under the unchanged belief.", cycle: "Break the recurrent transition instead of revisiting the same sequence.", drift: "Re-anchor the next action to the active gap rather than gathering unrelated information." };
-  var gaps = { epistemic: "Acquire evidence that distinguishes the remaining explanations.", achievement: "Induce a goal-relevant state change that addresses the unmet requirement." };
-  root.querySelector("#pos-pattern").addEventListener("change", function () { text("[data-pattern-constraint]", patterns[this.value]); });
-  root.querySelector("#pos-gap").addEventListener("change", function () { text("[data-gap-constraint]", gaps[this.value]); });
-
   function showResults(index) {
     var model = data.backbones[index];
     var grid = root.querySelector("[data-score-grid]");
@@ -361,21 +374,31 @@
       row.values.forEach(function (value) { var cell = document.createElement("td"); cell.textContent = value.toFixed(2); tr.appendChild(cell); }); body.appendChild(tr);
     });
     text("[data-results-caption]", "Table 1 \u00b7 " + model.name + " \u00b7 All values are percentages");
+    var ablation = root.querySelector("[data-ablation-grid]"); ablation.replaceChildren();
+    data.benchmarks.forEach(function (benchmark, i) {
+      var item = document.createElement("div"), title = document.createElement("h4"); title.textContent = benchmark; item.append(title);
+      ["PoS","Without consistency validation","Without trapping diagnosis"].forEach(function (method) {
+        var row = model.rows.find(function (entry) {return entry.method === method;});
+        var p = document.createElement("p"), label = document.createElement("span"), value = document.createElement("strong");
+        label.textContent = method === "PoS" ? "PoS" : method === "Without consistency validation" ? "Without validation" : "Without trap diagnosis";
+        value.textContent = row.values[i].toFixed(2) + "%"; if (method === "PoS") p.className = "is-pos"; p.append(label,value); item.append(p);
+      }); ablation.append(item);
+    });
   }
   var backboneTabs = root.querySelectorAll("[data-pos-backbone]");
   backboneTabs.forEach(function (button) { button.addEventListener("click", function () {
     activateTabs(backboneTabs, button);
     root.querySelector("#pos-results-panel").setAttribute("aria-labelledby", button.id);
+    root.querySelector("#pos-ablation-panel").setAttribute("aria-labelledby", button.id);
     showResults(Number(button.dataset.posBackbone));
   }); });
   root.querySelectorAll('[role="tablist"]').forEach(keyboardTabs);
   var storyInView = false;
   function updateSceneVisibility() { story.classList.toggle("is-in-view", storyInView && !document.hidden); }
-  document.addEventListener("visibilitychange", function () { updateSceneVisibility(); if (document.hidden) { pauseStory(); pauseTraps(); } });
+  document.addEventListener("visibilitychange", function () { updateSceneVisibility(); if (document.hidden) pauseStory(); });
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) { storyInView = entries[0].isIntersecting; updateSceneVisibility(); if (!storyInView) pauseStory(); }).observe(story);
-    new IntersectionObserver(function (entries) { if (!entries[0].isIntersecting) pauseTraps(); }).observe(root.querySelector(".pos-traps"));
   }
-  reducedMotion.addEventListener("change", function () { pauseStory(); pauseTraps(); });
+  reducedMotion.addEventListener("change", function () { pauseStory(); });
   startRun(); showResults(0);
 }());

@@ -1,0 +1,164 @@
+perception:
+  - title: Observe the current world.
+    action: Inspect the mug and microwave.
+    observation: Mug 3 is on the counter and is not hot. Microwave 1 is closed.
+    location: counter
+    door: closed
+    changed: [location, temperature, door]
+    sources: {location: 0, temperature: 0, door: 0}
+    caption: An observation becomes a supported description of the current world.
+    phase: Observe
+  - title: Keep track of what moved.
+    action: Take Mug 3 from the counter.
+    observation: The agent now holds Mug 3.
+    location: held
+    door: closed
+    changed: [location]
+    sources: {location: 1, temperature: 0, door: 0}
+    caption: The earlier location stays in the history. The current relation changes.
+    phase: Update
+  - title: Replace an outdated state.
+    action: Open Microwave 1.
+    observation: Microwave 1 is now open.
+    location: held
+    door: open
+    changed: [door]
+    sources: {location: 1, temperature: 0, door: 2}
+    caption: Closed was true before. Open is the supported state now.
+    phase: Revise
+  - title: Connect the object to its new place.
+    action: Place Mug 3 inside Microwave 1.
+    observation: Mug 3 is inside the microwave. Its temperature has not changed.
+    location: microwave
+    door: open
+    changed: [location]
+    sources: {location: 3, temperature: 0, door: 2}
+    caption: One relation changes; the unmet temperature requirement remains explicit.
+    phase: Commit
+  - title: An accurate state can still be unfinished.
+    action: Close Microwave 1.
+    observation: The microwave is closed. Mug 3 is inside and is still not hot.
+    location: microwave
+    door: closed
+    changed: [door]
+    sources: {location: 3, temperature: 4, door: 4}
+    caption: The current world is coherent. Making the mug hot is still the active gap.
+    phase: Validate
+  - title: More history. The same requirement.
+    action: Inspect the microwave.
+    observation: Mug 3 remains inside the closed microwave and is not hot.
+    location: microwave
+    door: closed
+    changed: []
+    sources: {location: 3, temperature: 5, door: 5}
+    caption: New evidence confirms the same state. It does not accomplish the heating requirement.
+    phase: Observe
+  - title: Now ask whether the task is advancing.
+    action: Inspect the microwave again.
+    observation: The same location, door state, and unmet temperature requirement are observed.
+    location: microwave
+    door: closed
+    changed: []
+    sources: {location: 3, temperature: 6, door: 6}
+    caption: State awareness tells us what is true. Progress monitoring asks what these interactions achieved.
+    phase: Assess
+diagnostic_perception:
+  - title: Observe a symptom, not a cause.
+    action: Inspect the incident alert.
+    observation: Inventory requests are slow. The alert does not identify why.
+    location: Database or JVM
+    temperature: Slow requests
+    door: Not checked
+    changed: [location, temperature, door]
+    sources: {location: 0, temperature: 0, door: 0}
+    caption: The symptom is known. The explanation remains an epistemic gap.
+    phase: Observe
+  - title: Keep a hypothesis separate from evidence.
+    action: Inspect the request path.
+    observation: Inventory depends on a database. Dependency alone does not establish database waiting.
+    location: Both remain possible
+    temperature: Slow requests
+    door: Not checked
+    changed: [location]
+    sources: {location: 1, temperature: 0, door: 0}
+    caption: A plausible explanation enters the belief without becoming a confirmed cause.
+    phase: Model
+  - title: Connect new evidence to the current question.
+    action: Inspect JVM garbage collection.
+    observation: Elevated GC activity coincides with the slow requests.
+    location: Both remain possible
+    temperature: Slow requests
+    door: Elevated GC
+    changed: [door]
+    sources: {location: 1, temperature: 0, door: 2}
+    caption: The GC observation is retained with its source. The alternatives are not yet separated.
+    phase: Update
+  - title: A longer record can leave the question open.
+    action: Search application logs.
+    observation: The logs contain more slow-request messages, but do not distinguish database waiting from JVM processing.
+    location: Both remain possible
+    temperature: Slow requests
+    door: Elevated GC
+    changed: []
+    sources: {location: 1, temperature: 3, door: 2}
+    caption: Evidence accumulates without changing the unresolved distinction.
+    phase: Observe
+  - title: Notice what has not changed.
+    action: Search another log interval.
+    observation: More messages confirm the delay. The same two explanations remain.
+    location: Both remain possible
+    temperature: Slow requests
+    door: Elevated GC
+    changed: []
+    sources: {location: 4, temperature: 4, door: 2}
+    caption: An accurate account of the symptom is not yet a discriminating diagnosis.
+    phase: Assess
+  - title: Seek evidence that can change the interpretation.
+    action: Inspect CPU activity during the incident.
+    observation: Elevated inventory CPU activity coincides with the earlier GC evidence.
+    location: JVM-side processing favored
+    temperature: Slow requests
+    door: CPU + GC evidence
+    changed: [location, door]
+    sources: {location: 5, temperature: 4, door: 5}
+    caption: Related observations combine to support a revised interpretation.
+    phase: Revise
+  - title: Commit the supported revision.
+    action: Check the combined evidence.
+    observation: CPU and GC together favor JVM-side processing over database waiting; they do not uniquely establish the final failure type.
+    location: JVM-side processing favored
+    temperature: Slow requests
+    door: CPU + GC evidence
+    changed: []
+    sources: {location: 6, temperature: 4, door: 6}
+    caption: The belief records the supported distinction without claiming more than the evidence provides.
+    phase: Validate
+recovery:
+  patterns:
+    static:
+      name: Static
+      summary: The relevant world stays unchanged while actions continue.
+      constraint: Avoid repeating the ineffective action under the unchanged belief.
+    cycle:
+      name: Cycle
+      summary: The agent returns to an earlier state after a recurrent sequence.
+      constraint: Break the recurrent transition instead of traversing the same sequence again.
+    drift:
+      name: Drift
+      summary: The world description changes, but the part needed for the active gap does not.
+      constraint: Re-anchor the next action to the active gap and leave unrelated investigation aside.
+  gaps:
+    epistemic:
+      name: Epistemic
+      gap: Distinguish database waiting from JVM-side processing.
+      constraint: Acquire evidence that distinguishes the remaining explanations.
+      action: Inspect CPU activity during the incident.
+      observation: CPU activity is elevated alongside the earlier GC evidence.
+      revision: The combined evidence strengthens JVM-side processing and weakens database waiting.
+    achievement:
+      name: Achievement
+      gap: Make Mug 3 hot before placing it in the cabinet.
+      constraint: Induce a goal-relevant state change that addresses the unmet requirement.
+      action: Heat Mug 3 using Microwave 1.
+      observation: The environment reports that Mug 3 is hot.
+      revision: The temperature state is updated and the heating requirement is resolved.
