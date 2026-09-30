@@ -157,7 +157,15 @@ layout: compress
           }
 
           playButton.addEventListener("click", function () {
-            video.play();
+            var playback = video.play();
+            if (playback && playback.catch) {
+              playback.catch(function (error) {
+                updateVideoState();
+                if (error.name !== "AbortError") {
+                  console.warn("Video could not start:", error.message);
+                }
+              });
+            }
           });
           video.addEventListener("play", updateVideoState);
           video.addEventListener("pause", updateVideoState);
