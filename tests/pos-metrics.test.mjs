@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {jaccard, worldDistance, diagnosticChange, persistence, health, recurrence, measure, exampleFrames} from "../assets/js/src/pos-metrics.js";
+import {jaccard, worldDistance, diagnosticChange, persistence, health, recurrence, measure, exampleFrames, workedFrames, recoveryFrames} from "../assets/js/src/pos-metrics.js";
 
 test("aligned world distance averages Entity, State, and Relation Jaccard distances", () => {
   assert.equal(jaccard([], []), 0);
@@ -54,4 +54,27 @@ test("recurrence exposes all tested pairs and chooses lag two for alternating st
   assert.equal(r.comparisons[1].pairs.every(x=>x.repeated),true);
   assert.equal(r.comparisons[0].pairs.every(x=>!x.repeated),true);
   assert.equal(r.lag,2);
+});
+test("worked tasks carry the same gap from partial early progress into a later stall", () => {
+  for (const mode of ["execution","diagnosis"]) {
+    const frames=workedFrames(mode),early=measure(frames,8,mode),late=measure(frames,16,mode);
+    assert.equal(early.p,.5);
+    assert.ok(early.h>.25 && early.h<1);
+    assert.deepEqual([late.p,late.s,late.r,late.h],[1,1,1,0]);
+    const key=mode==="execution"?"achievement":"epistemic";
+    assert.equal(frames[8][key][0],frames[16][key][0]);
+  }
+  const diagnostic=measure(workedFrames("diagnosis"),8,"diagnosis").transitions;
+  assert.ok(Math.abs(diagnostic[2].change-.325)<1e-9);
+  assert.equal(diagnostic[2].progress,1);
+});
+test("a new validated observation can leave trapping active, while resolving its gap releases it", () => {
+  for(const mode of ["execution","diagnosis"]){
+    const frames=workedFrames(mode);
+    const open=recoveryFrames(frames,mode,false),closed=recoveryFrames(frames,mode,true);
+    const held=measure(open,17,mode),released=measure(closed,17,mode);
+    assert.ok(held.h>=0 && held.h<=.25);
+    assert.equal(released.p,0);
+    assert.equal(released.h,1);
+  }
 });

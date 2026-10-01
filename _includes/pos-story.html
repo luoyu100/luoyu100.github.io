@@ -48,9 +48,10 @@
             <div class="pos-case-view-tabs" role="tablist" aria-label="PoS case detail"><button type="button" role="tab" id="pos-case-view-progress" aria-controls="pos-case-panel-progress" data-case-view="progress" aria-selected="true">Progress</button><button type="button" role="tab" id="pos-case-view-belief" aria-controls="pos-case-panel-belief" data-case-view="belief" aria-selected="false" tabindex="-1">Belief</button><button type="button" role="tab" id="pos-case-view-evidence" aria-controls="pos-case-panel-evidence" data-case-view="evidence" aria-selected="false" tabindex="-1">Evidence</button></div>
             <div class="pos-belief-row pos-belief-row--gap" data-belief-row="unresolved"><h5>Active gap / pending requirements</h5><p data-belief-unresolved>{{ frame.unresolved }}</p></div>
             <div id="pos-case-panel-progress" role="tabpanel" aria-labelledby="pos-case-view-progress" data-case-view-panel="progress">
-              <h3 class="pos-case-progress-meaning" data-case-progress-title>{{ frame.title }}</h3>
+              <h3 class="pos-case-progress-meaning" data-case-progress-title hidden>{{ frame.title }}</h3>
               <span class="pos-case-progress-status"><i class="fas fa-circle" aria-hidden="true"></i><span data-case-progress-status>Establish the current requirements</span></span>
-              <p class="pos-case-progress-description" data-case-progress-description>{{ frame.decision }}</p>
+              <p class="pos-case-progress-description" data-case-progress-description hidden>{{ frame.decision }}</p>
+              <div class="pos-case-observation"><span class="pos-small-label">NEW EVIDENCE</span><p data-case-observation>{{ frame.observation }}</p></div>
               <ol class="pos-case-progress-events" data-case-progress-events aria-label="Progress and recovery phases"></ol>
               <div class="pos-case-progress-guidance"><span class="pos-small-label">ACTION GUIDANCE</span><p data-case-progress-guidance>{{ frame.constraint }}</p></div>
               <p class="pos-source" data-case-reported-health></p>
@@ -68,8 +69,8 @@
       </div>
       <div class="pos-story-controls"><div class="pos-playback"><button class="pos-icon-button" type="button" data-story-prev aria-label="Previous frame" title="Previous frame" disabled><i class="fas fa-arrow-left" aria-hidden="true"></i></button><button class="pos-icon-button pos-play-button" type="button" data-story-play aria-label="Play story" title="Play story" aria-pressed="false"><i class="fas fa-play" aria-hidden="true"></i></button><button class="pos-icon-button" type="button" data-story-next aria-label="Next frame" title="Next frame"><i class="fas fa-arrow-right" aria-hidden="true"></i></button></div><label class="pos-scrubber">Replay timeline<input type="range" min="0" max="15" value="0" step="1" data-story-timeline aria-label="Case replay frame"></label><span class="pos-story-status" data-story-status aria-live="polite" aria-atomic="true">Frame 1 of 16</span><span class="pos-action-index" data-action-index>Display frame · mechanism view</span></div>
       <div class="pos-milestones" data-story-milestones aria-label="Key phases"></div>
-      <div class="pos-frame-steps" aria-label="Story frames">{% for item in run.steps %}<button type="button" data-pos-frame="{{ forloop.index0 }}" title="{{ item.title }}" aria-label="Frame {{ forloop.index }}: {{ item.title }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ forloop.index }}</button>{% endfor %}</div>
-      <div class="pos-story-reasoning"><div><h5>What happened</h5><p data-frame-observation>{{ frame.observation }}</p></div><div><h5>Why it matters</h5><p data-frame-decision>{{ frame.decision }}</p></div></div>
+      <details class="pos-frame-detail"><summary>Choose a display frame</summary><div class="pos-frame-steps" aria-label="Story frames">{% for item in run.steps %}<button type="button" data-pos-frame="{{ forloop.index0 }}" title="{{ item.title }}" aria-label="Frame {{ forloop.index }}: {{ item.title }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ forloop.index }}</button>{% endfor %}</div></details>
+      <details class="pos-case-reasoning-detail"><summary>Evidence and decision detail</summary><div class="pos-story-reasoning"><div><h5>What happened</h5><p data-frame-observation>{{ frame.observation }}</p></div><div><h5>Why it matters</h5><p data-frame-decision>{{ frame.decision }}</p></div></div></details>
       <details class="pos-step-evidence"><summary>Inspect this step</summary><p data-frame-evidence>{{ frame.evidence }}</p></details>
     </div>
   </div>

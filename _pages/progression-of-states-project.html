@@ -6,12 +6,14 @@ description: "Explicit belief states, consistency validation, and targeted recov
 layout: project
 author_profile: false
 project_theme: progression-of-states
-project_stylesheet: /assets/css/progression-of-states.css?v=20261001-progression1
+project_stylesheet: /assets/css/progression-of-states.css?v=20261001-reading2
 sitemap: false
 search: false
 robots: noindex, nofollow
 project_navigation:
+  - {label: Abstract, href: "#overview"}
   - {label: Beyond Memory, href: "#awareness"}
+  - {label: Method, href: "#method"}
   - {label: Progression, href: "#progress"}
   - {label: Recovery, href: "#recovery"}
   - {label: Case, href: "#story"}
@@ -51,15 +53,25 @@ project_navigation:
 <section class="project-content-section pos-awareness-section" id="awareness">
   <div class="project-section-shell">
     <div class="project-section-heading"><p class="project-section-index">02 <span>STATE PERCEPTION</span></p><h2>Beyond memory.<br>Understand what holds now.</h2></div>
-    <p class="pos-section-lead">An interaction history tells us what happened. A current belief connects observations to entities, states, and relations, while keeping the remaining requirements explicit. Watch the record grow as the current understanding changes.</p>
-    {% include pos-perception.html %}
-    <p class="pos-section-bridge">Knowing the current state is essential. But even an accurate belief can stay unfinished. <a href="#progress">What did these interactions actually achieve? <i class="fas fa-arrow-down" aria-hidden="true"></i></a></p>
+    <p class="pos-section-lead">Memory retains past interactions. A validated belief describes the current world and what remains unresolved. Progression compares these states over time, so repeated activity can be recognized and redirected.</p>
+    <figure class="project-page-figure pos-memory-figure">
+      <a href="{{ '/images/projects/pos/beyond-memory-4k.webp' | relative_url }}" target="_blank" rel="noopener" title="View the Beyond Memory figure at full resolution"><img src="{{ '/images/projects/pos/beyond-memory.webp' | relative_url }}" srcset="{{ '/images/projects/pos/beyond-memory.webp' | relative_url }} 2400w, {{ '/images/projects/pos/beyond-memory-4k.webp' | relative_url }} 3840w" sizes="(max-width: 1184px) 100vw, 1120px" width="3840" height="2303" alt="Beyond Memory: past interactions form a validated current belief; repeated inspection leaves the mug cold and its active gap unresolved; progression monitoring detects stagnation and redirects the next action toward heating." loading="lazy" decoding="async"></a>
+      <figcaption>The same observation can be recorded accurately many times while the task remains unfinished. <a href="{{ '/images/projects/pos/beyond-memory-4k.webp' | relative_url }}" target="_blank" rel="noopener">Full-resolution figure <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></figcaption>
+    </figure>
+    <p class="pos-section-bridge">PoS connects the current belief to the next decision through a repeated update, check, and recovery loop. <a href="#method">See the complete method <i class="fas fa-arrow-down" aria-hidden="true"></i></a></p>
+  </div>
+</section>
+
+<section class="project-content-section project-content-section--method" id="method">
+  <div class="project-section-shell">
+    <div class="project-section-heading"><p class="project-section-index">03 <span>THE COMPLETE LOOP</span></p><h2>Inside PoS.</h2></div>
+    {% include pos-method.html %}
   </div>
 </section>
 
 <section class="project-content-section pos-progress-section" id="progress">
   <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">03 <span>PROGRESSION ACROSS TIME</span></p><h2>Activity is visible.<br>Progress must be assessed.</h2></div>
+    <div class="project-section-heading"><p class="project-section-index">04 <span>PROGRESSION ACROSS TIME</span></p><h2>Activity is visible.<br>Progress must be assessed.</h2></div>
     <p class="pos-section-lead">PoS checks state updates against evidence before measuring them. It examines what remains unresolved, whether useful changes occur, and whether earlier states recur. Action counts alone cannot tell us when the task needs a different direction.</p>
     {% include pos-progress.html %}
   </div>
@@ -67,7 +79,7 @@ project_navigation:
 
 <section class="project-content-section pos-recovery-section" id="recovery">
   <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">04 <span>TRAPPING-AWARE RECOVERY</span></p><h2>Recognize the trap.<br>Restore progress.</h2></div>
+    <div class="project-section-heading"><p class="project-section-index">05 <span>TRAPPING-AWARE RECOVERY</span></p><h2>Recognize the trap.<br>Restore progress.</h2></div>
     <p class="pos-section-lead">Recovery combines two questions: how is the agent stuck, and what remains unresolved? The resulting constraints redirect action selection without supplying the answer or prescribing a tool call.</p>
     {% include pos-recovery.html %}
   </div>
@@ -75,36 +87,18 @@ project_navigation:
 
 <section class="project-content-section pos-story-section" id="story">
   <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">05 <span>SEE THE DIFFERENCE UNFOLD</span></p><h2>Case Walkthrough.</h2></div>
+    <div class="project-section-heading"><p class="project-section-index">06 <span>SEE THE DIFFERENCE UNFOLD</span></p><h2>Case Walkthrough.</h2></div>
     <p class="pos-section-lead">Follow the same task through two decision contexts. In PoS, inspect the current requirement, the evidence that changes the belief, and the recovery that restores progress. Raw Trajectory retains the interaction record.</p>
     {% include pos-story.html %}
-  </div>
-</section>
-
-<section class="project-content-section project-content-section--method" id="method">
-  <div class="project-section-shell">
-    <div class="project-section-heading"><p class="project-section-index">06 <span>THE COMPLETE LOOP</span></p><h2>Inside PoS.</h2></div>
-    {% include pos-method.html %}
   </div>
 </section>
 
 <section class="project-content-section project-content-section--results" id="results">
   <div class="project-section-shell">
     <div class="project-section-heading"><p class="project-section-index">07 <span>TEST THE IDEA</span></p><h2>Results.</h2></div>
-    <p class="pos-kicker">BEYOND BELIEF CONSTRUCTION</p><h3 class="pos-results-question">Validation and trapping recovery both matter.</h3>
-    <p class="pos-section-lead">Removing either consistency validation or trapping diagnosis reduces the overall metric in every tested benchmark-backbone setting. The comparison below keeps the backbone fixed.</p>
-    <div class="pos-backbone-tabs" role="tablist" aria-label="Backbone model">{% for backbone in pos.backbones %}<button type="button" role="tab" id="pos-backbone-{{ forloop.index0 }}" aria-controls="pos-results-panel pos-ablation-panel" data-pos-backbone="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}">{{ backbone.name }}</button>{% endfor %}</div>
-    <div id="pos-ablation-panel" role="tabpanel" aria-labelledby="pos-backbone-0"><div class="pos-ablation-grid" data-ablation-grid>{% assign first_model = pos.backbones.first %}{% for benchmark in pos.benchmarks %}{% assign i = forloop.index0 %}<div><h4>{{ benchmark }}</h4>{% for row in first_model.rows %}{% if row.method == 'PoS' or row.method == 'Without consistency validation' or row.method == 'Without trapping diagnosis' %}<p{% if row.method == 'PoS' %} class="is-pos"{% endif %}><span>{% if row.method == 'Without consistency validation' %}Without validation{% elsif row.method == 'Without trapping diagnosis' %}Without trap diagnosis{% else %}PoS{% endif %}</span><strong>{{ row.values[i] }}%</strong></p>{% endif %}{% endfor %}</div>{% endfor %}</div></div>
-    <p class="pos-source">Table 1. Overall benchmark metrics (%); the full method comparison appears below.</p>
-    <h3 class="project-subsection-title">Does targeted recovery improve outcomes?</h3>
-    <p class="pos-section-lead">With Qwen3.7-Plus, factorized recovery improves final task performance over a generic recovery prompt on all four benchmarks.</p>
-    <div class="pos-chart-heading"><span><i class="pos-swatch pos-swatch--generic"></i>Generic recovery</span><span><i class="pos-swatch pos-swatch--pos"></i>PoS recovery</span><small>Final task performance (%)</small></div>
-    <div class="pos-recovery-chart">{% for result in pos.recovery %}<div class="pos-comparison-row"><div class="pos-benchmark-label"><strong>{{ result.benchmark }}</strong><small>{{ result.metric }}</small></div><div class="pos-bar-pair"><div><span class="pos-bar pos-bar--generic" style="--bar-value: {{ result.generic }}%"></span><span>{{ result.generic }}<small>%</small></span></div><div><span class="pos-bar pos-bar--pos" style="--bar-value: {{ result.pos }}%"></span><span>{{ result.pos }}<small>%</small></span></div></div></div>{% endfor %}</div>
-    <p class="pos-source">Figure 3 (right). These are final outcomes over all evaluated cases, not trap-recovery success rates.</p>
-    <details class="pos-disclosure"><summary>Original trapping and recovery analysis</summary><figure class="project-page-figure"><a href="{{ '/images/projects/pos/trapping-analysis.webp?v=20260930-pos4' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/trapping-analysis.webp?v=20260930-pos4' | relative_url }}" width="1872" height="484" loading="lazy" decoding="async" alt="Figure 3: trapping incidence, trapping-pattern distribution, and recovery comparison"></a><figcaption>Figure 3. Trapping incidence across backbones, the distribution of Static, Cycle, and Drift events, and final task performance with generic versus factorized recovery.</figcaption></figure></details>
-
     <div class="pos-method-block">
       <p class="pos-kicker">OVERALL PERFORMANCE</p><h3>Four benchmarks. Three backbones.</h3><p>PoS has the highest overall metric among the tested methods in all 12 benchmark-backbone settings. Each comparison below uses the strongest evaluated baseline with the same backbone.</p>
+    <div class="pos-backbone-tabs" role="tablist" aria-label="Backbone model">{% for backbone in pos.backbones %}<button type="button" role="tab" id="pos-backbone-{{ forloop.index0 }}" aria-controls="pos-results-panel pos-ablation-panel" data-pos-backbone="{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}">{{ backbone.name }}</button>{% endfor %}</div>
       <div id="pos-results-panel" role="tabpanel" aria-labelledby="pos-backbone-0" tabindex="0">
         <div class="pos-score-grid" data-score-grid>{% assign first_model = pos.backbones.first %}{% for benchmark in pos.benchmarks %}{% assign i = forloop.index0 %}<article><h4>{{ benchmark }}</h4><p class="pos-score">{{ first_model.pos[i] }}<span>%</span></p><p>vs. {{ first_model.best[i] }}%</p><small>{{ first_model.best_names[i] }}</small></article>{% endfor %}</div>
         <details class="pos-disclosure"><summary>All evaluated methods and ablations</summary><div class="pos-table-scroll" role="region" tabindex="0" aria-label="Full results table"><table><caption data-results-caption>Table 1 · Qwen3.7-Plus · All values are percentages</caption><thead><tr><th scope="col">Method</th>{% for benchmark in pos.benchmarks %}<th scope="col">{{ benchmark }}</th>{% endfor %}</tr></thead><tbody data-results-body>{% for row in first_model.rows %}<tr{% if row.method == 'PoS' %} class="is-pos"{% endif %}><th scope="row">{{ row.method }}</th>{% for value in row.values %}<td>{{ value }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div></details>
@@ -112,20 +106,34 @@ project_navigation:
       <p class="pos-source">Table 1. ALFWorld and LOCA-Bench: overall task success. RCA-100: joint entity-and-type accuracy. ClinDiag: overall diagnosis accuracy. All LLM components use the evaluated backbone; methods share benchmark interfaces and environment-action budgets, not identical trajectories. Baseline adaptations are documented in Appendix D.2.</p>
     </div>
 
+    <div class="pos-method-block">
+    <p class="pos-kicker">BEYOND BELIEF CONSTRUCTION</p><h3 class="pos-results-question">Validation and trapping recovery both matter.</h3>
+    <p class="pos-section-lead">Removing either consistency validation or trapping diagnosis reduces the overall metric in every tested benchmark-backbone setting. The comparison below keeps the backbone fixed.</p>
+    <p class="pos-model-context">Backbone: <strong data-results-model>{{ pos.backbones.first.name }}</strong></p>
+    <div id="pos-ablation-panel" role="tabpanel" aria-labelledby="pos-backbone-0"><div class="pos-ablation-grid" data-ablation-grid>{% assign first_model = pos.backbones.first %}{% for benchmark in pos.benchmarks %}{% assign i = forloop.index0 %}<div><h4>{{ benchmark }}</h4>{% for row in first_model.rows %}{% if row.method == 'PoS' or row.method == 'Without consistency validation' or row.method == 'Without trapping diagnosis' %}<p{% if row.method == 'PoS' %} class="is-pos"{% endif %}><span>{% if row.method == 'Without consistency validation' %}Without validation{% elsif row.method == 'Without trapping diagnosis' %}Without trap diagnosis{% else %}PoS{% endif %}</span><strong>{{ row.values[i] }}%</strong></p>{% endif %}{% endfor %}</div>{% endfor %}</div></div>
+    <p class="pos-source">Table 1. Overall benchmark metrics (%); the full method comparison appears above.</p>
+    </div>
+    <h3 class="project-subsection-title">Does targeted recovery improve outcomes?</h3>
+    <p class="pos-section-lead">With Qwen3.7-Plus, factorized recovery improves final task performance over a generic recovery prompt on all four benchmarks.</p>
+    <div class="pos-chart-heading"><span><i class="pos-swatch pos-swatch--generic"></i>Generic recovery</span><span><i class="pos-swatch pos-swatch--pos"></i>PoS recovery</span><small>Final task performance (%)</small></div>
+    <div class="pos-recovery-chart">{% for result in pos.recovery %}<div class="pos-comparison-row"><div class="pos-benchmark-label"><strong>{{ result.benchmark }}</strong><small>{{ result.metric }}</small></div><div class="pos-bar-pair"><div><span class="pos-bar pos-bar--generic" style="--bar-value: {{ result.generic }}%"></span><span>{{ result.generic }}<small>%</small></span></div><div><span class="pos-bar pos-bar--pos" style="--bar-value: {{ result.pos }}%"></span><span>{{ result.pos }}<small>%</small></span></div></div></div>{% endfor %}</div>
+    <p class="pos-source">Figure 3 (right). These are final outcomes over all evaluated cases, not trap-recovery success rates.</p>
+    <details class="pos-disclosure"><summary>Original trapping and recovery analysis</summary><figure class="project-page-figure"><a href="{{ '/images/projects/pos/trapping-analysis.webp?v=20260930-pos4' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/images/projects/pos/trapping-analysis.webp?v=20260930-pos4' | relative_url }}" width="1872" height="484" loading="lazy" decoding="async" alt="Figure 3: trapping incidence, trapping-pattern distribution, and recovery comparison"></a><figcaption>Figure 3. Trapping incidence across backbones, the distribution of Static, Cycle, and Drift events, and final task performance with generic versus factorized recovery.</figcaption></figure></details>
+
+    <div class="pos-method-block"><p class="pos-kicker">GROWING CONTEXT</p><h3>A current belief, even as history grows.</h3><figure class="project-page-figure"><img src="{{ '/images/projects/pos/context-scaling.webp?v=20260930-pos4' | relative_url }}" width="1872" height="728" alt="Figure 4: LOCA-Bench task success from 8K to 256K context across three backbones" loading="lazy" decoding="async"><figcaption>Figure 4. At 256K context, PoS exceeds the strongest tested baseline by 10.67-16.00 percentage points across the three backbones. The experiment varies LOCA-Bench environment-description length.</figcaption></figure></div>
+
     <div class="pos-method-block pos-cost">
       <div><p class="pos-kicker">THE COMPUTE TRADEOFF</p><h3>Better task performance, with additional inference cost.</h3><p>Belief construction and validation add work even when the task agent spends fewer tokens. Fewer unproductive actions should not be read as lower total compute.</p></div>
       <dl><div><dt>Total tokens</dt><dd>5.06<span>&times;</span></dd><small>1,800.13K vs. 355.70K per episode</small></div><div><dt>Task Agent tokens</dt><dd>&minus;20.9<span>%</span></dd><small>281.20K vs. 355.70K per episode</small></div></dl>
       <p class="pos-source">Table 2. RCA-100, Qwen3.7-Plus, mean input + output tokens across 103 cases; compared with Raw Trajectory.</p>
     </div>
 
-    <div class="pos-method-block"><p class="pos-kicker">GROWING CONTEXT</p><h3>A current belief, even as history grows.</h3><figure class="project-page-figure"><img src="{{ '/images/projects/pos/context-scaling.webp?v=20260930-pos4' | relative_url }}" width="1872" height="728" alt="Figure 4: LOCA-Bench task success from 8K to 256K context across three backbones" loading="lazy" decoding="async"><figcaption>Figure 4. At 256K context, PoS exceeds the strongest tested baseline by 10.67-16.00 percentage points across the three backbones. The experiment varies LOCA-Bench environment-description length.</figcaption></figure></div>
   </div>
 </section>
 
 <section class="project-content-section project-content-section--bibtex project-bibtex-section" id="resources">
   <div class="project-section-shell"><div class="project-section-heading"><p class="project-section-index">08 <span>GO DEEPER</span></p><h2>Video &amp; Resources.</h2></div>
-  <div class="pos-video-placeholder" id="video"><img src="{{ '/images/projects/pos/pos-mark.svg' | relative_url }}" width="110" height="110" alt=""><div><span class="pos-small-label">POS VIDEO OVERVIEW</span><h3>A closer look, coming soon.</h3><p>A dedicated PoS video will be added here.</p></div></div>
-  <details class="pos-disclosure"><summary>Related preview / Graph of States</summary><p class="pos-source">This video introduces Graph of States, not PoS. It is retained as a related-work preview while the PoS video is in preparation.</p><div class="project-video-player"><video controls playsinline preload="none" poster="{{ '/images/projects/gos-teaser.png' | relative_url }}" aria-label="Related Graph of States video preview"><source src="{{ '/assets/videos/gos-video.mp4' | relative_url }}" type="video/mp4">Your browser does not support HTML video.</video><button class="project-video-play" type="button" aria-label="Play related Graph of States preview" title="Play preview"><i class="fas fa-play" aria-hidden="true"></i></button></div></details>
+  <p class="pos-video-notice" id="video"><i class="fas fa-video" aria-hidden="true"></i> PoS video overview: coming soon. <a href="{{ '/projects/graph-of-states/project/#video' | relative_url }}">Related work: Graph of States</a></p>
   <div class="pos-resource-links"><a href="{{ pos.code_url }}" target="_blank" rel="noopener"><i class="fas fa-code" aria-hidden="true"></i><span><strong>Explore the code</strong><small>PoS implementation · repository linked in the manuscript</small></span><i class="fas fa-arrow-up" aria-hidden="true"></i></a></div><p class="pos-source">Paper and download links are awaiting the public manuscript URL. The citation below is a temporary manuscript entry.</p>
   <div class="bibtex-header" id="bibtex"><h3 class="project-subsection-title">BibTeX</h3><button class="copy-bibtex-btn" type="button" title="Copy BibTeX" aria-label="Copy BibTeX"><i class="fas fa-copy" aria-hidden="true"></i><span class="copy-text">Copy</span></button></div>
 <pre id="bibtex-code"><code>@misc{luo2026beyond,

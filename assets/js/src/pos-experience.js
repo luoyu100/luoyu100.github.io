@@ -1,336 +1,406 @@
-import {exampleFrames, measure, worldDistance} from "./pos-metrics.js";
-
+import { exampleFrames, workedFrames, recoveryFrames, measure, worldDistance } from "./pos-metrics.js";
 const root = document.querySelector("[data-pos-project]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const experience = root && JSON.parse(root.querySelector("[data-pos-experience]").textContent);
-const format = value => value.toFixed(2);
-const write = (host, selector, value) => { host.querySelector(selector).textContent = value; };
-
-function animate(element, frames, duration = 650) {
-  if (!reduced.matches) return element.animate(frames, {duration, easing: "cubic-bezier(.22,.75,.25,1)"});
-}
-
+const format = (value) => value.toFixed(2);
+const write = (host, selector, value) => {
+  host.querySelector(selector).textContent = value;
+};
 function tabs(buttons, selected) {
-  buttons.forEach(button => {
+  buttons.forEach((button) => {
     const active = button === selected;
-    button.setAttribute("aria-selected", String(active)); button.tabIndex = active ? 0 : -1;
+    button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
   });
 }
-
-function playback(host, length, duration, render, initial = 0) {
-  const controls = host.querySelector(".pos-exhibit-controls");
-  const play = controls.querySelector("[data-exhibit-play]");
-  const range = controls.querySelector("[data-exhibit-range]");
-  const previous = controls.querySelector("[data-exhibit-prev]");
-  const next = controls.querySelector("[data-exhibit-next]");
-  let index = initial, intended = false, seen = false, startedOnce = false, timer = 0, started = 0, remaining = duration;
+function playback(host, getLength, duration, render, initial = 0) {
+  const controls = host.querySelector(".pos-exhibit-controls"), play = controls.querySelector("[data-exhibit-play]"), range = controls.querySelector("[data-exhibit-range]"), previous = controls.querySelector("[data-exhibit-prev]"), next = controls.querySelector("[data-exhibit-next]"), replay = controls.querySelector("[data-exhibit-replay]");
+  let index = initial, intended = false, seen = false, timer = 0, started = 0, remaining = duration;
   function buttons() {
+    const inactive = host.dataset.inactive === "true";
     host.classList.toggle("is-playing", intended && seen && !document.hidden);
     play.setAttribute("aria-pressed", String(intended));
     play.setAttribute("aria-label", intended ? "Pause demonstration" : "Play demonstration");
     play.title = intended ? "Pause" : "Play";
     play.firstElementChild.className = "fas " + (intended ? "fa-pause" : "fa-play");
-    range.value = index; previous.disabled = index === 0; next.disabled = index === length - 1;
+    range.max = getLength() - 1;
+    range.value = index;
+    play.disabled = replay.disabled = range.disabled = inactive;
+    previous.disabled = inactive || index === 0;
+    next.disabled = inactive || index === getLength() - 1;
   }
   function suspend() {
     host.classList.remove("is-playing");
     if (timer) remaining = Math.max(0, remaining - (performance.now() - started));
-    clearTimeout(timer); timer = 0;
+    clearTimeout(timer);
+    timer = 0;
   }
   function queue() {
     buttons();
     if (!intended || !seen || document.hidden || timer) return;
     started = performance.now();
-    timer = setTimeout(() => { timer = 0; remaining = duration; show(index + 1); queue(); }, remaining);
+    timer = setTimeout(() => {
+      timer = 0;
+      remaining = duration;
+      show(index + 1);
+      queue();
+    }, remaining);
   }
   function show(value, reset = false) {
-    index = Math.max(0, Math.min(length - 1, value));
+    index = Math.max(0, Math.min(getLength() - 1, value));
     host.dataset.frame = index;
     render(index, reset);
-    if (index === length - 1) { intended = false; suspend(); }
+    if (index === getLength() - 1) {
+      intended = false;
+      suspend();
+    }
     buttons();
   }
-  function pause() { intended = false; suspend(); buttons(); }
-  function seek(value, reset = false) { startedOnce = true; pause(); remaining = duration; show(value, reset); }
+  function pause() {
+    intended = false;
+    suspend();
+    buttons();
+  }
+  function seek(value, reset = false) {
+    pause();
+    remaining = duration;
+    show(value, reset);
+  }
   function start(reset = false) {
-    startedOnce = true;
-    if (reset || index === length - 1) { suspend(); remaining = duration; show(0, true); }
-    intended = true; buttons(); queue();
+    if (host.dataset.inactive === "true") return;
+    if (reset || index === getLength() - 1) {
+      suspend();
+      remaining = duration;
+      show(0, true);
+    }
+    intended = true;
+    buttons();
+    queue();
   }
   previous.addEventListener("click", () => seek(index - 1));
   next.addEventListener("click", () => seek(index + 1));
   range.addEventListener("input", () => seek(Number(range.value)));
   play.addEventListener("click", () => intended ? pause() : start());
-  controls.querySelector("[data-exhibit-replay]").addEventListener("click", () => start(true));
-  new IntersectionObserver(entries => {
+  replay.addEventListener("click", () => start(true));
+  new IntersectionObserver((entries) => {
     seen = entries[0].isIntersecting;
     if (!seen) suspend();
-    else if (!startedOnce && !reduced.matches) start(true);
     else queue();
-  }, {threshold: .15}).observe(host);
-  document.addEventListener("visibilitychange", () => { if (document.hidden) suspend(); else queue(); });
-  reduced.addEventListener("change", () => { if (reduced.matches) pause(); });
-  const controller = {seek, pause, start, refresh: () => show(index, true), get index() {return index;}, get playing() {return intended;}};
+  }, { threshold: 0.1 }).observe(host);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) suspend();
+    else queue();
+  });
+  reduced.addEventListener("change", () => {
+    if (reduced.matches) pause();
+  });
+  const controller = { seek, pause, start, refresh: () => show(index, true), get index() {
+    return index;
+  }, get playing() {
+    return intended;
+  } };
   host._posPlayback = controller;
   show(initial, true);
   return controller;
 }
-
-function perception() {
-  const host = root.querySelector("[data-pos-perception]");
-  let mode = "execution", frames = experience.perception;
-  let previousIndex = -1, selectedFact = null;
-  const locations = {counter: "On the counter", held: "Held by the agent", microwave: "Inside Microwave 1"};
-  function source(frame) {
-    const box = host.querySelector("[data-perception-source]");
-    box.hidden = !selectedFact;
-    if (!selectedFact) return;
-    const i = frame.sources[selectedFact];
-    box.textContent = "Observation " + String(i + 1).padStart(2, "0") + ": " + frames[i].observation;
-  }
-  const controller = playback(host, frames.length, 4200, (index, reset) => {
-    const frame = frames[index];
-    const diagnostic = mode === "diagnosis";
-    host.dataset.mode = mode;
-    host.querySelector("[data-perception-stage]").hidden = diagnostic;
-    host.querySelector("[data-perception-diagnosis]").hidden = !diagnostic;
-    write(host, "[data-perception-location-kind]", diagnostic ? "INTERPRETATION" : "RELATION");
-    write(host, "[data-perception-location-entity]", diagnostic ? "Delay" : "Mug 3");
-    write(host, "[data-perception-temperature-entity]", diagnostic ? "Inventory" : "Mug 3");
-    write(host, "[data-perception-door-entity]", diagnostic ? "JVM evidence" : "Microwave 1");
-    write(host, "[data-perception-temperature]", diagnostic ? frame.temperature : "Not hot");
-    write(host, "[data-perception-gap]", diagnostic ? "Database waiting or JVM-side processing?" : "Make Mug 3 hot.");
-    host.querySelector(".pos-perception-gap").classList.toggle("is-addressed", diagnostic && index >= 5);
-    write(host, "[data-perception-gap-status]", diagnostic && index >= 5 ? " / Distinction supported" : " / Unresolved");
-    write(host, "[data-perception-gap-note]", diagnostic ? index >= 5 ? "The combined evidence favors JVM processing. The final failure type requires further reasoning." : "The symptom is known. The alternatives still need discriminating evidence." : "The place is known. The temperature requirement is still unmet.");
-    host.querySelector("[data-perception-gc]").classList.toggle("is-supported", diagnostic && index >= 2);
-    host.querySelector("[data-perception-cpu]").classList.toggle("is-supported", diagnostic && index >= 5);
-    write(host, "[data-perception-db]", index >= 5 ? "Less supported" : "Waiting?");
-    write(host, "[data-perception-jvm]", index >= 5 ? "More supported" : "Processing?");
-    write(host, "[data-perception-combination]", index >= 5 ? "CPU + GC inform a supported revision." : "Two possible explanations. Evidence must distinguish them.");
-    host.querySelector("[data-perception-diagnosis]").dataset.revised = diagnostic && index >= 5;
-    const list = host.querySelector("[data-perception-history]");
-    list.replaceChildren();
-    frames.slice(0, index + 1).forEach((item, i) => {
-      const li = document.createElement("li"), number = document.createElement("span"), body = document.createElement("div");
-      number.textContent = String(i + 1).padStart(2, "0");
-      const action = document.createElement("strong"), observation = document.createElement("p");
-      action.textContent = item.action; observation.textContent = item.observation;
-      body.append(action, observation); li.append(number, body);
-      if (i === index) li.setAttribute("aria-current", "step");
-      else li.classList.add("is-historical");
-      list.append(li);
-    });
-    list.scrollTop = list.scrollHeight;
-    host.dataset.motion = frame.changed.length ? "updated" : "unchanged";
-    write(host, "[data-perception-count]", String(index + 1).padStart(2, "0"));
-    write(host, "[data-perception-number]", String(index + 1).padStart(2, "0") + " / 07");
-    write(host, "[data-perception-phase]", frame.phase);
-    write(host, "[data-perception-title]", frame.title);
-    write(host, "[data-perception-caption]", frame.caption);
-    write(host, "[data-perception-observation]", frame.observation);
-    write(host, "[data-perception-location]", diagnostic ? frame.location : locations[frame.location]);
-    write(host, "[data-perception-door]", diagnostic ? frame.door : frame.door === "open" ? "Open" : "Closed");
-    write(host, "[data-perception-fallback]", "Mug 3 / " + locations[frame.location] + " / not hot");
-    host.querySelector("[data-perception-stage]").setAttribute("aria-label", frame.observation);
-    host.querySelectorAll("[data-perception-fact]").forEach(fact => {
-      const key = fact.dataset.perceptionFact;
-      fact.classList.toggle("is-updated", frame.changed.includes(key));
-      write(host, `[data-perception-${key}-source]`, "Observation " + String(frame.sources[key] + 1).padStart(2, "0"));
-      fact.getAnimations().forEach(animation => animation.cancel());
-      if (!reset && frame.changed.includes(key)) animate(fact, [{backgroundColor: "#dceee6", transform: "translateX(5px)"}, {backgroundColor: "#ffffff", transform: "translateX(0)"}], 1400);
-    });
-    host.querySelectorAll(".pos-evidence-flight").forEach(item => { item.getAnimations().forEach(a => a.cancel()); item.remove(); });
-    if (!reset && index === previousIndex + 1) {
-      animate(list.lastElementChild, [{opacity: 0, transform: "translateY(15px)"}, {opacity: 1, transform: "translateY(0)"}], 750);
-      if (frame.changed.length && !reduced.matches) {
-        const spread = host.querySelector(".pos-perception-spread"), bounds = spread.getBoundingClientRect();
-        const a = list.lastElementChild.getBoundingClientRect(), b = host.querySelector(".pos-perception-observation").getBoundingClientRect();
-        const c = host.querySelector(`[data-perception-fact="${frame.changed[0]}"]`).getBoundingClientRect();
-        const packet = document.createElement("span"); packet.className = "pos-evidence-flight"; packet.innerHTML = '<i class="fas fa-file-alt" aria-hidden="true"></i>'; packet.setAttribute("aria-hidden", "true"); spread.append(packet);
-        const pos = rect => `translate(${rect.left - bounds.left + rect.width / 2 - 12}px,${rect.top - bounds.top + rect.height / 2 - 12}px)`;
-        const animation = packet.animate([{transform: pos(a), opacity: 0}, {transform: pos(b), opacity: 1, offset: .5}, {transform: pos(c), opacity: 0}], {duration: 1400, easing: "ease-in-out"});
-        animation.onfinish = () => packet.remove();
-      }
-    }
-    source(frame);
-    host._posPerceptionFrame = {frame, mode, reset: reset || Math.abs(index - previousIndex) !== 1};
-    root.dispatchEvent(new CustomEvent("pos:perception", {detail: host._posPerceptionFrame}));
-    previousIndex = index;
-  });
-  host.querySelectorAll("[data-perception-fact]").forEach(button => button.addEventListener("click", () => {
-    controller.pause();
-    selectedFact = selectedFact === button.dataset.perceptionFact ? null : button.dataset.perceptionFact;
-    host.querySelectorAll("[data-perception-fact]").forEach(item => item.setAttribute("aria-pressed", String(item.dataset.perceptionFact === selectedFact)));
-    source(frames[controller.index]);
-  }));
-  host.querySelectorAll("[data-perception-mode]").forEach(button => button.addEventListener("click", () => {
-    mode = button.dataset.perceptionMode;
-    frames = mode === "diagnosis" ? experience.diagnostic_perception : experience.perception;
-    selectedFact = null; previousIndex = -1;
-    host.querySelectorAll("[data-perception-fact]").forEach(item => item.setAttribute("aria-pressed", "false"));
-    tabs(host.querySelectorAll("[data-perception-mode]"), button);
-    host.querySelector("#pos-perception-panel").setAttribute("aria-labelledby", button.id);
-    controller.seek(0, true);
-  }));
-}
-
 function progress() {
   const host = root.querySelector("[data-pos-progress]");
-  let mode = "execution", preset = "advancing", signal = "health", lag = null, selectedTransition = 8;
-  let frames = exampleFrames(preset, mode), current = measure(frames, 8, mode);
-  const presetDescriptions = {
-    advancing: ["Progress before completion.", "The requirement is still open, but every validated transition records progress and earlier states do not recur."],
-    stagnant: ["Different observations. No recorded progress.", "Weak clues change the state description, but no transition meets the progress criterion. Recurrence is absent; stagnation still reveals the trap."],
-    cycle: ["Local changes can hide a loop.", "Transitions receive positive step labels, yet the active-gap state alternates A, B, A, B. The strongest recurrence occurs at lag 2."],
-    drift: ["The record grows around an unchanged gap.", "Unrelated observations accumulate while the active-gap projection stays A. The projection repeats and the requirement remains unresolved."]
+  let mode = "execution", preset = "worked", signal = "health", lag = null, selectedTransition = 3, count = 8, controller;
+  let frames = workedFrames(mode), current = measure(frames, count, mode);
+  const gap = () => mode === "diagnosis" ? "Distinguish database waiting from JVM-side processing." : "Make the mug hot.";
+  const descriptions = {
+    worked: ["A window can contain useful changes and repetition.", "Compare the early window with the later stall in the same task. The later window preserves the same active gap without further useful changes."],
+    advancing: ["An open requirement can still be advancing.", "Every transition records progress, and earlier gap-relevant states do not recur."],
+    static: ["Repeated activity leaves the relevant state unchanged.", "The requirement persists, useful changes are absent, and the gap-relevant state repeats."],
+    cycle: ["Local changes can hide a loop.", "Transitions receive positive step labels, yet the gap-relevant state returns to A, B, A, B. Recurrence reveals the loop."],
+    drift: ["New records accumulate around an unchanged gap.", "Unrelated observations enter the record while the projection relevant to the current requirement keeps repeating."]
   };
+  const describe = (frame) => [...frame.projection.states, ...frame.projection.relations].join("; ");
+  function transitionDetail() {
+    const i = Math.min(Math.max(selectedTransition, 1), Math.max(1, count)), before = frames[i - 1], after = frames[i];
+    write(host, "[data-transition-title]", "Transition " + i + ": " + (after.action || after.record));
+    write(host, "[data-transition-before]", describe(before));
+    write(host, "[data-transition-after]", describe(after));
+    write(host, "[data-transition-observation]", after.observation || "Aligned symbolic state: " + after.record + ".");
+    const t = measure(frames, i, mode).transitions.find((item) => item.index === i), values = /* @__PURE__ */ new Set([...Object.keys(before.confidence), ...Object.keys(after.confidence)]);
+    const explanation = mode === "diagnosis" ? [...values].map((k) => k + ": " + format(before.confidence[k] || 0) + " → " + format(after.confidence[k] || 0)).join("; ") + ". Half the total absolute change = " + t.change.toFixed(3) + ". u = " + t.progress + " (threshold > 0.30)." : "u = " + t.progress + ". " + (t.progress ? "The validated transition advances a necessary step toward heating the mug." : "This observation does not record useful progress toward the active gap.");
+    write(host, "[data-transition-progress]", explanation);
+  }
   function working() {
-    const container = host.querySelector("[data-signal-working]"); container.replaceChildren();
-    host.querySelectorAll("[data-transition]").forEach(item => item.classList.remove("is-relevant"));
-    const line = (label, value) => { const item = document.createElement("p"), name = document.createElement("span"), output = document.createElement("strong"); name.textContent = label; output.textContent = value; item.append(name, output); container.append(item); };
-    const label = host.querySelector("#pos-signal-detail"); label.setAttribute("aria-labelledby", "pos-signal-" + signal);
-    const headings = {
-      p: ["PERSISTENCE / REQUIREMENTS", "Follow the same gap through the window.", "Count the gaps present at the beginning that remain unresolved at every point. Compute epistemic and achievement persistence separately, then take the larger value."],
-      s: ["STAGNATION / STEP LABELS", "Count transitions without recorded progress.", mode === "diagnosis" ? "Each diagnostic label uses half the total absolute confidence change. Increases and decreases both contribute; the threshold is 0.30." : "The Sentinel marks a useful transition when it reduces the active gap, acquires needed information, or advances a plausible route toward the goal."],
-      r: ["RECURRENCE / GAP-RELATIVE STATES", "Compare earlier states at different lags.", "All comparisons use the same active gap. R takes the highest repeat rate across lags 1 to 4. A repeat requires average Entity-State-Relation Jaccard distance at or below 0.15."],
-      health: ["WHY COMBINE THESE SIGNALS?", presetDescriptions[preset][0], presetDescriptions[preset][1]]
+    const container = host.querySelector("[data-signal-working]");
+    container.replaceChildren();
+    host.querySelectorAll("[data-transition]").forEach((item) => item.classList.remove("is-relevant"));
+    const line = (label, value) => {
+      const p = document.createElement("p"), s = document.createElement("span"), b = document.createElement("strong");
+      s.textContent = label;
+      b.textContent = value;
+      p.append(s, b);
+      container.append(p);
     };
-    write(host, "[data-signal-kicker]", headings[signal][0]); write(host, "[data-signal-title]", headings[signal][1]); write(host, "[data-signal-description]", headings[signal][2]);
+    const headings = {
+      p: ["PERSISTENCE / REQUIREMENTS", "Which initial requirements survived the whole window?", "Compute persistence for epistemic and achievement gaps separately, then take the larger value. A requirement resolved during the window is not persistent."],
+      s: ["STAGNATION / TRANSITIONS", "Which actions produced a useful change?", mode === "diagnosis" ? "Each diagnostic label uses half the total absolute confidence change. Increases and decreases contribute; progress requires a change greater than 0.30." : "The Sentinel labels a transition as useful when it reduces the gap, acquires needed information, or advances a plausible route toward the goal."],
+      r: ["RECURRENCE / ALIGNED STATES", "Are we returning to the same gap-relevant state?", "Compare historical states against the same current active gap. R is the highest repeat rate across lags 1–4."],
+      health: ["THE COMBINED ASSESSMENT", descriptions[preset][0], descriptions[preset][1]]
+    };
+    const h = headings[signal];
+    write(host, "[data-signal-kicker]", h[0]);
+    write(host, "[data-signal-title]", h[1]);
+    write(host, "[data-signal-description]", h[2]);
+    host.querySelector("#pos-signal-detail").setAttribute("aria-labelledby", "pos-signal-" + signal);
+    if (!count) {
+      line("Validated transitions", "None yet");
+      return;
+    }
     if (signal === "p") {
-      line("Epistemic persistence", format(current.pE)); line("Achievement persistence", format(current.pA)); line("p = max(P E, P A)", format(current.p));
-      line("Initial gap survives every transition", controller.index ? "Yes" : "Awaiting a transition");
+      line("Epistemic persistence", format(current.pE));
+      line("Achievement persistence", format(current.pA));
+      line("p = max(PE, PA)", format(current.p));
+      const first = frames[Math.max(1, count - 7)], last = frames[count];
+      line("Initial requirements", String(first.epistemic.length + first.achievement.length));
+      line("Requirements open now", String(last.epistemic.length + last.achievement.length));
     } else if (signal === "s") {
       const total = current.transitions.length, sum = current.transitions.reduce((a, b) => a + b.progress, 0);
-      line("Recorded progress labels", current.transitions.map(item => item.progress).join(" "));
-      line("S = 1 - mean(u)", total ? `1 - ${sum}/${total} = ${format(current.s)}` : "Awaiting a transition");
-      if (mode === "diagnosis" && current.transitions.length) {
-        const i = Math.min(Math.max(selectedTransition, 1), controller.index);
-        const ids = new Set([...Object.keys(frames[i - 1].confidence), ...Object.keys(frames[i].confidence)]);
-        ids.forEach(id => line(id, `${format(frames[i - 1].confidence[id] || 0)} → ${format(frames[i].confidence[id] || 0)}`));
-        line(`Transition ${i} / d diag`, format(current.transitions.find(item => item.index === i).change));
-      }
+      line("Progress labels", current.transitions.map((item) => item.progress).join(" "));
+      line("S = 1 − mean(u)", total ? "1 − " + sum + "/" + total + " = " + format(current.s) : "Awaiting a transition");
+      transitionDetail();
+      const hint = document.createElement("button");
+      hint.type = "button";
+      hint.className = "pos-text-command";
+      hint.textContent = "Inspect a transition";
+      hint.addEventListener("click", () => {
+        const d = host.querySelector(".pos-transition-detail");
+        d.open = true;
+        d.scrollIntoView({ block: "nearest", behavior: reduced.matches ? "instant" : "smooth" });
+      });
+      container.append(hint);
     } else if (signal === "r") {
-      const lags = document.createElement("div"); lags.className = "pos-lag-tabs";
-      const chosen = lag || current.recurrence.lag;
-      current.recurrence.comparisons.forEach(item => {
-        const button = document.createElement("button"); button.type = "button"; button.textContent = "Lag " + item.lag + " / " + format(item.rate);
-        button.setAttribute("aria-pressed", String(item.lag === chosen)); button.addEventListener("click", () => { lag = item.lag; working(); }); lags.append(button);
-      }); container.append(lags);
-      const comparison = current.recurrence.comparisons.find(item => item.lag === chosen);
+      const chosen = lag || current.recurrence.lag, buttons = document.createElement("div");
+      buttons.className = "pos-lag-tabs";
+      current.recurrence.comparisons.forEach((item) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = "Lag " + item.lag + " / " + format(item.rate);
+        b.setAttribute("aria-pressed", String(item.lag === chosen));
+        b.addEventListener("click", () => {
+          lag = item.lag;
+          working();
+        });
+        buttons.append(b);
+      });
+      container.append(buttons);
+      const comparison = current.recurrence.comparisons.find((item) => item.lag === chosen);
       if (comparison) {
-        const pairs = document.createElement("div"); pairs.className = "pos-recurrence-pairs";
-        comparison.pairs.forEach(pair => {
-          const button = document.createElement("button"); button.type = "button"; button.className = pair.repeated ? "is-repeat" : "";
-          const windowStart = Math.max(1, controller.index - 7);
-          const a = frames[windowStart + pair.from], b = frames[windowStart + pair.to];
-          button.textContent = `${a.label} ↔ ${b.label}`; button.title = `World distance ${format(pair.distance)}`;
+        const pairs = document.createElement("div");
+        pairs.className = "pos-recurrence-pairs";
+        comparison.pairs.forEach((pair) => {
+          const start = Math.max(1, count - 7), a = frames[start + pair.from], b = frames[start + pair.to], button = document.createElement("button");
+          button.type = "button";
+          button.className = pair.repeated ? "is-repeat" : "";
+          button.textContent = a.label + " ↔ " + b.label;
+          button.title = "World distance " + format(pair.distance);
           button.addEventListener("click", () => {
-            host.querySelectorAll("[data-transition]").forEach(item => item.classList.remove("is-relevant"));
-            const start = Math.max(1, controller.index - 7);
-            [start + pair.from, start + pair.to].forEach(i => host.querySelector('[data-transition="' + i + '"]')?.classList.add("is-relevant"));
             controller.pause();
+            host.querySelectorAll("[data-transition]").forEach((item) => item.classList.remove("is-relevant"));
+            [start + pair.from, start + pair.to].forEach((i) => host.querySelector('[data-transition="' + i + '"]')?.classList.add("is-relevant"));
             container.querySelector(".pos-pair-detail")?.remove();
-            const detail = document.createElement("p"); detail.className = "pos-pair-detail";
-            detail.textContent = `Entities: ${a.projection.entities.join(", ")} / ${b.projection.entities.join(", ")}. States: ${a.projection.states.join(", ")} / ${b.projection.states.join(", ")}. Relations: ${a.projection.relations.join(", ")} / ${b.projection.relations.join(", ")}. dW = ${format(worldDistance(a.projection, b.projection))}.`;
-            container.append(detail);
-          }); pairs.append(button);
-        }); container.append(pairs);
+            const p = document.createElement("p");
+            p.className = "pos-pair-detail";
+            p.textContent = describe(a) + " / " + describe(b) + ". Average Entity–State–Relation distance = " + format(worldDistance(a.projection, b.projection)) + ".";
+            container.append(p);
+          });
+          pairs.append(button);
+        });
+        container.append(pairs);
       }
-      line("Highest recurrence rate / R", format(current.r));
+      line("Highest repeat rate / R", format(current.r));
     } else {
-      line("Persistent requirements / p", format(current.p)); line("Stronger signal / max(S, R)", format(Math.max(current.s, current.r)));
+      line("Persistent requirements / p", format(current.p));
+      line("Stronger signal / max(S, R)", format(Math.max(current.s, current.r)));
       line("Detection threshold", "H ≤ 0.25");
-      line("Assessment", current.ready ? current.h <= .25 ? "Trapping detected" : "Progress continues" : "Wait for 8 transitions");
+      line("Assessment", current.ready ? current.h <= 0.25 ? "Trapping detected" : "No trapping detected" : "Wait for 8 transitions");
     }
   }
-  let controller;
-  function render(count, reset) {
+  // Recovery receives the exact task, gap and window currently being inspected.
+  function publish() {
+    const selection = { mode, preset, count, pattern: preset === "cycle" ? "cycle" : preset === "drift" ? "drift" : "static", gap: gap(), frames: frames.slice(0, count + 1), metrics: current };
+    root._posProgressSelection = selection;
+    root.dispatchEvent(new CustomEvent("pos:progress-selection", { detail: selection }));
+  }
+  function render(value) {
+    count = value;
+    host.querySelector(".pos-transition-detail").hidden = count === 0;
     current = measure(frames, count, mode);
-    host.dataset.assessment = !current.ready ? "pending" : current.h <= .25 ? "trapped" : "healthy";
-    write(host, "[data-progress-status]", current.ready ? "Window ready" : `Collecting ${count} / 8 transitions`);
-    write(host, "[data-progress-gap]", mode === "diagnosis" ? "Distinguish the remaining explanations." : "Fulfill the remaining goal requirement.");
-    const strip = host.querySelector("[data-progress-transitions]"); strip.replaceChildren();
-    for (let i = 1; i <= 8; i++) {
-      const item = document.createElement("button"); item.type = "button"; item.dataset.transition = i;
-      const transition = current.transitions.find(value => value.index === i);
-      item.className = "pos-transition " + (!transition ? "is-pending" : transition.progress ? "is-progress" : "is-stagnant");
-      item.disabled = !transition;
-      const number = document.createElement("span"), states = document.createElement("strong"), tag = document.createElement("small"), record = document.createElement("b");
-      number.textContent = "T" + String(i).padStart(2, "0"); states.textContent = frames[i - 1].label + " → " + frames[i].label;
-      tag.textContent = transition ? "u = " + transition.progress : "Awaiting";
-      record.textContent = frames[i].record;
-      item.append(number, states, tag, record);
-      item.setAttribute("aria-label", `Transition ${i}: ${states.textContent}, ${tag.textContent}`);
-      item.addEventListener("click", () => { controller.pause(); selectedTransition = i; signal = "s"; selectSignal(); });
+    host.dataset.assessment = !current.ready ? "pending" : current.h <= 0.25 ? "trapped" : "healthy";
+    write(host, "[data-progress-status]", current.ready ? "Window ready" : "Collecting " + count + " / 8 transitions");
+    write(host, "[data-progress-gap]", gap());
+    write(host, "[data-progress-gap-status]", count && current.p < 1 ? "Some initial requirements resolved" : "The same gap remains unresolved");
+    write(host, "[data-progress-window]", "Validated transitions " + Math.max(1, count - 7) + "–" + Math.max(8, count));
+    const strip = host.querySelector("[data-progress-transitions]");
+    strip.replaceChildren();
+    for (let offset = 0; offset < 8; offset++) {
+      const i = Math.max(1, count - 7) + offset, item = document.createElement("button"), t = current.transitions.find((t2) => t2.index === i);
+      item.type = "button";
+      item.dataset.transition = i;
+      item.disabled = !t;
+      item.className = "pos-transition " + (!t ? "is-pending" : t.progress ? "is-progress" : "is-stagnant");
+      const n = document.createElement("span"), s = document.createElement("strong"), u = document.createElement("small");
+      n.textContent = "T" + String(i).padStart(2, "0");
+      s.textContent = (frames[i - 1]?.label || "—") + " → " + (frames[i]?.label || "—");
+      u.textContent = t ? "u = " + t.progress : "Awaiting";
+      item.append(n, s, u);
+      item.title = frames[i]?.action || frames[i]?.record || "Awaiting transition";
+      item.addEventListener("click", () => {
+        controller.pause();
+        selectedTransition = i;
+        signal = "s";
+        selectSignal();
+        const d = host.querySelector(".pos-transition-detail");
+        d.open = true;
+        transitionDetail();
+        item.classList.add("is-relevant");
+      });
       strip.append(item);
-      if (!reset && i === count) animate(item, [{opacity: 0, transform: "translateY(10px)"}, {opacity: 1, transform: "translateY(0)"}], 700);
     }
-    ["p", "s", "r"].forEach(key => write(host, `[data-metric-${key}]`, count ? format(current[key]) : "--"));
-    write(host, "[data-metric-h]", current.ready ? format(current.h) : "--");
-    write(host, "[data-metric-verdict]", current.ready ? current.h <= .25 ? "Trapping detected" : "Progress continues" : "Awaiting full window");
-    write(host, "[data-health-calculation]", current.ready ? `1 − ${format(current.p)} × max(${format(current.s)}, ${format(current.r)}) = ${format(current.h)}` : "Health estimation starts after 8 validated transitions.");
-    const pointer = host.querySelector("[data-health-pointer]"); pointer.style.left = `${current.h * 100}%`; pointer.hidden = !current.ready;
-    // Playback renders its initial frame before returning the controller.
-    if (controller) working();
+    ["p", "s", "r"].forEach((k) => write(host, "[data-metric-" + k + "]", count ? format(current[k]) : "—"));
+    write(host, "[data-metric-h]", current.ready ? format(current.h) : "—");
+    write(host, "[data-metric-verdict]", current.ready ? current.h <= 0.25 ? "Trapping detected" : "No trapping detected" : "Awaiting full window");
+    write(host, "[data-health-calculation]", current.ready ? "1 − " + format(current.p) + " × max(" + format(current.s) + ", " + format(current.r) + ") = " + format(current.h) : "Health estimation starts after 8 validated transitions.");
+    const pointer = host.querySelector("[data-health-pointer]");
+    pointer.style.left = (current.h || 0) * 100 + "%";
+    pointer.hidden = !current.ready;
+    host.querySelector("[data-worked-windows]").hidden = preset !== "worked";
+    tabs(host.querySelectorAll("[data-progress-window-choice]"), host.querySelector('[data-progress-window-choice="' + (count <= 8 ? "early" : "late") + '"]'));
+    write(host, "[data-progress-link-note]", current.ready && current.h <= 0.25 ? "Trapping detected. Continue with this task and gap." : "No recovery is required in this window. Compare the later stall.");
     host._posMetrics = current;
+    if (controller) {
+      working();
+      transitionDetail();
+    }
+    publish();
   }
-  controller = playback(host, 9, 2500, render, 8);
-  working();
   function selectSignal() {
     host.dataset.signal = signal;
-    tabs(host.querySelectorAll("[data-progress-signal]"), host.querySelector(`[data-progress-signal="${signal}"]`)); working();
+    tabs(host.querySelectorAll("[data-progress-signal]"), host.querySelector('[data-progress-signal="' + signal + '"]'));
+    working();
   }
-  host.querySelectorAll("[data-progress-signal]").forEach(button => button.addEventListener("click", () => { controller.pause(); signal = button.dataset.progressSignal; selectSignal(); }));
-  host.querySelectorAll("[data-progress-mode]").forEach(button => button.addEventListener("click", () => {
-    mode = button.dataset.progressMode; tabs(host.querySelectorAll("[data-progress-mode]"), button);
-    frames = exampleFrames(preset, mode); controller.seek(8, true); selectSignal();
+  function select(newMode, newPreset, late = false) {
+    mode = newMode;
+    preset = newPreset;
+    lag = null;
+    host.dataset.preset = preset;
+    frames = preset === "worked" ? workedFrames(mode) : exampleFrames(preset, mode);
+    tabs(host.querySelectorAll("[data-progress-mode]"), host.querySelector('[data-progress-mode="' + mode + '"]'));
+    tabs(host.querySelectorAll("[data-progress-preset]"), host.querySelector('[data-progress-preset="' + preset + '"]'));
+    host.querySelector("#pos-progress-panel").setAttribute("aria-labelledby", "pos-preset-" + preset);
+    selectedTransition = late ? 16 : preset === "worked" ? 3 : 8;
+    controller.seek(late ? 16 : 8, true);
+    selectSignal();
+  }
+  controller = playback(host, () => frames.length, 2500, render, 8);
+  working();
+  transitionDetail();
+  host.querySelectorAll("[data-progress-signal]").forEach((b) => b.addEventListener("click", () => {
+    controller.pause();
+    signal = b.dataset.progressSignal;
+    selectSignal();
   }));
-  host.querySelectorAll("[data-progress-preset]").forEach(button => button.addEventListener("click", () => {
-    preset = button.dataset.progressPreset; host.dataset.preset = preset; lag = null;
-    tabs(host.querySelectorAll("[data-progress-preset]"), button);
-    host.querySelector("#pos-progress-panel").setAttribute("aria-labelledby", button.id);
-    frames = exampleFrames(preset, mode); controller.seek(8, true);
-    animate(host.querySelector(".pos-transition-strip"), [{opacity: .4}, {opacity: 1}], 450);
-  }));
+  host.querySelectorAll("[data-progress-mode]").forEach((b) => b.addEventListener("click", () => select(b.dataset.progressMode, preset, count > 8)));
+  host.querySelectorAll("[data-progress-preset]").forEach((b) => b.addEventListener("click", () => select(mode, b.dataset.progressPreset)));
+  host.querySelectorAll("[data-progress-window-choice]").forEach((b) => b.addEventListener("click", () => select(mode, "worked", b.dataset.progressWindowChoice === "late")));
+  root.addEventListener("pos:recovery-choice", (e) => select(e.detail.mode, e.detail.preset, e.detail.late));
 }
-
 function recovery() {
   const host = root.querySelector("[data-pos-recovery]");
-  let pattern = "static", gap = "epistemic";
-  const phases = [
-    ["TRAPPING DETECTED", "A persistent gap meets stalled belief dynamics.", "Once a full window is available, H at or below 0.25 triggers trapping diagnosis.", "fa-pause-circle"],
-    ["FACTORIZED DIAGNOSIS", "Identify how the agent is stuck and what remains blocked.", "The pattern describes the unproductive dynamics. The gap type identifies the progress that recovery must restore.", "fa-crosshairs"],
-    ["CONSTRAINTS COMPOSED", "Two constraints guide the next decision.", "The active gap stays fixed. The Task Agent chooses an action conditioned on both the escape constraint and the progress requirement.", "fa-code-branch"],
-    ["AGENT-SELECTED ACTION", "Choose an investigation that addresses the gap.", "", "fa-arrow-right"],
-    ["VALIDATED TRANSITION", "Check the new observation and revise the belief.", "", "fa-check-circle"],
-    ["HEALTH REASSESSED", "Release constraints only when health recovers.", "Recompute H after every validated transition. If H remains at or below 0.25, update the diagnosis and constraints; if H exceeds 0.25, resume normal interaction.", "fa-sync-alt"]
-  ];
-  const controller = playback(host, 6, 4300, index => {
-    const p = experience.recovery.patterns[pattern], g = experience.recovery.gaps[gap];
+  let selection = root._posProgressSelection, resolved = false, controller;
+  const names = ["Detect", "Diagnose", "Compose", "Act", "Validate", "Reassess"];
+  function render(index) {
+    const pattern = experience.recovery.patterns[selection.pattern], mode = selection.mode, type = mode === "diagnosis" ? "epistemic" : "achievement", g = experience.recovery.gaps[type], before = selection.metrics, active = before.ready && before.h <= 0.25;
+    host.dataset.inactive = String(!active);
     host.dataset.phase = index;
-    write(host, "[data-recovery-active-gap]", g.gap); write(host, "[data-recovery-pattern-description]", p.summary);
-    write(host, "[data-recovery-state-middle]", pattern === "cycle" ? "B" : pattern === "drift" ? "A + notes" : "A");
-    write(host, "[data-recovery-pattern-constraint]", p.constraint); write(host, "[data-recovery-gap-constraint]", g.constraint);
-    write(host, "[data-recovery-constraint-status]", index < 2 ? "Constraints awaiting composition" : index === 5 ? "Reassess after each validated transition" : "Both constraints applied to action selection");
-    write(host, "[data-recovery-kicker]", phases[index][0]);
-    write(host, "[data-recovery-title]", index === 3 ? g.action : phases[index][1]);
-    write(host, "[data-recovery-description]", index === 3 ? "This is one possible action selected by the agent; the constraints specify what it must resolve." : index === 4 ? g.observation + " " + g.revision : phases[index][2]);
-    host.querySelector("[data-recovery-icon]").className = "fas " + phases[index][3];
-    write(host, "[data-recovery-h-status]", index === 5 ? "H ≤ 0.25: update / H > 0.25: release" : "H ≤ 0.25 / recovery active");
-    write(host, "[data-recovery-release]", index === 5 ? "Recovery is an ongoing loop. A new observation alone is not a reason to release the constraints." : "The active gap remains the target while the next action is redirected.");
-    host.querySelectorAll("[data-recovery-milestone]").forEach((item, i) => { item.classList.toggle("is-active", i === index); item.classList.toggle("is-past", i < index); });
-    animate(host.querySelector(".pos-recovery-outcome > div"), [{opacity: .25, transform: "translateY(6px)"}, {opacity: 1, transform: "translateY(0)"}], 700);
-  });
-  host.querySelectorAll("[data-recovery-pattern]").forEach(button => button.addEventListener("click", () => {
-    pattern = button.dataset.recoveryPattern; host.dataset.pattern = pattern;
-    tabs(host.querySelectorAll("[data-recovery-pattern]"), button);
-    host.querySelector("#pos-recovery-panel").setAttribute("aria-labelledby", button.id); controller.seek(0, true);
+    write(host, "[data-recovery-handoff]", (mode === "diagnosis" ? "Diagnosis" : "Execution") + " / " + (selection.preset === "worked" ? selection.count > 8 ? "later window" : "early window" : pattern.name + " window") + " / " + (before.ready ? "H = " + format(before.h) : "awaiting eight transitions"));
+    write(host, "[data-recovery-active-gap]", selection.gap);
+    write(host, "[data-recovery-pattern-description]", pattern.summary);
+    write(host, "[data-recovery-state-middle]", selection.pattern === "cycle" ? "B" : selection.pattern === "drift" ? "A + notes" : "A");
+    write(host, "[data-recovery-pattern-constraint]", pattern.constraint);
+    write(host, "[data-recovery-gap-constraint]", g.constraint);
+    write(host, "[data-recovery-constraint-status]", !active ? "No recovery constraints needed" : index < 2 ? "Constraints awaiting composition" : "Both constraints guide action selection");
+    host.querySelectorAll("[data-recovery-milestone]").forEach((item, i) => {
+      item.classList.toggle("is-active", active && i === index);
+      item.classList.toggle("is-past", active && i < index);
+    });
+    const afterFrames = recoveryFrames(selection.frames, mode, resolved), after = measure(afterFrames, afterFrames.length - 1, mode), frame = afterFrames[afterFrames.length - 1];
+    const titles = ["The same gap persists without useful progress.", "Identify the pattern and the blocked requirement.", "Combine escape and progress constraints.", g.action, "Validate the new observation.", after.h > 0.25 ? "Health recovers. Release the constraints." : "Health remains low. Keep the constraints."];
+    const texts = ["The validated window has H at or below 0.25. Recovery addresses this task and this active gap.", pattern.summary + " The active gap remains the target.", pattern.constraint + " " + g.constraint, "The Task Agent selects an action under these constraints. They specify the change or information needed.", frame.observation, "Recompute the same signals over the updated window. p = " + format(after.p) + ", S = " + format(after.s) + ", R = " + format(after.r) + "; H = " + format(after.h) + ". " + (after.h > 0.25 ? "Normal interaction resumes; other task requirements may remain." : "A useful observation alone has not yet restored the window's health.")];
+    write(host, "[data-recovery-kicker]", active ? names[index].toUpperCase() : "MONITORING");
+    write(host, "[data-recovery-title]", active ? titles[index] : before.ready ? "This window does not trigger recovery." : "A full window is needed before trapping detection.");
+    write(host, "[data-recovery-description]", active ? texts[index] : "Compare the later stall, or select a trapping pattern above. The task and active gap carry over from Progression.");
+    host.querySelector("[data-recovery-icon]").className = "fas " + ["fa-pause-circle", "fa-crosshairs", "fa-code-branch", "fa-arrow-right", "fa-check-circle", "fa-sync-alt"][active ? index : 5];
+    write(host, "[data-recovery-h-status]", !active ? before.ready ? "H = " + format(before.h) + " / monitoring" : "Detection pending" : index >= 4 ? "H: " + format(before.h) + " → " + format(after.h) : "H = " + format(before.h) + " / recovery active");
+    write(host, "[data-recovery-release]", !active ? "The same progress assessment determines whether recovery is needed." : index >= 4 ? after.h > 0.25 ? "Release only after the validated window clears H > 0.25." : "Keep or revise the constraints while H ≤ 0.25." : "The active gap stays fixed while action selection changes.");
+    host._posRecoveryMetrics = { before, after, active, resolved };
+  }
+  controller = playback(host, () => 6, 4300, render);
+  function receive(s) {
+    selection = s;
+    const type = s.mode === "diagnosis" ? "epistemic" : "achievement";
+    host.dataset.pattern = s.pattern;
+    host.dataset.gap = type;
+    tabs(host.querySelectorAll("[data-recovery-pattern]"), host.querySelector('[data-recovery-pattern="' + s.pattern + '"]'));
+    tabs(host.querySelectorAll("[data-recovery-gap]"), host.querySelector('[data-recovery-gap="' + type + '"]'));
+    host.querySelector("#pos-recovery-panel").setAttribute("aria-labelledby", "pos-recovery-" + s.pattern);
+    controller.seek(0, true);
+  }
+  root.addEventListener("pos:progress-selection", (e) => receive(e.detail));
+  const choose = (mode, preset, late = false) => root.dispatchEvent(new CustomEvent("pos:recovery-choice", { detail: { mode, preset, late } }));
+  host.querySelectorAll("[data-recovery-pattern]").forEach((b) => b.addEventListener("click", () => choose(selection.mode, b.dataset.recoveryPattern)));
+  host.querySelectorAll("[data-recovery-gap]").forEach((b) => b.addEventListener("click", () => choose(b.dataset.recoveryGap === "epistemic" ? "diagnosis" : "execution", selection.pattern)));
+  host.querySelector("[data-recovery-stalled]").addEventListener("click", () => choose(selection.mode, "worked", true));
+  host.querySelectorAll("[data-recovery-resolved]").forEach((b) => b.addEventListener("click", () => {
+    resolved = b.dataset.recoveryResolved === "true";
+    tabs(host.querySelectorAll("[data-recovery-resolved]"), b);
+    controller.seek(selection.metrics.h <= 0.25 ? 5 : 0, true);
   }));
-  host.querySelectorAll("[data-recovery-gap]").forEach(button => button.addEventListener("click", () => {
-    gap = button.dataset.recoveryGap; host.dataset.gap = gap;
-    tabs(host.querySelectorAll("[data-recovery-gap]"), button); controller.seek(0, true);
-  }));
+  receive(selection);
 }
-
-if (root) { perception(); progress(); recovery(); }
+function navigation() {
+  const nav = document.querySelector(".project-local-nav"), links = [...nav.querySelectorAll(".project-local-nav__links a")], select = nav.querySelector("[data-pos-section-select]"), targets = links.map((link) => ({ link, target: document.querySelector(link.getAttribute("href")) }));
+  let queued = false;
+  function update() {
+    queued = false;
+    let active = null;
+    targets.forEach((item) => {
+      if (item.target.getBoundingClientRect().top <= 150) active = item;
+    });
+    targets.forEach((item) => {
+      const on = item === active;
+      item.link.classList.toggle("is-active", on);
+      if (on) item.link.setAttribute("aria-current", "location");
+      else item.link.removeAttribute("aria-current");
+    });
+    if (select) select.value = active ? active.link.getAttribute("href") : "";
+  }
+  if (select) select.addEventListener("change", () => {
+    const hash = select.value;
+    if (!hash) return;
+    if (location.hash === hash) {
+      document.querySelector(hash).scrollIntoView({ block: "start", behavior: reduced.matches ? "instant" : "smooth" });
+    } else {
+      location.hash = hash;
+    }
+  });
+  addEventListener("scroll", () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+  addEventListener("resize", update);
+  addEventListener("hashchange", update);
+  update();
+}
+if (root) {
+  progress();
+  recovery();
+  navigation();
+}

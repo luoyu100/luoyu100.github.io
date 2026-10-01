@@ -201,6 +201,7 @@
       text("[data-belief-health]", frame.health || (frame.tone === "stalled" ? "Low progress" : frame.resolved ? "Progress restored" : ""));
       text("[data-case-progress-title]", frame.title);
       text("[data-case-progress-description]", frame.decision);
+      text("[data-case-observation]", frame.observation);
       text("[data-case-progress-guidance]", frame.constraint);
       text("[data-case-reported-health]", frame.health ? "Reported health: " + frame.health : "");
       var ongoingLowProgress = caseIndex === 1 && frameIndex >= 11 && frameIndex <= 13;
@@ -374,6 +375,7 @@
       row.values.forEach(function (value) { var cell = document.createElement("td"); cell.textContent = value.toFixed(2); tr.appendChild(cell); }); body.appendChild(tr);
     });
     text("[data-results-caption]", "Table 1 \u00b7 " + model.name + " \u00b7 All values are percentages");
+    text("[data-results-model]", model.name);
     var ablation = root.querySelector("[data-ablation-grid]"); ablation.replaceChildren();
     data.benchmarks.forEach(function (benchmark, i) {
       var item = document.createElement("div"), title = document.createElement("h4"); title.textContent = benchmark; item.append(title);

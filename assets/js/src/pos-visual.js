@@ -1,6 +1,5 @@
 /* Editable Three.js scenes. Build instructions: assets/js/src/pos-visual.README.md. */
 import * as THREE from "three";
-import {createPerception} from "./pos-perception.js";
 
 const page = document.querySelector("[data-pos-project]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -41,7 +40,6 @@ function stage(element, extent = 5.5) {
 }
 
 if (page) {
-  createPerception(page, stage, reduced);
   // Case scene transitions are driven only by the controller's shared snapshot.
   const worldHost = page.querySelector("[data-pos-world]");
   const comic = worldHost.parentElement;
