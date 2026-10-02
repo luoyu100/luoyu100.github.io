@@ -43,6 +43,37 @@ My recent research interests lie in:
 - *2025.06*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Lenovo
 - *2025.05*: &nbsp;🎉🎉 Our paper “FlowXpert” is accepted by KDD 2025
 
+# Preprint
+
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2026</div><a href="https://arxiv.org/abs/2610.01415"><img src="{{ '/images/projects/pos/beyond-memory.webp' | relative_url }}" alt="PoS: explicit belief states, progression monitoring, and trapping-aware recovery beyond memory" width="100%" loading="lazy" decoding="async"></a></div></div>
+<div class='paper-box-text' markdown="1">
+
+[Beyond Memory: Harnessing Long-Horizon Agents with Explicit Belief States](https://arxiv.org/abs/2610.01415)
+
+**Yu Luo**, Jiamin Jiang, Yimin Zuo, et al.
+
+- PoS moves beyond storing interaction history by maintaining explicit belief states of the current world and unresolved task requirements. It checks their consistency and tracks progression to detect when an agent keeps acting without making useful progress. Trapping-aware recovery redirects subsequent actions based on how the agent is stuck and what remains unresolved.
+
+<div class="paper-actions">
+  <a class="paper-story-link paper-story-link--project" target="_self" href="{{ '/projects/progression-of-states/project/' | relative_url }}">
+    <i class="fas fa-project-diagram" aria-hidden="true"></i>
+    <span>Project</span>
+    <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://arxiv.org/abs/2610.01415">
+    <i class="fas fa-file-alt" aria-hidden="true"></i>
+    <span>arXiv</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/luoyu100/PoS">
+    <i class="fas fa-code" aria-hidden="true"></i>
+    <span>Code</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+</div>
+</div>
+</div>
+
 # 📝 Publications 
 
 <div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">ICML 2026</div><a href="https://arxiv.org/abs/2603.21250"><img src='images/graph-of-states.png' alt="sym" width="100%"></a></div></div>
