@@ -6,7 +6,7 @@ The page is independently accessible at `/projects/toolrca/project/`. It must no
 
 Section 04 uses two native single-choice radio groups styled as direct-click configuration options. Each group exposes all eight configurations, updates the comparison immediately, and supports standard arrow-key selection. Preserve the L3 / L1+L2+L3 defaults and the blue / teal chart mapping.
 
-`images/projects/toolrca/tool-spectrum-v2.webp` is the static Section 02 overview, generated with the built-in image generation tool. Its exact generation prompt is saved in `images/projects/toolrca/tool-spectrum.prompt.txt`. The depicted outputs are schematic, not additional experimental data. The four lanes are independent alternatives; they must not become a required L1-to-L3 pipeline. The full-resolution image link and textual level panels provide complementary reading on small screens.
+`_includes/toolrca-spectrum.html` is the Section 02 overview, drawn with native inline SVG and responsive HTML labels. The four analytical motifs and their text remain independently editable. Concise descriptions live in each level's `diagram` object in the shared JSON data. The visuals are schematic, not additional experimental data; the four lanes are alternatives, not a required L1-to-L3 pipeline. On mobile the tool illustration spans the row and its returned result and remaining agent work sit below it, without shrinking the labels into a raster image. The previous generated bitmap is retained as an unused draft, not requested by the page.
 
 Bundle `toolrca-project.js` with D3 7.9.0 and esbuild. Build dependencies stay outside the Jekyll repository; the resulting bundle and license notice are committed for offline runtime use.
 

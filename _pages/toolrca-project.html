@@ -6,7 +6,7 @@ description: "A controlled study of tool abstraction, model capability, and syst
 layout: project
 author_profile: false
 project_theme: toolrca
-project_stylesheet: /assets/css/toolrca.css?v=20261002b
+project_stylesheet: /assets/css/toolrca.css?v=20261002c
 sitemap: false
 search: false
 robots: noindex, nofollow
@@ -49,12 +49,7 @@ project_navigation:
 <section class="trca-section trca-tinted" id="spectrum"><div class="trca-shell">
   <div class="trca-heading"><p class="trca-index">02 / ANALYTICAL RESPONSIBILITY</p><h2>The tool spectrum.</h2></div>
   <p class="trca-lead">The levels differ in what tools return, and what the agent must still decide.</p>
-  <figure class="trca-spectrum-figure">
-    <a href="{{ '/images/projects/toolrca/tool-spectrum-v2.webp' | relative_url }}" target="_blank" rel="noopener" aria-label="View the tool spectrum illustration at full resolution">
-      <img src="{{ '/images/projects/toolrca/tool-spectrum-v2.webp' | relative_url }}" width="1536" height="1024" loading="lazy" decoding="async" alt="Four independent tool levels use the same incident data. L0 executes agent-written Python; L1 retrieves metric samples and summaries; L2 detects anomalies, change points, and evidence relationships; L3 ranks and explains diagnostic candidates. The agent interprets the outputs and makes the final diagnosis at every level.">
-    </a>
-    <figcaption><span>Four kinds of analytical support, not a required pipeline. Outputs shown are schematic.</span><a href="{{ '/images/projects/toolrca/tool-spectrum-v2.webp' | relative_url }}" target="_blank" rel="noopener">Full-resolution view <i class="fas fa-expand" aria-hidden="true"></i></a></figcaption>
-  </figure>
+  {% include toolrca-spectrum.html %}
   <div class="trca-tabs" data-trca-tabs="spectrum" role="tablist" aria-label="Tool abstraction level">{% for level in study.levels %}<button type="button" id="trca-tab-{{ level.id }}" role="tab" aria-controls="trca-level-{{ level.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ level.id }} <span>{{ level.name }}</span></button>{% endfor %}</div>
   <div class="trca-spectrum-panels">{% for level in study.levels %}<article id="trca-level-{{ level.id }}" data-trca-panel="spectrum" role="tabpanel" aria-labelledby="trca-tab-{{ level.id }}">
     <div class="trca-spectrum-heading"><h3>{{ level.name }}</h3><span>{{ level.count }}</span></div>

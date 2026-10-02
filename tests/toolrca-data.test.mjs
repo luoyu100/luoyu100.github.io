@@ -39,7 +39,25 @@ test('every directly selectable comparison uses measured configurations', () => 
   assert.match(page, /type="radio" name="trca-reference"/);
   assert.match(page, /type="radio" name="trca-comparison"/);
   assert.doesNotMatch(page, /<select data-trca-(reference|compare)/);
-  assert.match(page, /tool-spectrum-v2\.webp/);
+  assert.match(page, /include toolrca-spectrum\.html/);
+  assert.doesNotMatch(page, /tool-spectrum-v2\.webp/);
+});
+
+test('the native spectrum covers four independent levels and leaves diagnosis to the agent', () => {
+  assert.deepEqual(data.levels.map(level => level.id), ['L0', 'L1', 'L2', 'L3']);
+  data.levels.forEach(level => {
+    for (const field of ['action', 'result', 'remaining', 'visual_description']) {
+      assert.equal(typeof level.diagram[field], 'string');
+      assert.ok(level.diagram[field].length > 0);
+    }
+  });
+  assert.match(data.levels[0].diagram.action, /Python/);
+  assert.match(data.levels[2].diagram.remaining, /symptoms from causes/);
+  const diagram = readFileSync(new URL('../_includes/toolrca-spectrum.html', import.meta.url), 'utf8');
+  assert.match(diagram, /The agent makes the final diagnosis at every level/);
+  assert.match(diagram, /Independent interfaces, not a required pipeline/);
+  assert.match(diagram, /viewBox="0 0 300 112"/);
+  assert.doesNotMatch(diagram, /<img|<image|\.webp|\.png/);
 });
 
 test('capability effects and invocation rates reproduce Figure 7', () => {

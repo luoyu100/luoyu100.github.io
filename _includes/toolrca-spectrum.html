@@ -1,0 +1,60 @@
+<figure class="trca-spectrum-diagram" aria-labelledby="trca-spectrum-caption">
+  <div class="trca-spectrum-inputs">
+    <span class="trca-eyebrow">SAME INCIDENT DATA</span>
+    <ul><li><i class="fas fa-chart-line" aria-hidden="true"></i> Metrics</li><li><i class="fas fa-file-alt" aria-hidden="true"></i> Incident context</li><li><i class="fas fa-project-diagram" aria-hidden="true"></i> Service topology</li></ul>
+  </div>
+  <div class="trca-spectrum-columns" aria-hidden="true"><span>Level</span><span>Tool work</span><span>Returned to the agent</span><span>Agent decision</span></div>
+  {% for level in study.levels %}
+  <div class="trca-spectrum-lane" data-spectrum-level="{{ level.id }}">
+    <div class="trca-spectrum-level"><span class="trca-spectrum-id">{{ level.id }}</span><h3>{{ level.name }}</h3><p>{{ level.count }}</p></div>
+    <div class="trca-spectrum-work">
+      <span class="trca-spectrum-mobile-label">Tool work</span>
+      <svg viewBox="0 0 300 112" role="img" aria-labelledby="trca-spectrum-{{ level.id }}-title">
+        <title id="trca-spectrum-{{ level.id }}-title">{{ level.diagram.action }}. {{ level.diagram.visual_description }}</title>
+        {% case level.id %}
+        {% when 'L0' %}
+        <rect class="trca-svg-paper" x="5" y="12" width="174" height="88" rx="5"/>
+        <path class="trca-svg-rule" d="M5 33H179"/>
+        <g class="trca-svg-muted-fill"><circle cx="18" cy="23" r="2"/><circle cx="27" cy="23" r="2"/><circle cx="36" cy="23" r="2"/></g>
+        <path class="trca-svg-blue" d="M32 48L23 56L32 64M49 48L58 56L49 64M43 46L37 66"/>
+        <path class="trca-svg-code" d="M75 49H148M75 62H123M24 80H84M96 80H149"/>
+        <path class="trca-svg-axis" d="M206 22V94H292"/>
+        <path class="trca-svg-blue" d="M209 77L220 73L230 78L240 61L250 65L260 47L270 55L280 37L291 43"/>
+        <circle class="trca-svg-accent-dot" cx="291" cy="43" r="4"/>
+        {% when 'L1' %}
+        <path class="trca-svg-grid" d="M9 34H179M9 60H179M9 86H179"/>
+        <rect class="trca-svg-blue-wash" x="104" y="14" width="47" height="83"/>
+        <path class="trca-svg-dashed" d="M104 14V97M151 14V97"/>
+        <path class="trca-svg-axis" d="M9 15V98H179"/>
+        <path class="trca-svg-blue" d="M12 73L23 62L32 70L43 58L53 66L63 53L74 61L84 48L94 58L105 43L115 51L126 34L137 46L148 29L158 43L169 32L178 40"/>
+        <rect class="trca-svg-paper" x="204" y="15" width="89" height="82" rx="5"/>
+        <path class="trca-svg-code" d="M217 30H248M217 50H242M217 68H237M217 85H245"/>
+        <path class="trca-svg-teal" d="M264 30H280M264 50H275M264 68H281M264 85H278"/>
+        {% when 'L2' %}
+        <path class="trca-svg-grid" d="M8 35H174M8 61H174M8 87H174"/>
+        <path class="trca-svg-axis" d="M8 15V98H174"/>
+        <path class="trca-svg-blue" d="M11 77L23 73L35 78L47 69L59 75L70 68L82 73L92 64L103 67L111 24L120 71L131 76L143 66L154 72L165 64L174 68"/>
+        <path class="trca-svg-change" d="M111 12V98"/>
+        <circle class="trca-svg-warning-ring" cx="111" cy="24" r="8"/>
+        <circle class="trca-svg-warning-dot" cx="111" cy="24" r="3"/>
+        <path class="trca-svg-link" d="M208 33L245 22L284 52L256 86L207 80L208 33L256 86M245 22L256 86M207 80L284 52"/>
+        <circle class="trca-svg-node" cx="208" cy="33" r="6"/><circle class="trca-svg-node" cx="245" cy="22" r="6"/><circle class="trca-svg-node" cx="284" cy="52" r="6"/><circle class="trca-svg-evidence-node" cx="256" cy="86" r="7"/><circle class="trca-svg-node" cx="207" cy="80" r="6"/>
+        {% when 'L3' %}
+        <rect class="trca-svg-ranking-first" x="7" y="11" width="162" height="26" rx="4"/>
+        <rect class="trca-svg-ranking-row" x="7" y="43" width="162" height="26" rx="4"/>
+        <rect class="trca-svg-ranking-row" x="7" y="75" width="162" height="26" rx="4"/>
+        <g class="trca-svg-rank"><text x="19" y="30">1</text><text x="19" y="62">2</text><text x="19" y="94">3</text></g>
+        <path class="trca-svg-code" d="M43 24H110M43 56H94M43 88H104"/>
+        <path class="trca-svg-teal" d="M132 24H155"/>
+        <path class="trca-svg-link" d="M200 35L236 22L285 44M200 35L237 66L285 44M237 66L280 88"/>
+        <circle class="trca-svg-evidence-node" cx="200" cy="35" r="6"/><circle class="trca-svg-node" cx="236" cy="22" r="6"/><circle class="trca-svg-node" cx="285" cy="44" r="6"/><circle class="trca-svg-node" cx="237" cy="66" r="6"/><circle class="trca-svg-node" cx="280" cy="88" r="6"/>
+        {% endcase %}
+      </svg>
+      <p>{{ level.diagram.action }}</p>
+    </div>
+    <div class="trca-spectrum-return"><span class="trca-spectrum-mobile-label">Returned to the agent</span><i class="fas fa-arrow-right trca-spectrum-arrow" aria-hidden="true"></i><p>{{ level.diagram.result }}</p></div>
+    <div class="trca-spectrum-decision"><span class="trca-spectrum-mobile-label">Agent decision</span><p>{{ level.diagram.remaining }}</p></div>
+  </div>
+  {% endfor %}
+  <figcaption id="trca-spectrum-caption"><strong>The agent makes the final diagnosis at every level.</strong><span>Independent interfaces, not a required pipeline. Higher abstraction does not guarantee a better diagnosis.</span></figcaption>
+</figure>
