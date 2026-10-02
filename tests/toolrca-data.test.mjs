@@ -75,4 +75,6 @@ test('page stays unlisted and paper remains unavailable', () => {
   assert.match(page, /disabled class="trca-paper-soon"/);
   assert.doesNotMatch(page, /href="[^"]+\.pdf/);
   assert.equal((page.match(/<section class="trca-section/g) || []).length, 8);
+  const config = readFileSync(new URL('../_config.yml', import.meta.url), 'utf8');
+  assert.match(config, /- assets\/js\/src\/toolrca\.README\.md/);
 });
