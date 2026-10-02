@@ -1,0 +1,96 @@
+{
+  "title": "Rethinking Tool Design for Agentic RCA: A Controlled Empirical Study",
+  "abstract": "Large language model (LLM) agents are increasingly explored for root cause analysis (RCA) in microservice systems, where diagnosis requires extracting useful evidence from massive metric streams. However, existing systems typically rely on fixed preprocessing or predefined toolsets, leaving limited empirical guidance on how RCA tools should be designed and combined. We conduct a controlled empirical study of tool design in agentic RCA, examining tool abstraction and composition together with model capability and microservice system complexity. We organize the study around a four level RCA tool spectrum: L0 provides no structured RCA tools and allows Python based analysis, while L1, L2, and L3 provide metric access, evidence analysis, and diagnostic methods, respectively. We implement 24 structured RCA tools across L1–L3 and evaluate 7 tool configurations, 4 models spanning distinct capability levels, and 375 failure cases from 3 microservice environments: Online Boutique, Sock Shop, and Train Ticket. Our results show that tool utility is nonmonotonic: higher abstraction and richer toolsets do not consistently improve diagnostic effectiveness or efficiency. More strikingly, L3 level tools can hurt weaker models but become increasingly beneficial as model capability improves. Tool configuration rankings also shift across microservice environments, showing that no single toolset remains optimal across different system profiles. Overall, our study provides a systematic empirical basis for RCA tool design and practical guidance for matching tool abstraction and composition to model capability and system complexity.",
+  "levels": [
+    {"id":"L0","name":"Agent-written analysis","count":"Python interface","output":"Results of the agent's own programs","tool":"Execute Python over the same case metrics, incident context, and service topology.","agent":"Choose, implement, and interpret the entire analysis. There are no predefined RCA procedures.","capabilities":["Select and process incident data","Compute statistics in agent-written code","Implement further analysis","Interpret the resulting observations"]},
+    {"id":"L1","name":"Metric access","count":"6 structured interfaces","output":"Observations and basic summaries","tool":"Retrieve metric samples, summary statistics, metric ownership, and local service dependencies.","agent":"Choose what to inspect, identify unusual behavior, and reason about its cause. These tools do not score anomalies or rank root causes.","capabilities":["Metric discovery and retrieval","Service, metric, and time-window queries","Batch metric queries","Mean, maximum, minimum, sum, and percentiles","Metric ownership resolution","Local topology inspection"]},
+    {"id":"L2","name":"Evidence analysis","count":"12 structured interfaces","output":"Anomaly scores, features, and relationships","tool":"Analyze time series and return anomaly scores, change points, candidate metrics, temporal features, and evidence graphs.","agent":"Relate evidence across services and decide what it means for diagnosis. The most anomalous metric is not necessarily the root cause.","capabilities":["Time-series processing and filtering","Anomaly detection: 3-sigma, IQR, MAD, ESD, SPOT","Change points: CUSUM, PELT, binary segmentation, Page–Hinkley","Temporal feature extraction","Anomalous metric filtering","Relationship analysis and evidence graphs"]},
+    {"id":"L3","name":"Diagnostic methods","count":"6 structured interfaces","output":"Ranked candidates and diagnostic explanations","tool":"Generate candidate rankings, combine diagnostic evidence, and assemble explanations for specified candidates.","agent":"Assess whether to keep or revise the recommendations, then submit the final candidate list and failure type.","capabilities":["Propagation-path analysis","Graph ranking: PageRank, personalized PageRank, random walk with restart","Classic RCA: MonitorRank, CloudRanger, MicroRCA, Microscope, MicroCause, MicroHECL","Fusion of anomaly, ranking, topology, and timing evidence","Supporting evidence chains","Diagnostic explanations"]}
+  ],
+  "configs": ["L0","L1","L2","L3","L1+L2","L1+L3","L2+L3","L1+L2+L3"],
+  "common_configs": ["L0","L1","L1+L2","L1+L2+L3"],
+  "overall_columns": ["AC@1 (%)","AC@3 (%)","Avg@5 (%)","TA (%)","Tokens (K)","Latency (s)","Cost (USD)"],
+  "overall": [
+    {"id":"L0","values":[85.4,93.6,92.7,41.4,50.4,88.6,0.019]},
+    {"id":"L1","values":[52.7,70.0,69.1,24.3,53.7,51.4,0.018]},
+    {"id":"L2","values":[68.8,92.3,87.5,44.4,142.9,52.8,0.044]},
+    {"id":"L3","values":[82.8,96.2,93.7,45.6,22.8,35.8,0.008]},
+    {"id":"L1+L2","values":[64.0,88.4,84.4,47.3,111.6,57.1,0.035]},
+    {"id":"L1+L3","values":[83.6,94.3,92.5,47.6,45.0,39.9,0.015]},
+    {"id":"L2+L3","values":[78.2,95.6,92.3,48.6,79.0,40.0,0.025]},
+    {"id":"L1+L2+L3","values":[78.0,94.8,92.1,49.0,95.1,48.8,0.030]}
+  ],
+  "model_columns": ["AC@1 (%)","AC@3 (%)","Avg@5 (%)","TA (%)","Completion (%)","Tokens (K)","Latency (s)","Cost (USD)"],
+  "models": [
+    {"id":"8b","name":"Qwen3-8B","usage":0.8,"note":"L3 is available, but almost never called. The larger action space accompanies longer trajectories and more invalid actions; this is not evidence that incorrect L3 outputs mislead the model.","rows":[
+      {"id":"L0","values":[14.8,32.7,31.4,17.5,77.7,80.9,83.4,0.007]},
+      {"id":"L1","values":[29.3,48.4,47.1,24.4,96.4,63.0,41.8,0.005]},
+      {"id":"L1+L2","values":[59.6,77.2,74.2,28.7,98.8,90.7,46.5,0.007]},
+      {"id":"L1+L2+L3","values":[45.7,64.2,63.2,25.7,97.6,122.8,53.7,0.009]}]},
+    {"id":"32b","name":"Qwen3-32B","usage":61.3,"note":"The model calls L3 but overrides roughly one third of its correct recommendations. Tool availability, correct use, and sound assessment are separate requirements.","rows":[
+      {"id":"L0","values":[39.6,57.6,56.1,24.4,94.0,53.5,75.3,0.018]},
+      {"id":"L1","values":[45.2,68.3,64.4,23.4,93.1,68.6,43.2,0.022]},
+      {"id":"L1+L2","values":[49.9,67.3,64.5,28.3,86.8,160.5,62.0,0.049]},
+      {"id":"L1+L2+L3","values":[54.0,72.4,69.9,31.1,87.7,193.8,66.2,0.059]}]},
+    {"id":"235b","name":"Qwen3-235B-A22B","usage":91.5,"note":"Most trajectories invoke L3, but only about half obtain a ranking. Narrowing the incident window can discard useful evidence; invoking a tool does not guarantee a useful result.","rows":[
+      {"id":"L0","values":[35.6,58.6,56.0,23.5,98.8,48.9,63.4,0.017]},
+      {"id":"L1","values":[45.0,66.8,63.7,24.3,97.5,47.2,40.5,0.015]},
+      {"id":"L1+L2","values":[63.9,83.8,80.7,39.3,98.8,78.2,38.8,0.024]},
+      {"id":"L1+L2+L3","values":[69.2,86.0,83.1,41.2,99.4,87.3,37.6,0.027]}]},
+    {"id":"plus","name":"Qwen3.7-Plus","usage":94.0,"note":"This model performs its strongest top-1 localization with its own Python analysis. Additional tools can improve failure typing, while candidate revisions remain a source of localization errors.","rows":[
+      {"id":"L0","values":[85.4,93.6,92.7,41.4,100.0,50.4,88.6,0.019]},
+      {"id":"L1","values":[52.7,70.0,69.1,24.3,100.0,53.7,51.4,0.018]},
+      {"id":"L1+L2","values":[64.0,88.4,84.4,47.3,100.0,111.6,57.1,0.035]},
+      {"id":"L1+L2+L3","values":[78.0,94.8,92.1,49.0,100.0,95.1,48.8,0.030]}]}
+  ],
+  "systems": [
+    {"id":"OB","name":"Online Boutique","services":12,"metrics":"49–59","structure":"gRPC service communication","note":"When an agent switches from an L3 candidate to a different entity ranked highest by L2, the switch is correct in 79% of those cases."},
+    {"id":"SS","name":"Sock Shop","services":15,"metrics":"57–63","structure":"HTTP service communication","note":"In the same conditional analysis, switches to a different L2-ranked entity are correct in only 5% of cases."},
+    {"id":"TT","name":"Train Ticket","services":64,"metrics":"198–238","structure":"Synchronous and asynchronous communication with complex call chains","note":"Switches to a different L2-ranked entity are correct in only 5% of cases. Service count alone does not explain this contrast."}
+  ],
+  "system_results": [
+    {"id":"L0","values":[86.4,95.2,94.0,45.9,90.9,96.3,95.9,41.6,78.9,89.3,88.2,36.8]},
+    {"id":"L1","values":[56.3,76.0,73.7,23.2,73.6,87.5,86.5,28.8,28.3,46.7,47.1,20.8]},
+    {"id":"L2","values":[84.5,95.2,93.2,50.1,67.5,98.4,92.0,40.8,54.4,83.2,77.2,42.1]},
+    {"id":"L3","values":[81.1,96.0,93.5,49.6,90.1,100.0,97.8,39.5,77.1,92.5,89.8,47.7]},
+    {"id":"L1+L2","values":[78.7,91.5,89.2,48.8,61.9,96.8,90.1,44.0,51.5,76.8,73.8,49.1]},
+    {"id":"L1+L3","values":[82.7,93.6,92.0,52.3,89.1,98.1,96.0,40.0,79.2,91.2,89.4,50.4]},
+    {"id":"L2+L3","values":[88.0,97.1,95.6,54.4,80.5,99.2,95.0,41.1,66.1,90.4,86.2,50.4]},
+    {"id":"L1+L2+L3","values":[88.0,96.3,95.2,52.8,78.7,98.9,94.8,42.7,67.5,89.3,86.1,51.5]}
+  ],
+  "additions": [
+    {"from":"L1","to":"L1+L2","level":"L2"},
+    {"from":"L3","to":"L2+L3","level":"L2"},
+    {"from":"L1+L3","to":"L1+L2+L3","level":"L2"},
+    {"from":"L1","to":"L1+L3","level":"L3"},
+    {"from":"L2","to":"L2+L3","level":"L3"},
+    {"from":"L1+L2","to":"L1+L2+L3","level":"L3"},
+    {"from":"L2","to":"L1+L2","level":"L1"},
+    {"from":"L3","to":"L1+L3","level":"L1"},
+    {"from":"L2+L3","to":"L1+L2+L3","level":"L1"}
+  ],
+  "audit": [
+    {"phase":"Incident","title":"A delay fault. Two services in view.","evidence_title":"A Train Ticket investigation","evidence":"The reported case concerns a delay fault in ts-auth-service. Follow how the agent weighs the diagnostic recommendation against a different anomaly signal.","auth":"Not yet ranked","payment":"Not yet ranked","chosen":null,"caption":"The following frames summarize the case described in Section 5.1, not a complete raw tool transcript."},
+    {"phase":"Recommendation","title":"L3 puts the correct service first.","evidence_title":"Diagnostic recommendation · L3","evidence":"The diagnostic tool ranks ts-auth-service as the top root cause candidate.","auth":"Top L3 candidate","payment":"Not the top L3 candidate","chosen":"auth","caption":"The correct root cause has already entered the investigation. The remaining question is whether the agent will keep it."},
+    {"phase":"New evidence","title":"L2 highlights a different signal.","evidence_title":"Candidate filtering · L2","evidence":"Candidate filtering ranks a memory metric of the payment service highest. This is an anomaly ranking, not proof of the root cause.","auth":"Top L3 candidate","payment":"Highest-ranked L2 anomaly","chosen":"auth","caption":"Two outputs answer different questions: which entity is a root cause candidate, and which metric is most anomalous?"},
+    {"phase":"Interpretation","title":"Missing symptoms become a reason to reject.","evidence_title":"Agent assessment","evidence":"The agent finds no CPU or memory anomaly in the auth service and treats its latency as a propagated symptom.","auth":"Latency treated as a symptom","payment":"Memory anomaly emphasized","chosen":"payment","caption":"The agent changes its interpretation. The paper does not report a new L3 ranking here."},
+    {"phase":"Decision","title":"The agent abandons the correct candidate.","evidence_title":"Final localization","evidence":"The agent blames the payment service rather than ts-auth-service.","auth":"Correct recommendation rejected","payment":"Chosen by the agent","chosen":"payment","caption":"More evidence has changed the decision, not necessarily improved it."},
+    {"phase":"Ground truth","title":"The root cause was auth, not payment.","evidence_title":"Benchmark ground truth","evidence":"Root cause entity: ts-auth-service. Injected failure type: delay. The payment memory anomaly did not identify the faulty service in this case.","auth":"Ground-truth root cause · delay","payment":"Incorrect final localization","chosen":"truth","caption":"The design implication is to test candidate revisions against fault-specific and counter-evidence, rather than treating an anomaly as a cause."}
+  ],
+  "guidelines": [
+    {"title":"Separate the two diagnostic targets.","action":"Evaluate root cause localization and failure type identification separately. Select tools against the objective that matters, then report the cost of improving it.","evidence":"Findings 1, 2 & 4","href":"#composition"},
+    {"title":"Match tools to demonstrated capability.","action":"Check whether the agent can select an interface, satisfy its inputs, and assess its result. A larger toolset is not useful if these steps fail.","evidence":"Findings 5–7","href":"#capability"},
+    {"title":"Make candidate revisions accountable.","action":"Preserve where each candidate came from. Require a clear reason and relevant evidence before replacing a diagnostic recommendation.","evidence":"Finding 3 · Section 5.1","href":"#audit"},
+    {"title":"Expose evidence that distinguishes fault types.","action":"Provide evidence that separates causes with similar symptoms. CPU or latency anomalies alone should not determine the failure type.","evidence":"Finding 4","href":"#composition"},
+    {"title":"Revalidate when the system changes.","action":"Test whether a tool's anomaly rankings align with root causes in the target environment. Do not transfer a configuration ranking from one system without checking it.","evidence":"Findings 8–10","href":"#environment"},
+    {"title":"Repair the stage that actually fails.","action":"Use small, robust interfaces when execution fails; broaden relevant evidence when coverage fails; test competing candidates when decisions fail; add fault-specific evidence when naming fails.","evidence":"Failure analysis · Section 5.1","href":"#failure-stages"}
+  ],
+  "figures": {
+    "design":{"file":"study-design.webp","title":"Figure 2 · Study design","alt":"Original study workflow, tool configurations, model comparison, and system profiles."},
+    "composition":{"file":"composition.webp","title":"Figure 3 · Tool composition","alt":"Original configuration comparisons for localization and type identification; the type accuracy axis is broken."},
+    "efficiency":{"file":"efficiency.webp","title":"Figure 4 · Effectiveness and efficiency","alt":"Original localization accuracy versus token and latency plots."},
+    "decisions":{"file":"candidate-decisions.webp","title":"Figure 5 · Candidate decisions","alt":"Original correctness of L3 candidates and final diagnoses, including trajectories without a ranking."},
+    "capability":{"file":"model-effects.webp","title":"Figure 7 · Model effects and L3 use","alt":"Original changes after adding L2 and L3, and L3 usage rates across four models."},
+    "environment":{"file":"system-effects.webp","title":"Figure 9 · Cross-system effects","alt":"Original per-system localization comparisons and marginal changes after adding tool levels."}
+  }
+}

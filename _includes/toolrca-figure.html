@@ -1,0 +1,5 @@
+{% assign figure = site.data.toolrca_project.figures[include.key] %}
+<figure class="trca-figure">
+  <a href="{{ '/images/projects/toolrca/' | append: figure.file | relative_url }}" target="_blank" rel="noopener" aria-label="{{ figure.title }} — full resolution"><img src="{{ '/images/projects/toolrca/' | append: figure.file | relative_url }}" alt="{{ figure.alt }}" loading="lazy" decoding="async"></a>
+  <figcaption>{{ figure.title }}. <a href="{{ '/images/projects/toolrca/' | append: figure.file | relative_url }}" target="_blank" rel="noopener">Full resolution <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></figcaption>
+</figure>

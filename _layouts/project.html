@@ -31,6 +31,10 @@ layout: compress
           <option value="">Sections</option>
           {% for item in page.project_navigation %}<option value="{{ item.href }}">{{ item.label }}</option>{% endfor %}
         </select>
+        {% elsif page.project_theme == 'toolrca' %}
+        <select class="trca-section-select" data-trca-section-select aria-label="Jump to a section">
+          {% for item in page.project_navigation %}<option value="{{ item.href }}">{{ item.label }}</option>{% endfor %}
+        </select>
         {% endif %}
       </div>
     </nav>
@@ -54,6 +58,9 @@ layout: compress
     <script src="{{ '/assets/js/lib/cytoscape-3.33.1.min.js' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/gos-case.js?v=20260930-motion1' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/gos-visual.min.js?v=20260930-graph3' | relative_url }}" defer></script>
+    {% endif %}
+    {% if page.project_theme == 'toolrca' %}
+    <script src="{{ '/assets/js/toolrca-project.min.js?v=20261002' | relative_url }}" defer></script>
     {% endif %}
     <script>
       (function () {
@@ -185,7 +192,7 @@ layout: compress
           return target ? { link: link, target: target } : null;
         }).filter(Boolean);
 
-        if (projectNavigationTargets.length && "IntersectionObserver" in window && !document.querySelector("[data-pos-project]")) {
+        if (projectNavigationTargets.length && "IntersectionObserver" in window && !document.querySelector("[data-pos-project], [data-toolrca-project]")) {
           var projectNavigationObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {

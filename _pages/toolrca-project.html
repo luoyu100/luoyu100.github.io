@@ -1,0 +1,130 @@
+---
+permalink: /projects/toolrca/project/
+title: "ToolRCA | Rethinking Tool Design for Agentic RCA"
+seo_title: "ToolRCA | A Controlled Empirical Study"
+description: "A controlled study of tool abstraction, model capability, and system environment in agentic root cause analysis."
+layout: project
+author_profile: false
+project_theme: toolrca
+project_stylesheet: /assets/css/toolrca.css?v=20261002
+sitemap: false
+search: false
+robots: noindex, nofollow
+project_navigation:
+  - {label: Abstract, href: "#abstract"}
+  - {label: Tools, href: "#spectrum"}
+  - {label: Study, href: "#design"}
+  - {label: Composition, href: "#composition"}
+  - {label: Capability, href: "#capability"}
+  - {label: Environment, href: "#environment"}
+  - {label: Audit, href: "#audit"}
+  - {label: Guidelines, href: "#guidelines"}
+---
+{% assign study = site.data.toolrca_project %}
+<div class="trca" data-toolrca-project>
+<script type="application/json" data-trca-data>{{ study | jsonify }}</script>
+
+<header class="trca-hero" id="paper">
+  <div class="trca-hero-main">
+    <div class="trca-hero-copy">
+      <p class="trca-eyebrow">A CONTROLLED EMPIRICAL STUDY</p>
+      <h1>Tool<span>RCA</span></h1>
+      <p class="trca-hero-question">Which tools help an RCA agent,<br> and when?</p>
+      <p class="trca-paper-title">{{ study.title }}</p>
+      <div class="trca-hero-actions"><button type="button" disabled class="trca-paper-soon"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper <span>Coming Soon</span></button><a href="#composition">Explore the findings <i class="fas fa-arrow-down" aria-hidden="true"></i></a></div>
+    </div>
+    <div class="trca-hero-art"><img class="trca-mark" src="{{ '/images/projects/toolrca/toolrca-mark.svg' | relative_url }}" width="420" height="340" alt="ToolRCA: three parallel analytical paths converge on one decision."><p>Analytical support.<br>Agent decision.</p></div>
+  </div>
+  <dl class="trca-study-numbers"><div><dt aria-label="Structured interfaces"><span class="trca-desktop-label">Structured interfaces</span><span class="trca-mobile-label">Tools</span></dt><dd>24</dd></div><div><dt><span class="trca-desktop-label">Configurations</span><span class="trca-mobile-label">Configs</span></dt><dd>8</dd></div><div><dt>Models</dt><dd>4</dd></div><div><dt>Systems</dt><dd>3</dd></div><div><dt><span class="trca-desktop-label">Failure cases</span><span class="trca-mobile-label">Cases</span></dt><dd>375</dd></div></dl>
+</header>
+
+<section class="trca-section" id="abstract"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">01 / THE QUESTION</p><h2>Abstract.</h2></div>
+  <p class="trca-lead">More tools do not always make a better diagnostician.</p>
+  <p class="trca-abstract">{{ study.abstract }}</p>
+  <p class="trca-source">The abstract refers to seven structured configurations. The complete study also includes the independent L0 reference, making eight configurations in total.</p>
+  <div class="trca-rqs"><a href="#composition"><span>RQ1 / COMPOSITION</span><h3>How much analysis should tools take on?</h3><p>Compare abstraction, combinations, accuracy, and cost.</p><i class="fas fa-arrow-down" aria-hidden="true"></i></a><a href="#capability"><span>RQ2 / CAPABILITY</span><h3>Can the agent use the help it is given?</h3><p>Separate tool availability from effective tool use.</p><i class="fas fa-arrow-down" aria-hidden="true"></i></a><a href="#environment"><span>RQ3 / ENVIRONMENT</span><h3>Does a useful tool stay useful elsewhere?</h3><p>Compare three systems with different operational profiles.</p><i class="fas fa-arrow-down" aria-hidden="true"></i></a></div>
+</div></section>
+
+<section class="trca-section trca-tinted" id="spectrum"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">02 / ANALYTICAL RESPONSIBILITY</p><h2>The tool spectrum.</h2></div>
+  <p class="trca-lead">The levels differ in what tools return, and what the agent must still decide.</p>
+  <div class="trca-tabs" data-trca-tabs="spectrum" role="tablist" aria-label="Tool abstraction level">{% for level in study.levels %}<button type="button" id="trca-tab-{{ level.id }}" role="tab" aria-controls="trca-level-{{ level.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ level.id }} <span>{{ level.name }}</span></button>{% endfor %}</div>
+  <div class="trca-spectrum-panels">{% for level in study.levels %}<article id="trca-level-{{ level.id }}" data-trca-panel="spectrum" role="tabpanel" aria-labelledby="trca-tab-{{ level.id }}">
+    <div class="trca-spectrum-heading"><h3>{{ level.name }}</h3><span>{{ level.count }}</span></div>
+    <div class="trca-responsibility"><div><span class="trca-eyebrow">THE TOOL</span><p>{{ level.tool }}</p></div><div><span class="trca-eyebrow">THE AGENT</span><p>{{ level.agent }}</p></div></div>
+    <div class="trca-output"><i class="fas fa-arrow-right" aria-hidden="true"></i><span>Returned to the agent</span><strong>{{ level.output }}</strong></div>
+    <details class="trca-details"><summary>Capabilities covered</summary><ul class="trca-capability-list">{% for item in level.capabilities %}<li>{{ item }}</li>{% endfor %}</ul></details>
+  </article>{% endfor %}</div>
+  <p class="trca-source">Section 3.2. Counts refer to callable interfaces, not the number of algorithms. L2 and L3 access case data directly and perform internal preparation; no prior L1 call or fixed invocation order is required. Final diagnosis remains the agent's responsibility.</p>
+</div></section>
+
+<section class="trca-section" id="design"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">03 / A CONTROLLED COMPARISON</p><h2>Change the tools.<br>Keep the task grounded.</h2></div>
+  <div class="trca-design-grid"><div><h3>Held in common</h3><ul><li>Case metrics, incident context, and topology</li><li>ReAct agent harness and shared task prompt</li><li>Interaction budget and per-response output limits</li><li>Ranked root causes and a predicted failure type</li></ul></div><div><h3>Varied deliberately</h3><ul><li>Tool abstraction and composition</li><li>Four models from the Qwen lineage</li><li>Three microservice environments</li><li>Interface instructions matched to available tools</li></ul></div></div>
+  <div class="trca-table-scroll" role="region" tabindex="0" aria-label="Tested model and tool configurations"><table class="trca-matrix"><caption>What was actually evaluated</caption><thead><tr><th scope="col">Model</th>{% for config in study.configs %}<th scope="col">{{ config }}</th>{% endfor %}</tr></thead><tbody>{% for model in study.models %}<tr><th scope="row">{{ model.name }}</th>{% for config in study.configs %}<td>{% if model.id == 'plus' or study.common_configs contains config %}<span aria-label="Evaluated">●</span>{% else %}<span class="trca-muted" aria-label="Not evaluated">—</span>{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+  <div class="trca-system-profiles">{% for system in study.systems %}<div><span class="trca-eyebrow">{{ system.id }} / 125 CASES</span><h3>{{ system.name }}</h3><p>{{ system.services }} services · {{ system.metrics }} metrics per case</p><p>{{ system.structure }}.</p></div>{% endfor %}</div>
+  <details class="trca-details"><summary>Metrics and study boundaries</summary><dl class="trca-definitions"><div><dt>AC@1 / AC@3</dt><dd>Whether the true root cause entity is in the top one / three candidates.</dd></div><div><dt>Avg@5</dt><dd>The mean of AC@1 through AC@5.</dd></div><div><dt>Type Accuracy (TA)</dt><dd>Whether the predicted failure type matches the injected fault.</dd></div><div><dt>Completion</dt><dd>A valid diagnosis submitted within the interaction budget.</dd></div><div><dt>L3 usage</dt><dd>A trajectory invokes at least one L3 tool; this does not imply it receives a candidate ranking.</dd></div><div><dt>Efficiency</dt><dd>Mean total input + output tokens, elapsed seconds, and API cost per case.</dd></div></dl><p>All accuracy denominators include cases without valid diagnoses. The study uses all 375 RCAEval RE1 cases and five injected fault types: CPU, memory, disk, delay, and packet loss. It studies metrics and four models from one lineage, not production incidents, logs, traces, or other model families.</p></details>
+  <details class="trca-details"><summary>Original study design</summary>{% include toolrca-figure.html key="design" %}</details>
+</div></section>
+
+<section class="trca-section trca-tinted" id="composition"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">04 / RQ1 · COMPOSITION</p><h2>Does more help?</h2></div>
+  <p class="trca-lead">Localization, failure typing, and cost can move in different directions.</p>
+  <div class="trca-interactive" data-comparison>
+    <div class="trca-controls"><label><span>Reference</span><select data-trca-reference>{% for config in study.configs %}<option value="{{ config }}"{% if config == 'L3' %} selected{% endif %}>{{ config }}</option>{% endfor %}</select></label><i class="fas fa-arrow-right" aria-hidden="true"></i><label><span>Compare with</span><select data-trca-compare>{% for config in study.configs %}<option value="{{ config }}"{% if config == 'L1+L2+L3' %} selected{% endif %}>{{ config }}</option>{% endfor %}</select></label><span class="trca-context">Qwen3.7-Plus · all systems</span></div>
+    <div class="trca-deltas" data-trca-deltas aria-live="polite"><div><span>Localization · AC@1</span><strong class="trca-negative">−4.8 pp</strong><p>82.8% → 78.0%</p></div><div><span>Failure typing · TA</span><strong class="trca-positive">+3.4 pp</strong><p>45.6% → 49.0%</p></div><div><span>Total tokens</span><strong>4.17×</strong><p>22.8K → 95.1K per case</p></div></div>
+    <div class="trca-chart-pair"><figure><h3>Root cause localization</h3><div class="trca-chart" data-chart="overall-ac"></div><figcaption>AC@1 (%) · higher is better</figcaption></figure><figure><h3>Failure type identification</h3><div class="trca-chart" data-chart="overall-ta"></div><figcaption>TA (%) · higher is better</figcaption></figure></div>
+    <figure class="trca-scatter-figure"><div class="trca-chart-title"><h3>The resource tradeoff</h3><p><span class="trca-legend-ref">Reference</span><span class="trca-legend-compare">Comparison</span></p></div><div class="trca-chart trca-scatter" data-chart="efficiency"></div><figcaption>Mean token usage and latency per case. Accuracy appears in the plots above; this view does not rank configurations by a single score.</figcaption></figure>
+  </div>
+  <p class="trca-source">Table 3. Accuracy uses a fixed 0–100% scale. pp = percentage points; token ratios compare total input + output tokens. The full toolset improves TA over L3 but lowers top-1 localization in this setting.</p>
+  <div class="trca-finding" id="candidate-revisions"><span class="trca-eyebrow">WHAT CHANGES AFTER THE TOOL RETURNS?</span><h3>The recommendation is stable. The decision is not.</h3><p>The first L3 candidate is unchanged in 99.9% of paired trajectories that both obtain a ranking. Additional interfaces change whether the agent keeps that candidate. With L2+L3, correct-to-wrong overrides rise to 9.3% of trajectories, while wrong-to-correct revisions are 3.8%.</p><a href="#audit">Inspect a reported decision failure <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>
+  <details class="trca-details" data-trca-fallback-table open><summary>Complete results · Table 3</summary><div class="trca-table-scroll" role="region" tabindex="0" aria-label="Overall effectiveness and efficiency"><table><caption>Qwen3.7-Plus · mean efficiency per case</caption><thead><tr><th scope="col">Configuration</th>{% for column in study.overall_columns %}<th scope="col">{{ column }}</th>{% endfor %}</tr></thead><tbody>{% for row in study.overall %}<tr data-overall-row="{{ row.id }}"><th scope="row">{{ row.id }}</th>{% for value in row.values %}<td>{{ value }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div></details>
+  <details class="trca-details"><summary>Original composition, efficiency, and candidate-decision figures</summary>{% include toolrca-figure.html key="composition" %}{% include toolrca-figure.html key="efficiency" %}{% include toolrca-figure.html key="decisions" %}</details>
+</div></section>
+
+<section class="trca-section" id="capability"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">05 / RQ2 · CAPABILITY</p><h2>Available is not<br>the same as useful.</h2></div>
+  <p class="trca-lead">A tool must be selected, called successfully, and assessed correctly.</p>
+  <div class="trca-tabs" data-trca-tabs="models" role="tablist" aria-label="Evaluated model">{% for model in study.models %}<button type="button" role="tab" id="trca-model-tab-{{ model.id }}" aria-controls="trca-model-{{ model.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ model.name }}</button>{% endfor %}</div>
+  <div class="trca-model-chart trca-interactive"><div class="trca-chart-pair"><figure><h3>Root cause localization</h3><div class="trca-chart" data-chart="model-ac"></div><figcaption>AC@1 (%) · four shared configurations</figcaption></figure><figure><h3>Failure type identification</h3><div class="trca-chart" data-chart="model-ta"></div><figcaption>TA (%) · four shared configurations</figcaption></figure></div><div class="trca-deltas" data-model-deltas aria-live="polite"></div><div class="trca-usage"><div><span>L3 invocation rate</span><strong data-model-usage>0.8%</strong></div><div class="trca-usage-track"><span data-model-usage-bar style="width: .8%"></span></div><p class="trca-source">At least one L3 call under L1+L2+L3; not the share receiving a ranking. Figure 7.</p></div></div>
+  {% for model in study.models %}<div id="trca-model-{{ model.id }}" data-trca-panel="models" role="tabpanel" aria-labelledby="trca-model-tab-{{ model.id }}"><p class="trca-model-note">{{ model.note }}</p><details class="trca-details"><summary>{{ model.name }} · complete results</summary><div class="trca-table-scroll" role="region" tabindex="0" aria-label="{{ model.name }} results"><table><caption>Table 4 · {{ model.name }}</caption><thead><tr><th scope="col">Configuration</th>{% for column in study.model_columns %}<th scope="col">{{ column }}</th>{% endfor %}</tr></thead><tbody>{% for row in model.rows %}<tr><th scope="row">{{ row.id }}</th>{% for value in row.values %}<td>{{ value }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div></details></div>{% endfor %}
+  <div class="trca-call-stages"><div><span>01 / SELECT</span><h3>Delegate the right analysis.</h3><p>Does the agent choose the interface that can help?</p></div><div><span>02 / CALL</span><h3>Supply valid inputs.</h3><p>Does the call return relevant evidence or a ranking?</p></div><div><span>03 / ASSESS</span><h3>Use the result responsibly.</h3><p>Does the agent keep or revise a candidate for a sound reason?</p></div></div>
+  <p class="trca-source">Findings 5–7. The model categories are not a calibrated capability scale. Only Qwen3.7-Plus was tested under all eight configurations; the plots here show the four common configurations.</p>
+  <details class="trca-details"><summary>Original model effects and L3 usage</summary>{% include toolrca-figure.html key="capability" %}</details>
+</div></section>
+
+<section class="trca-section trca-tinted" id="environment"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">06 / RQ3 · ENVIRONMENT</p><h2>Same addition.<br>Different consequences.</h2></div>
+  <p class="trca-lead">An unusual metric can point to a cause in one system, and a symptom in another.</p>
+  <div class="trca-controls trca-interactive"><label><span>Add one tool level</span><select data-trca-addition>{% for addition in study.additions %}<option value="{{ forloop.index0 }}"{% if forloop.index0 == 1 %} selected{% endif %}>{{ addition.from }} → {{ addition.to }}</option>{% endfor %}</select></label><span class="trca-context">Qwen3.7-Plus · Table 5</span></div>
+  <div class="trca-chart trca-system-chart trca-interactive" data-chart="systems"></div>
+  <div class="trca-system-profiles trca-env-values" data-system-values aria-live="polite">{% for system in study.systems %}<div><span class="trca-eyebrow">{{ system.id }}</span><h3>{{ system.name }}</h3><p>Localization {% if forloop.first %}+6.9{% elsif forloop.index == 2 %}−9.6{% else %}−11.0{% endif %} pp</p><p>Failure typing {% if forloop.first %}+4.8{% elsif forloop.index == 2 %}+1.6{% else %}+2.7{% endif %} pp</p></div>{% endfor %}</div>
+  <p class="trca-source">Changes are percentage points, not relative percentages. All nine possible one-level additions among the seven structured configurations are available. Environment properties vary jointly; the results do not establish a causal effect of service count alone.</p>
+  <details class="trca-details"><summary>Why can the effect reverse?</summary><div class="trca-system-profiles">{% for system in study.systems %}<div><h3>{{ system.name }}</h3><p>{{ system.note }}</p></div>{% endfor %}</div><p>Finding 10. The percentages above are conditional on an agent switching from an L3 candidate to a different entity ranked most anomalous by L2. They are not overall tool accuracy.</p></details>
+  <details class="trca-details"><summary>Complete cross-system results · Table 5</summary><div class="trca-table-scroll" role="region" tabindex="0" aria-label="Cross-system accuracy results"><table><caption>Qwen3.7-Plus · all values in percent</caption><thead><tr><th scope="col" rowspan="2">Configuration</th>{% for system in study.systems %}<th scope="colgroup" colspan="4">{{ system.name }}</th>{% endfor %}</tr><tr>{% for system in study.systems %}<th scope="col">AC@1</th><th scope="col">AC@3</th><th scope="col">Avg@5</th><th scope="col">TA</th>{% endfor %}</tr></thead><tbody>{% for row in study.system_results %}<tr><th scope="row">{{ row.id }}</th>{% for value in row.values %}<td>{{ value }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div></details>
+  <details class="trca-details"><summary>Original cross-system figure</summary>{% include toolrca-figure.html key="environment" %}</details>
+</div></section>
+
+<section class="trca-section" id="audit"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">07 / DECISION AUDIT</p><h2>A good recommendation.<br>An incorrect revision.</h2></div>
+  <p class="trca-lead">Follow a reported case in which added evidence leads the agent away from the correct root cause.</p>
+  <div class="trca-audit-player trca-interactive" data-audit-player>
+    <div class="trca-audit-heading"><span data-audit-phase>01 / Incident</span><h3 data-audit-title>A delay fault. Two services in view.</h3></div>
+    <div class="trca-audit-spread"><div class="trca-evidence"><span class="trca-eyebrow">EVIDENCE &amp; INTERPRETATION</span><div class="trca-evidence-content" data-audit-evidence><h3>{{ study.audit.first.evidence_title }}</h3><p>{{ study.audit.first.evidence }}</p></div><div class="trca-evidence-trail" data-audit-trail></div></div><div class="trca-decision"><span class="trca-eyebrow">CANDIDATE &amp; DECISION</span><div class="trca-candidate" data-candidate="auth"><i class="fas fa-server" aria-hidden="true"></i><h3>ts-auth-service</h3><p data-auth-state>Not yet ranked</p></div><div class="trca-candidate" data-candidate="payment"><i class="fas fa-server" aria-hidden="true"></i><h3>Payment service</h3><p data-payment-state>Not yet ranked</p></div><div class="trca-decision-marker" data-audit-verdict><i class="fas fa-search" aria-hidden="true"></i><span>Investigation open</span></div></div></div>
+    <p class="trca-audit-caption" data-audit-caption>{{ study.audit.first.caption }}</p>
+    <div class="trca-player-controls"><div class="trca-player-buttons"><button type="button" data-audit-prev title="Previous frame" aria-label="Previous frame"><i class="fas fa-step-backward" aria-hidden="true"></i></button><button type="button" data-audit-play title="Play case" aria-label="Play case"><i class="fas fa-play" aria-hidden="true"></i></button><button type="button" data-audit-next title="Next frame" aria-label="Next frame"><i class="fas fa-step-forward" aria-hidden="true"></i></button><button type="button" data-audit-reset title="Replay from the beginning" aria-label="Replay from the beginning"><i class="fas fa-undo" aria-hidden="true"></i></button></div><label class="trca-scrubber"><span data-audit-counter>Frame 1 / 6</span><input type="range" min="0" max="5" step="1" value="0" data-audit-range aria-label="Case frame"></label></div>
+    <div class="trca-milestones">{% for frame in study.audit %}<button type="button" data-audit-jump="{{ forloop.index0 }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ forloop.index }}. {{ frame.phase }}</button>{% endfor %}</div>
+  </div>
+  <details class="trca-details trca-transcript"><summary>Complete case summary and source</summary><ol>{% for frame in study.audit %}<li><h3>{{ frame.title }}</h3><p>{{ frame.evidence }}</p></li>{% endfor %}</ol><p>Section 5.1 reports this Train Ticket case as a summarized decision failure. The page does not reconstruct unreported API calls, timestamps, numerical scores, or a separate baseline outcome.</p></details>
+  <div class="trca-failure-stages" id="failure-stages"><h3>Where does a diagnosis fail?</h3><div class="trca-stage-grid"><div><span>01 / PROCESS</span><h3>No valid finish.</h3><p>The agent exhausts the budget or calls an interface without meeting its input requirements.</p></div><div><span>02 / COVERAGE</span><h3>The cause never enters.</h3><p>The investigation does not consider the true root cause.</p></div><div><span>03 / DECISION</span><h3>Considered, not chosen.</h3><p>The agent rejects the correct candidate or confirms an incorrect one.</p></div><div><span>04 / NAMING</span><h3>Right entity, wrong type.</h3><p>A prominent symptom is mistaken for the injected fault.</p></div></div><p class="trca-source">Section 5.1. For Qwen3.7-Plus with L2 or L3, the true cause was considered in 84–95% of trajectories that nevertheless ended with an incorrect localization. That percentage is conditional on localization failures.</p></div>
+</div></section>
+
+<section class="trca-section trca-tinted" id="guidelines"><div class="trca-shell">
+  <div class="trca-heading"><p class="trca-index">08 / FROM EVIDENCE TO DESIGN</p><h2>Principles &amp; guidelines.</h2></div>
+  <p class="trca-lead">Choose tools for the decision they support, not the size of the toolset.</p>
+  <ol class="trca-guidelines">{% for item in study.guidelines %}<li><span class="trca-guideline-number">0{{ forloop.index }}</span><div><h3>{{ item.title }}</h3><p>{{ item.action }}</p></div><a href="{{ item.href }}">{{ item.evidence }} <i class="fas fa-arrow-up" aria-hidden="true"></i></a></li>{% endfor %}</ol>
+  <p class="trca-source">These are design implications derived from the empirical findings and discussion, not separately evaluated interventions or universal rankings. Their applicability beyond the tested models and metric-based benchmark requires validation.</p>
+  <footer class="trca-footer"><img src="{{ '/images/projects/toolrca/toolrca-mark-mono.svg' | relative_url }}" width="60" height="49" alt=""><p>ToolRCA<br><span>Rethinking the tools behind the diagnosis.</span></p><a href="#paper" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></a></footer>
+</div></section>
+</div>
