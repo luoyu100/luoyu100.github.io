@@ -1,11 +1,11 @@
 paper_title: "Beyond Memory: Harnessing Long-Horizon Agents with Explicit Belief States"
 code_url: https://github.com/luoyu100/PoS
-paper_url: "#resources"
-download_url: "#resources"
+paper_url: https://arxiv.org/abs/2610.01415
+download_url: https://arxiv.org/pdf/2610.01415
 authors:
   - {name: Yu Luo, affiliation: 1}
   - {name: Jiamin Jiang, affiliation: 1}
-  - {name: Yiming Zuo, affiliation: 1}
+  - {name: Yimin Zuo, affiliation: 1}
   - {name: Xidao Wen, affiliation: 2}
   - {name: Rongchen Gao, affiliation: 1}
   - {name: Yongqian Sun, affiliation: 1, corresponding: true}
