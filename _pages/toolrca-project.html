@@ -6,7 +6,7 @@ description: "A controlled study of tool abstraction, model capability, and syst
 layout: project
 author_profile: false
 project_theme: toolrca
-project_stylesheet: /assets/css/toolrca.css?v=20261002
+project_stylesheet: /assets/css/toolrca.css?v=20261002b
 sitemap: false
 search: false
 robots: noindex, nofollow
@@ -49,6 +49,12 @@ project_navigation:
 <section class="trca-section trca-tinted" id="spectrum"><div class="trca-shell">
   <div class="trca-heading"><p class="trca-index">02 / ANALYTICAL RESPONSIBILITY</p><h2>The tool spectrum.</h2></div>
   <p class="trca-lead">The levels differ in what tools return, and what the agent must still decide.</p>
+  <figure class="trca-spectrum-figure">
+    <a href="{{ '/images/projects/toolrca/tool-spectrum-v2.webp' | relative_url }}" target="_blank" rel="noopener" aria-label="View the tool spectrum illustration at full resolution">
+      <img src="{{ '/images/projects/toolrca/tool-spectrum-v2.webp' | relative_url }}" width="1536" height="1024" loading="lazy" decoding="async" alt="Four independent tool levels use the same incident data. L0 executes agent-written Python; L1 retrieves metric samples and summaries; L2 detects anomalies, change points, and evidence relationships; L3 ranks and explains diagnostic candidates. The agent interprets the outputs and makes the final diagnosis at every level.">
+    </a>
+    <figcaption><span>Four kinds of analytical support, not a required pipeline. Outputs shown are schematic.</span><a href="{{ '/images/projects/toolrca/tool-spectrum-v2.webp' | relative_url }}" target="_blank" rel="noopener">Full-resolution view <i class="fas fa-expand" aria-hidden="true"></i></a></figcaption>
+  </figure>
   <div class="trca-tabs" data-trca-tabs="spectrum" role="tablist" aria-label="Tool abstraction level">{% for level in study.levels %}<button type="button" id="trca-tab-{{ level.id }}" role="tab" aria-controls="trca-level-{{ level.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ level.id }} <span>{{ level.name }}</span></button>{% endfor %}</div>
   <div class="trca-spectrum-panels">{% for level in study.levels %}<article id="trca-level-{{ level.id }}" data-trca-panel="spectrum" role="tabpanel" aria-labelledby="trca-tab-{{ level.id }}">
     <div class="trca-spectrum-heading"><h3>{{ level.name }}</h3><span>{{ level.count }}</span></div>
@@ -72,7 +78,11 @@ project_navigation:
   <div class="trca-heading"><p class="trca-index">04 / RQ1 · COMPOSITION</p><h2>Does more help?</h2></div>
   <p class="trca-lead">Localization, failure typing, and cost can move in different directions.</p>
   <div class="trca-interactive" data-comparison>
-    <div class="trca-controls"><label><span>Reference</span><select data-trca-reference>{% for config in study.configs %}<option value="{{ config }}"{% if config == 'L3' %} selected{% endif %}>{{ config }}</option>{% endfor %}</select></label><i class="fas fa-arrow-right" aria-hidden="true"></i><label><span>Compare with</span><select data-trca-compare>{% for config in study.configs %}<option value="{{ config }}"{% if config == 'L1+L2+L3' %} selected{% endif %}>{{ config }}</option>{% endfor %}</select></label><span class="trca-context">Qwen3.7-Plus · all systems</span></div>
+    <div class="trca-config-picker">
+      <fieldset class="trca-config-group trca-config-group--reference"><legend>Reference</legend><div class="trca-config-options">{% for config in study.configs %}<label class="trca-config-choice"><input type="radio" name="trca-reference" value="{{ config }}" data-trca-reference{% if config == 'L3' %} checked{% endif %}><span>{{ config }}</span></label>{% endfor %}</div></fieldset>
+      <fieldset class="trca-config-group trca-config-group--comparison"><legend>Compare with</legend><div class="trca-config-options">{% for config in study.configs %}<label class="trca-config-choice"><input type="radio" name="trca-comparison" value="{{ config }}" data-trca-compare{% if config == 'L1+L2+L3' %} checked{% endif %}><span>{{ config }}</span></label>{% endfor %}</div></fieldset>
+      <p class="trca-config-context">Qwen3.7-Plus · all systems</p>
+    </div>
     <div class="trca-deltas" data-trca-deltas aria-live="polite"><div><span>Localization · AC@1</span><strong class="trca-negative">−4.8 pp</strong><p>82.8% → 78.0%</p></div><div><span>Failure typing · TA</span><strong class="trca-positive">+3.4 pp</strong><p>45.6% → 49.0%</p></div><div><span>Total tokens</span><strong>4.17×</strong><p>22.8K → 95.1K per case</p></div></div>
     <div class="trca-chart-pair"><figure><h3>Root cause localization</h3><div class="trca-chart" data-chart="overall-ac"></div><figcaption>AC@1 (%) · higher is better</figcaption></figure><figure><h3>Failure type identification</h3><div class="trca-chart" data-chart="overall-ta"></div><figcaption>TA (%) · higher is better</figcaption></figure></div>
     <figure class="trca-scatter-figure"><div class="trca-chart-title"><h3>The resource tradeoff</h3><p><span class="trca-legend-ref">Reference</span><span class="trca-legend-compare">Comparison</span></p></div><div class="trca-chart trca-scatter" data-chart="efficiency"></div><figcaption>Mean token usage and latency per case. Accuracy appears in the plots above; this view does not rank configurations by a single score.</figcaption></figure>

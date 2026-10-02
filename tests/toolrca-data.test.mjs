@@ -26,6 +26,22 @@ test('default composition tradeoff uses pp and a total-token ratio', () => {
   assert.equal(compareRows(data.overall, 'L3', 'L3').tokenRatio, 1);
 });
 
+test('every directly selectable comparison uses measured configurations', () => {
+  for (const reference of data.configs) {
+    for (const comparison of data.configs) {
+      const result = compareRows(data.overall, reference, comparison);
+      assert.ok(Number.isFinite(result.ac));
+      assert.ok(Number.isFinite(result.ta));
+      assert.ok(Number.isFinite(result.tokenRatio) && result.tokenRatio > 0);
+    }
+  }
+  const page = readFileSync(new URL('../_pages/toolrca-project.html', import.meta.url), 'utf8');
+  assert.match(page, /type="radio" name="trca-reference"/);
+  assert.match(page, /type="radio" name="trca-comparison"/);
+  assert.doesNotMatch(page, /<select data-trca-(reference|compare)/);
+  assert.match(page, /tool-spectrum-v2\.webp/);
+});
+
 test('capability effects and invocation rates reproduce Figure 7', () => {
   assert.deepEqual(data.models.map(model => signed(modelEffects(model).ac)), ['\u221213.9', '+4.1', '+5.3', '+14.0']);
   assert.deepEqual(data.models.map(model => modelEffects(model).usage), [0.8, 61.3, 91.5, 94]);

@@ -4,6 +4,10 @@ The page is independently accessible at `/projects/toolrca/project/`. It must no
 
 `_data/toolrca_project.json` is the shared source for server-rendered tables, interactive plots, model/configuration coverage, and the Section 5.1 case summary. Numeric array order is recorded in `overall_columns` and `model_columns`; each system occupies four columns in the order AC@1, AC@3, Avg@5, TA. All reported data comes from the supplied anonymous manuscript, Tables 3–5 and Figures 5/7. The nine one-level additions are computed from Table 5, not invented measurements.
 
+Section 04 uses two native single-choice radio groups styled as direct-click configuration options. Each group exposes all eight configurations, updates the comparison immediately, and supports standard arrow-key selection. Preserve the L3 / L1+L2+L3 defaults and the blue / teal chart mapping.
+
+`images/projects/toolrca/tool-spectrum-v2.webp` is the static Section 02 overview, generated with the built-in image generation tool. Its exact generation prompt is saved in `images/projects/toolrca/tool-spectrum.prompt.txt`. The depicted outputs are schematic, not additional experimental data. The four lanes are independent alternatives; they must not become a required L1-to-L3 pipeline. The full-resolution image link and textual level panels provide complementary reading on small screens.
+
 Bundle `toolrca-project.js` with D3 7.9.0 and esbuild. Build dependencies stay outside the Jekyll repository; the resulting bundle and license notice are committed for offline runtime use.
 
 ```js

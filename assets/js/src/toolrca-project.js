@@ -273,8 +273,18 @@ function initialize(root) {
     tick();
   }
 
-  q('[data-trca-reference]').addEventListener('change', event => { state.reference = event.target.value; drawOverall(); });
-  q('[data-trca-compare]').addEventListener('change', event => { state.comparison = event.target.value; drawOverall(); });
+  function configurationChoices(selector, key) {
+    qa(selector).forEach(input => {
+      input.checked = input.value === state[key];
+      input.addEventListener('change', () => {
+        if (!input.checked) return;
+        state[key] = input.value;
+        drawOverall();
+      });
+    });
+  }
+  configurationChoices('[data-trca-reference]', 'reference');
+  configurationChoices('[data-trca-compare]', 'comparison');
   q('[data-trca-addition]').addEventListener('change', event => { state.addition = Number(event.target.value); drawSystems(); });
   tabs('spectrum');
   tabs('models', index => { state.model = index; drawModel(); });

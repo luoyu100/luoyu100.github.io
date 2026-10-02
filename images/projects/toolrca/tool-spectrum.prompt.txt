@@ -1,0 +1,41 @@
+Use case: infographic-diagram.
+Asset type: explanatory research figure for the ToolRCA academic project webpage.
+Create a sophisticated, exceptionally clear landscape infographic on an opaque pure white background. Flat editorial vector-like bitmap, precise thin lines, generous but purposeful spacing, clean readable sans-serif typography, dark charcoal text, muted blue #507fa8 and teal #368675 accents. No decorative gradients, glass effects, shadows, photography, or 3D. Large legible labels, no small paragraph text. The visual needs to explain what each tool abstraction level actually DOES, RETURNS, and leaves for the agent. It is not a decorative logo or a web UI screenshot.
+
+Composition: four independent horizontal lanes, L0 at top, L1 below, L2 below, L3 at bottom. Each lane has a level label at left, an attractive simple analytical illustration in the middle-left, the returned result in the middle-right, and remaining agent work at the right. Thin subtle horizontal separators. In every lane an arrow may connect the tool illustration to its returned result, then to the agent's task. No arrows between lanes: these are alternatives, not consecutive pipeline stages. Leave no massive blank margins.
+
+Top title exact: "Same incident. Different analytical responsibility."
+Below title, compact shared-input strip with a tiny incident-metrics chart, an incident note icon, and service topology icon. Exact labels: "Metrics", "Incident context", "Service topology".
+Column headers exact: "TOOL WORK", "RETURNED TO THE AGENT", "AGENT WORK".
+
+Lane 1:
+Exact left label "L0" and subtitle "Agent-written analysis".
+Small secondary count "Python interface".
+Illustration: agent-authored Python code sheet beside a tiny computed time-series plot. Exact short labels "Run agent-written Python" and returned result "Program results".
+Right text "Design the analysis" on first line and "Interpret the results" on second line.
+
+Lane 2:
+Exact left label "L1" and subtitle "Metric access".
+Small secondary count "6 interfaces".
+Illustration: raw blue time-series chart with a selected time window and a tiny statistics sheet, no anomaly labels or root-cause ranking. Exact short tool label "Retrieve and summarize".
+Returned result exact "Metric samples + statistics".
+Right text "Find unusual behavior" and "Reason about causes".
+
+Lane 3:
+Exact left label "L2" and subtitle "Evidence analysis".
+Small secondary count "12 interfaces".
+Illustration: a time-series spike and a vertical change-point marker, accompanied by a small evidence relationship graph. Exact short tool label "Detect and relate signals".
+Returned result "Anomalies + change points" on first line and "Features + evidence links" on second line.
+Right text "Connect the evidence" and "Distinguish symptom from cause".
+
+Lane 4:
+Exact left label "L3" and subtitle "Diagnostic methods".
+Small secondary count "6 interfaces".
+Illustration: three ranked generic service candidates beside a small evidence-chain motif, with no percentages, fake probability or confidence values. Exact short tool label "Rank and explain candidates".
+Returned result "Candidate ranking" on first line and "Supporting explanations" on second line.
+Right text "Assess the recommendation" and "Keep or revise the diagnosis".
+
+At the very bottom, strong concise statement exact: "The agent makes the final diagnosis at every level."
+Small footer exact: "Different interfaces, not a required pipeline."
+
+Scientific constraints: L0 is a Python tool, NOT no tools. L1 only provides observations and basic summaries, not anomaly scores. L2 ranks anomalies/evidence, not guaranteed causes. L3 recommendations are not final truth. Do not imply higher abstraction always gives higher accuracy. Do not add performance numbers or tool names not supplied. All English spelling and text must be exact. No extra slogans or duplicate title. Make a beautiful explanatory illustration, visually disciplined and professionally publication-ready.
