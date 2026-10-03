@@ -6,7 +6,13 @@ The page is independently accessible at `/projects/toolrca/project/`. It must no
 
 Section 04 uses two native single-choice radio groups styled as direct-click configuration options. Each group exposes all eight configurations, updates the comparison immediately, and supports standard arrow-key selection. Preserve the L3 / L1+L2+L3 defaults and the blue / teal chart mapping.
 
+Readers see the research gap and contribution before the full abstract, and each results section has a fixed finding, representative comparison, and scope before its interactive controls. These summaries remain readable without JavaScript; displayed accuracy changes and token ratios are derived from the same table data. The full abstract, protocol notes, and original figures remain available in disclosure panels.
+
 `_includes/toolrca-spectrum.html` is the Section 02 overview, drawn with native inline SVG and responsive HTML labels. The four analytical motifs and their text remain independently editable. Concise descriptions live in each level's `diagram` object in the shared JSON data. The visuals are schematic, not additional experimental data; the four lanes are alternatives, not a required L1-to-L3 pipeline. On mobile the tool illustration spans the row and its returned result and remaining agent work sit below it, without shrinking the labels into a raster image. The previous generated bitmap is retained as an unused draft, not requested by the page.
+
+`spectrum_example` contains explicitly illustrative interface outputs, not benchmark measurements. `reporting` distinguishes stated protocol details from missing Python environment/access, repeat-count, uncertainty, and conditional-sample-count information. Do not fill these gaps by inferring them from rounded results.
+
+The case separates available observations, summarized agent interpretation, and reader-side reasoning checks. Its benchmark label is revealed only in the final frame; early frames must not identify a recommendation as correct using hindsight. The checks are explanations of the summarized case, not fabricated quotes or raw API traces. Each guideline has a `when`, `check`, and `try`, with an internal evidence link; proposed actions are not claimed as separately validated improvements.
 
 Bundle `toolrca-project.js` with D3 7.9.0 and esbuild. Build dependencies stay outside the Jekyll repository; the resulting bundle and license notice are committed for offline runtime use.
 

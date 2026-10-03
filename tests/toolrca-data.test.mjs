@@ -98,7 +98,57 @@ test('the reported case ends at auth / delay without fabricated measurements', (
   data.audit.forEach(frame => {
     assert.equal(frame.confidence, undefined);
     assert.equal(frame.step, undefined);
+    assert.ok(frame.interpretation.length > 0);
+    assert.ok(frame.check.length > 0);
   });
+  data.audit.slice(0, -1).forEach(frame => {
+    assert.notEqual(frame.chosen, 'truth');
+    assert.doesNotMatch(`${frame.title} ${frame.evidence} ${frame.auth} ${frame.caption}`, /correct (service|candidate|root cause|recommendation)|Ground.truth root cause|Injected failure type/i);
+  });
+  assert.doesNotMatch(data.audit[0].evidence, /delay/);
+  assert.match(data.audit[3].check, /does not rule out a delay fault/);
+  assert.match(data.audit.at(-1).check, /Do not conclude that L3 should always be trusted/);
+});
+
+test('examples are explicitly schematic, with observations distinct from diagnoses', () => {
+  assert.match(data.spectrum_example.notice, /not a recorded benchmark trace/);
+  data.levels.forEach(level => {
+    const example = data.spectrum_example.outputs[level.id];
+    assert.equal(example.lines.length, 3);
+    assert.ok(example.meaning.length > 0);
+  });
+  assert.match(data.spectrum_example.outputs.L1.meaning, /has not labeled them anomalous/);
+  assert.match(data.spectrum_example.outputs.L2.meaning, /does not mean most likely root cause/);
+  assert.match(data.spectrum_example.outputs.L3.meaning, /not the final answer/);
+});
+
+test('reporting keeps missing protocol details and conditional denominators explicit', () => {
+  assert.equal(data.reporting.length, 6);
+  const python = data.reporting.find(item => item.topic.startsWith('Python'));
+  assert.match(python.status, /Not specified/);
+  assert.match(python.detail, /does not explicitly say whether structured configurations also expose it/);
+  const uncertainty = data.reporting.find(item => item.topic.startsWith('Repeated'));
+  assert.match(uncertainty.detail, /Repeat counts, random seeds, and uncertainty intervals are not stated/);
+  const switching = data.reporting.find(item => item.topic.startsWith('Conditional'));
+  assert.match(switching.detail, /sample counts are not stated/);
+  assert.match(switching.detail, /not overall tool accuracy/);
+});
+
+test('fixed findings precede exploration and guidelines provide actionable checks', () => {
+  const page = readFileSync(new URL('../_pages/toolrca-project.html', import.meta.url), 'utf8');
+  for (const [section, control] of [['composition', 'data-comparison'], ['capability', 'data-trca-tabs="models"'], ['environment', 'data-trca-addition']]) {
+    const summary = page.indexOf(`data-result-summary="${section}"`);
+    assert.ok(summary > 0 && summary < page.indexOf(control));
+  }
+  assert.match(page, /Read the full abstract/);
+  assert.match(page, /data-audit-observation/);
+  assert.match(page, /data-audit-interpretation/);
+  assert.match(page, /data-audit-check/);
+  data.guidelines.forEach(item => {
+    for (const field of ['when', 'check', 'try', 'evidence', 'href']) assert.ok(item[field].length > 0);
+    assert.ok(page.includes(`id="${item.href.slice(1)}"`));
+  });
+  assert.match(page, /not separately validated improvements/);
 });
 
 test('page stays unlisted and paper remains unavailable', () => {

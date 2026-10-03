@@ -231,7 +231,11 @@ function initialize(root) {
     q('[data-audit-title]').textContent = item.title;
     const evidence = q('[data-audit-evidence]');
     evidence.querySelector('h3').textContent = item.evidence_title;
-    evidence.querySelector('p').textContent = item.evidence;
+    q('[data-audit-observation]').textContent = item.evidence;
+    q('[data-audit-interpretation]').textContent = item.interpretation;
+    q('[data-audit-interpretation-label]').textContent = item.chosen === 'truth' ? 'Decision versus ground truth · hindsight' : 'Agent interpretation · summary';
+    q('[data-audit-check]').textContent = item.check;
+    q('[data-audit-perspective]').textContent = item.chosen === 'truth' ? 'BENCHMARK LABEL / HINDSIGHT' : 'AVAILABLE OBSERVATIONS';
     animate(evidence);
     q('[data-auth-state]').textContent = item.auth;
     q('[data-payment-state]').textContent = item.payment;
@@ -252,9 +256,6 @@ function initialize(root) {
     qa('[data-audit-jump]').forEach((button, i) => {
       if (i === state.frame) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
     });
-    q('[data-audit-trail]').replaceChildren(...data.audit.slice(0, state.frame + 1).map((item, i) => {
-      const span = document.createElement('span'); span.textContent = `${i + 1} / ${item.phase}`; return span;
-    }));
     if (state.frame === data.audit.length - 1) pause();
   }
   function play() {
