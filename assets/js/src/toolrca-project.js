@@ -305,17 +305,17 @@ function initialize(root) {
         if (entry.isIntersecting) { entry.target.classList.add('is-visible'); reveal.unobserve(entry.target); }
       });
     }, { threshold: 0.05 });
-    qa('.trca-heading, .trca-rqs, .trca-design-grid, .trca-finding, .trca-call-stages, .trca-guidelines li').forEach(node => {
+    qa('.trca-heading, .trca-design-grid, .trca-finding, .trca-call-stages, .trca-guidelines li').forEach(node => {
       node.classList.add('trca-reveal'); reveal.observe(node);
     });
   }
 
   const navLinks = [...document.querySelectorAll('.project-local-nav__links a')];
   const navSelect = document.querySelector('[data-trca-section-select]');
-  const sections = qa('.trca-section');
+  const sections = qa('[data-trca-findings], .trca-section');
   function updateNavigation() {
     const position = scrollY + 140;
-    const active = [...sections].reverse().find(section => section.offsetTop <= position) || sections[0];
+    const active = [...sections].reverse().find(section => section.getBoundingClientRect().top + scrollY <= position) || sections[0];
     navLinks.forEach(link => {
       if (link.hash === `#${active.id}`) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
     });

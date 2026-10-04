@@ -63,13 +63,6 @@
 .trca-model-effects dt,.trca-environment-effects dt{line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
 .trca-model-effects dd,.trca-environment-effects dd{font-size:var(--sub);font-weight:600;line-height:1.5;margin-top:10px}
 .trca-source{color:#617477;line-height:1.8;margin-top:24px!important}
-.trca-rqs{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:48px}
-.trca-rqs a{border-top:1px solid var(--rule);padding-top:24px;display:block}
-.trca-rqs a:hover{text-decoration:none}
-.trca-rqs span{color:#577f86}
-.trca-rqs h3{margin:12px 0}
-.trca-rqs p{color:var(--muted)}
-.trca-rqs i{margin-top:20px;color:var(--teal)}
 .trca-tabs{display:flex;border-bottom:1px solid var(--rule);gap:8px;margin:34px 0 0;overflow-x:auto}
 .trca-tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:16px 18px;white-space:nowrap;min-height:52px;line-height:1.5;color:#65777a}
 .trca-tabs button span{display:block;font-weight:400}
@@ -316,3 +309,38 @@
 @media(max-width:767px){.trca-hero-actions{gap:8px}.trca-hero-actions a{gap:8px}.trca-paper-soon{padding-inline:8px}.trca-hero h1{margin-top:10px;margin-bottom:12px}.trca-section#abstract{padding-top:20px}}
 @media(max-width:380px) and (max-height:750px){.trca-hero h1{font-size:42px}.trca-hero-question{font-size:var(--body)!important;line-height:1.5;margin-bottom:8px!important}.trca-hero-intro{margin-top:8px!important}.trca-hero-scope{padding-bottom:8px}.trca-section#abstract{padding-top:12px}}
 @media(max-height:750px) and (min-width:768px){.trca-hero-scope{padding-bottom:16px}.trca-study-numbers{padding-block:16px}.trca-section#abstract{padding-top:32px}}
+.trca-hero-main{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:"heading brief" "about brief";column-gap:56px;row-gap:18px;align-items:start;align-content:start;min-height:0}
+.trca-hero-heading{grid-area:heading}
+.trca-hero-about{grid-area:about}
+.trca-hero-brief{grid-area:brief;border-left:1px solid var(--rule);padding-left:30px;scroll-margin-top:84px}
+.trca-hero-art{display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding-bottom:14px;border-bottom:1px solid var(--rule);position:static}
+.trca-hero-art p{margin:0;color:#607f7b;font-weight:500}
+.trca-mark{width:56px;max-width:56px;height:auto;margin:0;flex-shrink:0}
+.trca-brief-list{padding:0 0 0 18px;margin:0;list-style:disc}
+.trca-brief-list>li{padding:16px 0 18px;border-bottom:1px solid var(--rule)}
+.trca-brief-list>li::marker{color:var(--blue)}
+.trca-brief-list>li:first-child::marker{color:var(--coral)}
+.trca-brief-list>li:last-child::marker{color:var(--teal)}
+.trca-brief-list h3{line-height:1.4;margin-bottom:8px}
+.trca-brief-list h3 a{font-size:inherit;color:var(--ink)}
+.trca-brief-list h3 i{font-size:var(--body);color:var(--teal);margin-left:6px}
+.trca-brief-proof{color:#405d65;line-height:1.6}
+.trca-brief-proof strong{font-weight:600;color:var(--ink)}
+.trca-brief-setting{color:var(--muted);line-height:1.5;margin-top:4px!important}
+.trca-brief-rule{color:#3f7165;line-height:1.6;margin-top:8px!important}
+.trca-brief-rule strong{font-weight:600}
+.trca-brief-scope{color:var(--muted);line-height:1.6;margin-top:16px!important}
+.trca-case-context{color:#48676c;padding:20px 0;border-block:1px solid var(--rule);line-height:1.8}
+.trca-case-context strong{color:var(--ink);font-weight:550}
+.trca-tool-key{display:flex;flex-wrap:wrap;gap:12px 28px;margin:0 0 30px!important;color:var(--muted)}
+.trca-tool-key span{display:inline-flex;gap:10px}
+.trca-tool-key strong{color:var(--blue);font-weight:550}
+.trca-tool-key a{display:inline-flex;align-items:center;gap:10px;margin-left:auto}
+.trca-reading-link{padding-top:24px;border-top:1px solid var(--rule);margin-top:36px!important}
+.trca-reading-link a{display:inline-flex;gap:14px;align-items:baseline;font-size:var(--sub);line-height:1.5}
+.trca-abstract-title{margin-bottom:24px!important;max-width:920px}
+.trca-footer{padding-bottom:38px}
+.trca-section#audit{padding-top:32px}
+@media(max-width:380px){.trca-brief-list h3 i{display:none}}
+@media(max-width:1100px){.trca-hero-main{column-gap:32px}.trca-hero-brief{padding-left:24px}}
+@media(max-width:767px){.trca-hero-main{grid-template-columns:minmax(0,1fr);grid-template-areas:"heading" "brief" "about";gap:22px;padding-bottom:22px}.trca-hero-brief{border-left:0;padding-left:0;scroll-margin-top:78px}.trca-hero-art{position:static;display:flex;justify-content:flex-start;gap:14px;min-height:0}.trca-hero-art p{display:block!important;max-width:none}.trca-mark{position:absolute;right:0;top:38px;width:56px;max-width:56px}.trca-hero h1{padding-right:76px}.trca-hero-question{margin-bottom:0!important}.trca-brief-list>li{padding:14px 0}.trca-brief-list h3{margin-bottom:6px}.trca-brief-rule{margin-top:6px!important}.trca-brief-scope{margin-top:14px!important}.trca-hero-about .trca-paper-title,.trca-hero-about .trca-hero-intro{display:none}.trca-hero-actions{margin-top:0;gap:14px}.trca-hero-scope{border-top:1px solid var(--rule);padding-top:18px}.trca-tool-key{gap:10px 20px}.trca-tool-key a{margin-left:0}.trca-reading-link{margin-top:28px!important}.trca-reading-link a{gap:10px}.trca-section#audit{padding-top:44px}.trca-section#abstract{padding-top:58px}}

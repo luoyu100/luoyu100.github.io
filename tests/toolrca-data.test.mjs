@@ -162,3 +162,35 @@ test('page stays unlisted and paper remains unavailable', () => {
   const config = readFileSync(new URL('../_config.yml', import.meta.url), 'utf8');
   assert.match(config, /- assets\/js\/src\/toolrca\.README\.md/);
 });
+
+test('the cover pairs three evidence-backed hooks with concrete design rules', () => {
+  assert.deepEqual(data.takeaways.map(item => item.id), ['composition', 'capability', 'environment']);
+  for (const item of data.takeaways) {
+    assert.ok(item.title.length > 0 && item.rule.length > 0);
+    assert.equal(item.href, `#${item.id}`);
+  }
+  const page = readFileSync(new URL('../_pages/toolrca-project.html', import.meta.url), 'utf8');
+  const brief = readFileSync(new URL('../_includes/toolrca-brief.html', import.meta.url), 'utf8');
+  assert.ok(page.indexOf('include toolrca-brief.html') < page.indexOf('<section'));
+  assert.match(brief, /<ul class="trca-brief-list">/);
+  assert.match(brief, /data-key-finding/);
+  assert.match(brief, /<strong>Design rule:<\/strong>/);
+  assert.match(brief, /study-derived, not separately validated/);
+  assert.match(brief, /divided_by: l3.values\[4\]/);
+  assert.match(brief, /minus: small_before.values\[0\]/);
+  assert.match(brief, /minus: system_before.values\[8\]/);
+});
+
+test('reading order leads with the case and evidence, not the paper structure', () => {
+  const page = readFileSync(new URL('../_pages/toolrca-project.html', import.meta.url), 'utf8');
+  const ids = [...page.matchAll(/<section class="trca-section[^"]*" id="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(ids, ['audit', 'composition', 'capability', 'environment', 'guidelines', 'spectrum', 'design', 'abstract']);
+  const indices = [...page.matchAll(/class="trca-index">(\d{2}) \/ /g)].map(match => match[1]);
+  assert.deepEqual(indices, ['01', '02', '03', '04', '05', '06', '07', '08']);
+  const nav = [...page.matchAll(/- \{label: [^,]+, href: "#([^"]+)"\}/g)].map(match => match[1]);
+  assert.deepEqual(nav, ['findings', ...ids]);
+  assert.equal((page.match(/class="trca-reading-link"/g) || []).length, 7);
+  assert.ok(page.indexOf('<footer') > page.lastIndexOf('</div></section>'));
+  assert.match(page, /evidence-analysis tools \(L2\)/);
+  assert.match(page, /diagnostic tools \(L3\)/);
+});

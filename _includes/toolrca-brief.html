@@ -1,0 +1,22 @@
+<aside class="trca-hero-brief" id="findings" data-trca-findings aria-labelledby="trca-brief-title">
+  <div class="trca-hero-art"><p class="trca-eyebrow" id="trca-brief-title">KEY FINDINGS &amp; DESIGN RULES</p><img class="trca-mark" src="{{ '/images/projects/toolrca/toolrca-mark.svg' | relative_url }}" width="56" height="45" alt="ToolRCA: analytical paths converge on one decision."></div>
+  <ul class="trca-brief-list">{% for item in study.takeaways %}
+    <li data-key-finding="{{ item.id }}">
+      <h3><a href="{{ item.href }}">{{ item.title }} <i class="fas fa-arrow-down" aria-hidden="true"></i></a></h3>
+      {% if item.id == 'composition' %}
+      <p class="trca-brief-proof">Qwen3.7-Plus: <strong>{{ l3.values[0] }}% → {{ full.values[0] }}%</strong> localization, with <strong>{{ full.values[4] | divided_by: l3.values[4] | round: 2 }}×</strong> the tokens.</p>
+      <p class="trca-brief-setting">Diagnostic tools only → full toolset.</p>
+      {% elsif item.id == 'capability' %}
+      {% assign small = study.models.first %}{% assign small_before = small.rows | where: 'id', 'L1+L2' | first %}{% assign small_after = small.rows | where: 'id', 'L1+L2+L3' | first %}{% assign plus = study.models | where: 'id', 'plus' | first %}{% assign plus_before = plus.rows | where: 'id', 'L1+L2' | first %}{% assign plus_after = plus.rows | where: 'id', 'L1+L2+L3' | first %}
+      <p class="trca-brief-proof">Qwen3-8B: <strong class="trca-negative">{{ small_after.values[0] | minus: small_before.values[0] | round: 1 }} pp</strong>. Qwen3.7-Plus: <strong class="trca-positive">+{{ plus_after.values[0] | minus: plus_before.values[0] | round: 1 }} pp</strong>.</p>
+      <p class="trca-brief-setting">Add diagnostic tools to metric access + evidence analysis.</p>
+      {% else %}
+      {% assign system_before = study.system_results | where: 'id', 'L3' | first %}{% assign system_after = study.system_results | where: 'id', 'L2+L3' | first %}
+      <p class="trca-brief-proof">Online Boutique: <strong class="trca-positive">+{{ system_after.values[0] | minus: system_before.values[0] | round: 1 }} pp</strong>. Train Ticket: <strong class="trca-negative">{{ system_after.values[8] | minus: system_before.values[8] | round: 1 }} pp</strong>.</p>
+      <p class="trca-brief-setting">Qwen3.7-Plus · add evidence analysis to diagnostic tools.</p>
+      {% endif %}
+      <p class="trca-brief-rule"><strong>Design rule:</strong> {{ item.rule }}</p>
+    </li>
+  {% endfor %}</ul>
+  <p class="trca-brief-scope">Localization = first-choice root cause accuracy. pp = percentage points. These design rules are study-derived, not separately validated.</p>
+</aside>
