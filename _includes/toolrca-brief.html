@@ -2,7 +2,7 @@
   <div class="trca-hero-art"><p class="trca-eyebrow" id="trca-brief-title">KEY FINDINGS &amp; DESIGN RULES</p><img class="trca-mark" src="{{ '/images/projects/toolrca/toolrca-mark.svg' | relative_url }}" width="56" height="45" alt="ToolRCA: analytical paths converge on one decision."></div>
   <ul class="trca-brief-list">{% for item in study.takeaways %}
     <li data-key-finding="{{ item.id }}">
-      <h3><a href="{{ item.href }}">{{ item.title }} <i class="fas fa-arrow-down" aria-hidden="true"></i></a></h3>
+      <h3><a target="_self" href="{{ item.href }}">{{ item.title }} <i class="fas fa-arrow-down" aria-hidden="true"></i></a></h3>
       {% if item.id == 'composition' %}
       <p class="trca-brief-proof">Qwen3.7-Plus: <strong>{{ l3.values[0] }}% → {{ full.values[0] }}%</strong> localization, with <strong>{{ full.values[4] | divided_by: l3.values[4] | round: 2 }}×</strong> the tokens.</p>
       <p class="trca-brief-setting">Diagnostic tools only → full toolset.</p>

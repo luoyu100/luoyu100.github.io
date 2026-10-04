@@ -179,6 +179,7 @@ test('the cover pairs three evidence-backed hooks with concrete design rules', (
   assert.match(brief, /divided_by: l3.values\[4\]/);
   assert.match(brief, /minus: small_before.values\[0\]/);
   assert.match(brief, /minus: system_before.values\[8\]/);
+  assert.match(brief, /<a target="_self" href="{{ item.href }}">/);
 });
 
 test('reading order leads with the case and evidence, not the paper structure', () => {
@@ -193,4 +194,5 @@ test('reading order leads with the case and evidence, not the paper structure', 
   assert.ok(page.indexOf('<footer') > page.lastIndexOf('</div></section>'));
   assert.match(page, /evidence-analysis tools \(L2\)/);
   assert.match(page, /diagnostic tools \(L3\)/);
+  assert.doesNotMatch(page, /<a href=/);
 });
