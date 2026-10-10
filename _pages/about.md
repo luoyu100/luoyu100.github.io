@@ -46,7 +46,7 @@ My recent research interests lie in:
 
 # Preprint
 
-<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div><div class="badge">Arxiv 2026</div><a href="https://arxiv.org/abs/2610.05009"><img src="{{ '/images/projects/toolrca/motivation.webp' | relative_url }}" alt="ToolRCA Figure 1: metric access, evidence analysis, and diagnostic tools delegate different amounts of RCA work" style="padding-top: 28px; background: white;" width="100%" loading="lazy" decoding="async"></a></div></div>
+<div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div style="width: 100%; max-width: 360px; margin: 0 auto;"><div class="badge">Arxiv 2026</div><a href="https://arxiv.org/abs/2610.05009"><img src="{{ '/images/projects/toolrca/study-design-thumbnail.webp' | relative_url }}" alt="ToolRCA Figure 2: evaluation workflow and study of tool composition, model capability, and system environment" style="padding-top: 28px; background: white;" width="100%" loading="lazy" decoding="async"></a></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Rethinking Tool Design for Agentic RCA: A Controlled Empirical Study](https://arxiv.org/abs/2610.05009)

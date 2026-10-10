@@ -184,7 +184,10 @@ test('homepage announces ToolRCA above PoS without adding a code link or changin
   assert.ok(preprints.indexOf('2610.05009') < preprints.indexOf('2610.01415'));
   const toolrca = preprints.slice(0, preprints.indexOf('2610.01415'));
   assert.match(toolrca, /badge">Arxiv 2026/);
-  assert.match(toolrca, /motivation\.webp/);
+  assert.match(toolrca, /study-design-thumbnail\.webp/);
+  assert.match(toolrca, /ToolRCA Figure 2:/);
+  assert.match(toolrca, /max-width: 360px/);
+  assert.doesNotMatch(toolrca, /motivation\.webp/);
   assert.match(toolrca, /<span>Project<\/span>/);
   assert.match(toolrca, /<span>arXiv<\/span>/);
   assert.doesNotMatch(toolrca, /<span>Code<\/span>/);
