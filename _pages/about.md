@@ -31,6 +31,7 @@ My recent research interests lie in:
 
 # 🔥 News
 - *2026.10*: &nbsp;🚀 Our empirical study [**ToolRCA**]({{ '/projects/toolrca/project/' | relative_url }}) on tool design for agentic RCA is now available on [arXiv](https://arxiv.org/abs/2610.05009)!
+- *2026.10*: &nbsp;🚀 [**Progression of States (PoS)**]({{ '/projects/progression-of-states/project/' | relative_url }}) is now available on [arXiv](https://arxiv.org/abs/2610.01415), and its [code](https://github.com/luoyu100/PoS) has been released!
 - *2026.09*: &nbsp;🚀 **Graph of States** has surpassed 30K views across all platforms and received 100+ stars on GitHub!
 - *2026.08*: &nbsp;🎉🎉 Our paper “PAGE” is accepted by EMNLP 2026
 - *2026.08*: &nbsp;🎉🎉 Our paper “OpsMem” is accepted by ISSRE 2026
@@ -79,7 +80,7 @@ My recent research interests lie in:
 
 - PoS moves beyond storing interaction history by maintaining explicit belief states of the current world and unresolved task requirements. It checks their consistency and tracks progression to detect when an agent keeps acting without making useful progress. Trapping-aware recovery redirects subsequent actions based on how the agent is stuck and what remains unresolved.
 
-<div class="paper-actions">
+<div class="paper-actions" style="flex-wrap: wrap; overflow: visible;">
   <a class="paper-story-link paper-story-link--project" target="_self" href="{{ '/projects/progression-of-states/project/' | relative_url }}">
     <i class="fas fa-project-diagram" aria-hidden="true"></i>
     <span>Project</span>
@@ -93,6 +94,11 @@ My recent research interests lie in:
   <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://github.com/luoyu100/PoS">
     <i class="fas fa-code" aria-hidden="true"></i>
     <span>Code</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
+  <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://huggingface.co/papers/2610.01415">
+    <img src="{{ '/images/hugging-face.svg' | relative_url }}" alt="" aria-hidden="true" width="18" height="18" style="width: 18px; height: 18px; flex: none;">
+    <span>Hugging Face</span>
     <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
   </a>
 </div>

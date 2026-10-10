@@ -2,6 +2,7 @@ paper_title: "Beyond Memory: Harnessing Long-Horizon Agents with Explicit Belief
 code_url: https://github.com/luoyu100/PoS
 paper_url: https://arxiv.org/abs/2610.01415
 download_url: https://arxiv.org/pdf/2610.01415
+huggingface_url: https://huggingface.co/papers/2610.01415
 authors:
   - {name: Yu Luo, affiliation: 1}
   - {name: Jiamin Jiang, affiliation: 1}
