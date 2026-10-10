@@ -6,10 +6,7 @@ description: "A controlled study of tool abstraction, model capability, and syst
 layout: project
 author_profile: false
 project_theme: toolrca
-project_stylesheet: /assets/css/toolrca.css?v=20261004a
-sitemap: false
-search: false
-robots: noindex, nofollow
+project_stylesheet: /assets/css/toolrca.css?v=20261010a
 project_navigation:
   - {label: Findings, href: "#findings"}
   - {label: Case, href: "#audit"}
@@ -20,6 +17,7 @@ project_navigation:
   - {label: Tools, href: "#spectrum"}
   - {label: Study, href: "#design"}
   - {label: Abstract, href: "#abstract"}
+  - {label: Citation, href: "#bibtex"}
 ---
 {% assign study = site.data.toolrca_project %}
 {% assign l3 = study.overall | where: 'id', 'L3' | first %}
@@ -38,10 +36,15 @@ project_navigation:
     <div class="trca-hero-about">
       <p class="trca-paper-title">{{ study.title }}</p>
       <p class="trca-hero-intro"><strong>RCA tool design lacks controlled evidence.</strong> We compare what tools analyze, which combinations help, and how agents use the results across models and systems.</p>
-      <div class="trca-hero-actions"><button type="button" disabled class="trca-paper-soon"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper <span>Coming Soon</span></button><a target="_self" href="#audit">Why reject the right cause? <i class="fas fa-arrow-down" aria-hidden="true"></i></a></div>
+      <div class="trca-hero-actions"><a class="trca-paper-link" target="_blank" rel="noopener" href="{{ study.publication.arxiv_url }}"><i class="fas fa-file-alt" aria-hidden="true"></i> Paper <i class="fas fa-external-link-alt" aria-hidden="true"></i></a><a class="trca-pdf-link" target="_blank" rel="noopener" href="{{ study.publication.pdf_url }}"><i class="fas fa-file-pdf" aria-hidden="true"></i> PDF</a><a target="_self" href="#audit">Why reject the right cause? <i class="fas fa-arrow-down" aria-hidden="true"></i></a></div>
     </div>
   </div>
   <p class="trca-hero-scope">375 RE1 failure cases · 3 microservice systems. Findings depend on the tested models and configurations. <a target="_self" href="#design">Study coverage <i class="fas fa-arrow-down" aria-hidden="true"></i></a></p>
+  <div class="trca-paper-credits" aria-label="Paper authors and affiliations">
+    <p class="trca-authors">{% for author in study.authors %}<span>{{ author.name }}<sup>{{ author.affiliation }}{% if author.corresponding %},*{% endif %}</sup></span>{% unless forloop.last %}, {% endunless %}{% endfor %}</p>
+    <ul class="trca-affiliations">{% for affiliation in study.affiliations %}<li><sup>{{ affiliation.id }}</sup> {{ affiliation.name }}</li>{% endfor %}</ul>
+    <p class="trca-corresponding">* Corresponding author: Yongqian Sun</p>
+  </div>
 </header>
 
 <section class="trca-section" id="audit"><div class="trca-shell">
@@ -147,7 +150,7 @@ project_navigation:
   <div class="trca-table-scroll" role="region" tabindex="0" aria-label="Tested model and tool configurations"><table class="trca-matrix"><caption>What was actually evaluated</caption><thead><tr><th scope="col">Model</th>{% for config in study.configs %}<th scope="col">{{ config }}</th>{% endfor %}</tr></thead><tbody>{% for model in study.models %}<tr><th scope="row">{{ model.name }}</th>{% for config in study.configs %}<td>{% if model.id == 'plus' or study.common_configs contains config %}<span aria-label="Evaluated">●</span>{% else %}<span class="trca-muted" aria-label="Not evaluated">—</span>{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
   <div class="trca-system-profiles">{% for system in study.systems %}<div><span class="trca-eyebrow">{{ system.id }} / 125 CASES</span><h3>{{ system.name }}</h3><p>{{ system.services }} services · {{ system.metrics }} metrics per case</p><p>{{ system.structure }}.</p></div>{% endfor %}</div>
   <details class="trca-details"><summary>Metrics and study boundaries</summary><dl class="trca-definitions"><div><dt>AC@1 / AC@3</dt><dd>Whether the true root cause entity is in the top one / three candidates.</dd></div><div><dt>Avg@5</dt><dd>The mean of AC@1 through AC@5.</dd></div><div><dt>Type Accuracy (TA)</dt><dd>Whether the predicted failure type matches the injected fault.</dd></div><div><dt>Completion</dt><dd>A valid diagnosis submitted within the interaction budget.</dd></div><div><dt>L3 usage</dt><dd>A trajectory invokes at least one L3 tool; this does not imply it receives a candidate ranking.</dd></div><div><dt>Efficiency</dt><dd>Mean total input + output tokens, elapsed seconds, and API cost per case.</dd></div></dl><p>All accuracy denominators include cases without valid diagnoses. The study uses all 375 RCAEval RE1 cases and five injected fault types: CPU, memory, disk, delay, and packet loss. It studies metrics and four models from one lineage, not production incidents, logs, traces, or other model families.</p></details>
-  <details class="trca-details" data-study-reporting><summary>Comparison conditions and statistical reporting</summary><dl class="trca-reporting">{% for item in study.reporting %}<div><dt>{{ item.topic }} <span>{{ item.status }}</span></dt><dd>{{ item.detail }}</dd></div>{% endfor %}</dl><p>These notes describe what the current manuscript reports. Missing details are not inferred from rounded percentages.</p></details>
+  <details class="trca-details" data-study-reporting><summary>Comparison conditions and statistical reporting</summary><dl class="trca-reporting">{% for item in study.reporting %}<div><dt>{{ item.topic }} <span>{{ item.status }}</span></dt><dd>{{ item.detail }}</dd></div>{% endfor %}</dl><p>These notes describe what the public paper reports. Missing details are not inferred from rounded percentages.</p></details>
   <details class="trca-details"><summary>Original study design</summary>{% include toolrca-figure.html key="design" %}</details>
   <p class="trca-reading-link"><a target="_self" href="#abstract">The research question and full abstract <i class="fas fa-arrow-down" aria-hidden="true"></i></a></p>
 </div></section>
@@ -157,7 +160,22 @@ project_navigation:
   <h3 class="trca-abstract-title">{{ study.title }}</h3>
   <p class="trca-lead">A study of tool choices, not another RCA framework.</p>
   <p class="trca-abstract">Existing RCA agents often use fixed preprocessing or predefined tools, leaving little experimental guidance on how much analysis tools should do. We define a tool spectrum, compare configurations under shared task and execution conditions, and inspect the decisions that follow tool calls. The contribution is <strong>evidence for tool design</strong>: what improves, what gets worse, and where useful tool results are lost.</p>
-  <details class="trca-details"><summary>Read the full abstract</summary><p class="trca-abstract">{{ study.abstract }}</p><p>The abstract counts seven structured configurations. The study also evaluates the independent L0 reference, making eight in total.</p></details>
+  <details class="trca-details"><summary>Read the full abstract</summary><p class="trca-abstract">{{ study.abstract }}</p></details>
+  <p class="trca-reading-link"><a target="_self" href="#bibtex">Paper and citation <i class="fas fa-arrow-down" aria-hidden="true"></i></a></p>
+</div></section>
+
+<section class="trca-section project-bibtex-section" id="bibtex"><div class="trca-shell">
+  <div class="trca-citation-heading"><div class="trca-heading"><p class="trca-index">09 / CITE THIS WORK</p><h2>BibTeX.</h2></div><button class="copy-bibtex-btn" type="button" title="Copy BibTeX to clipboard" aria-label="Copy BibTeX"><i class="fas fa-copy" aria-hidden="true"></i><span class="copy-text" aria-live="polite">Copy</span></button></div>
+  <p class="trca-citation-links"><a target="_blank" rel="noopener" href="{{ study.publication.arxiv_url }}">arXiv {{ study.publication.eprint }} <i class="fas fa-external-link-alt" aria-hidden="true"></i></a><a target="_blank" rel="noopener" href="{{ study.publication.pdf_url }}">Read the PDF <i class="fas fa-file-pdf" aria-hidden="true"></i></a></p>
+  <pre id="bibtex-code" tabindex="0" aria-label="BibTeX citation"><code>@misc{ {{- study.publication.bibtex_key -}},
+  title={ {{- study.title -}} },
+  author={ {{- study.authors | map: 'name' | join: ' and ' -}} },
+  year={ {{- study.publication.year -}} },
+  eprint={ {{- study.publication.eprint -}} },
+  archivePrefix={arXiv},
+  primaryClass={ {{- study.publication.primary_class -}} },
+  url={ {{- study.publication.arxiv_url -}} }
+}</code></pre>
 </div></section>
 <div class="trca-shell"><footer class="trca-footer"><img src="{{ '/images/projects/toolrca/toolrca-mark-mono.svg' | relative_url }}" width="60" height="49" alt=""><p>ToolRCA<br><span>Rethinking the tools behind the diagnosis.</span></p><a target="_self" href="#paper" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></a></footer></div>
 </div>

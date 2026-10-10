@@ -1,11 +1,36 @@
 {
   "title": "Rethinking Tool Design for Agentic RCA: A Controlled Empirical Study",
+  "publication": {
+    "year": 2026,
+    "eprint": "2610.05009",
+    "primary_class": "cs.SE",
+    "bibtex_key": "luo2026rethinkingtooldesignagentic",
+    "arxiv_url": "https://arxiv.org/abs/2610.05009",
+    "pdf_url": "https://arxiv.org/pdf/2610.05009"
+  },
+  "authors": [
+    {"name":"Yu Luo","affiliation":1},
+    {"name":"Rongchen Gao","affiliation":1},
+    {"name":"Zhenhui Zhou","affiliation":1},
+    {"name":"Changchang Liu","affiliation":1},
+    {"name":"Yuliang You","affiliation":1},
+    {"name":"Yongqian Sun","affiliation":1,"corresponding":true},
+    {"name":"Shenglin Zhang","affiliation":1},
+    {"name":"Qiuai Fu","affiliation":2},
+    {"name":"Shijie Wang","affiliation":2},
+    {"name":"Dan Pei","affiliation":3}
+  ],
+  "affiliations": [
+    {"id":1,"name":"Nankai University"},
+    {"id":2,"name":"Huawei Technologies Co., Ltd."},
+    {"id":3,"name":"Tsinghua University"}
+  ],
   "takeaways": [
     {"id":"composition","title":"More tools can lower accuracy.","rule":"Choose the diagnostic target before adding tools.","href":"#composition"},
     {"id":"capability","title":"The same help can hurt another model.","rule":"Match tools to the agent's ability to use them.","href":"#capability"},
     {"id":"environment","title":"A useful tool may not transfer.","rule":"Revalidate the configuration in your target system.","href":"#environment"}
   ],
-  "abstract": "Large language model (LLM) agents are increasingly explored for root cause analysis (RCA) in microservice systems, where diagnosis requires extracting useful evidence from massive metric streams. However, existing systems typically rely on fixed preprocessing or predefined toolsets, leaving limited empirical guidance on how RCA tools should be designed and combined. We conduct a controlled empirical study of tool design in agentic RCA, examining tool abstraction and composition together with model capability and microservice system complexity. We organize the study around a four level RCA tool spectrum: L0 provides no structured RCA tools and allows Python based analysis, while L1, L2, and L3 provide metric access, evidence analysis, and diagnostic methods, respectively. We implement 24 structured RCA tools across L1–L3 and evaluate 7 tool configurations, 4 models spanning distinct capability levels, and 375 failure cases from 3 microservice environments: Online Boutique, Sock Shop, and Train Ticket. Our results show that tool utility is nonmonotonic: higher abstraction and richer toolsets do not consistently improve diagnostic effectiveness or efficiency. More strikingly, L3 level tools can hurt weaker models but become increasingly beneficial as model capability improves. Tool configuration rankings also shift across microservice environments, showing that no single toolset remains optimal across different system profiles. Overall, our study provides a systematic empirical basis for RCA tool design and practical guidance for matching tool abstraction and composition to model capability and system complexity.",
+  "abstract": "Large language model (LLM) agents are increasingly explored for root cause analysis (RCA) in microservice systems, yet empirical guidance on how to design and combine their tools remains limited. We conduct a controlled empirical study of tool abstraction and composition across models and microservice environments. We implement 24 structured tools for metric access (L1), evidence analysis (L2), and diagnosis (L3), alongside a Python-based reference setting (L0). Using 375 failure cases from three microservice systems, we evaluate eight configurations with Qwen3.7-Plus and compare four Qwen models on a shared subset of four configurations. Our results show that tool configurations affect root cause localization and failure type identification differently. With Qwen3.7-Plus, L3 achieves 82.8% top-1 localization accuracy compared with 85.4% for L0, while requiring less than half the time per case. Adding tool levels can improve type identification while reducing localization accuracy. Trajectory analysis reveals cases in which agents override correct diagnostic recommendations after consulting additional evidence. Model choice also changes tool benefits: adding L3 to L1+L2 improves diagnosis for three models but hurts Qwen3-8B, which rarely invokes L3. Tool configuration rankings further change across microservice systems. These findings provide an empirical foundation for designing and using RCA tools, guiding tool selection and composition according to the model, diagnostic objective, and target system.",
   "levels": [
     {"id":"L0","name":"Agent-written analysis","count":"Python interface","output":"Results of the agent's own programs","tool":"Execute Python over the same case metrics, incident context, and service topology.","agent":"Choose, implement, and interpret the entire analysis. There are no predefined RCA procedures.","diagram":{"action":"Run agent-written Python","result":"Results of the agent's own programs","remaining":"Choose, implement, and interpret the analysis.","visual_description":"A code editor and a computed time series."},"capabilities":["Select and process incident data","Compute statistics in agent-written code","Implement further analysis","Interpret the resulting observations"]},
     {"id":"L1","name":"Metric access","count":"6 structured interfaces","output":"Observations and basic summaries","tool":"Retrieve metric samples, summary statistics, metric ownership, and local service dependencies.","agent":"Choose what to inspect, identify unusual behavior, and reason about its cause. These tools do not score anomalies or rank root causes.","diagram":{"action":"Retrieve and summarize metrics","result":"Samples, summaries, and local topology","remaining":"Find unusual behavior and reason about its cause.","visual_description":"A selected time window and a basic summary, without anomaly scores or cause rankings."},"capabilities":["Metric discovery and retrieval","Service, metric, and time-window queries","Batch metric queries","Mean, maximum, minimum, sum, and percentiles","Metric ownership resolution","Local topology inspection"]},

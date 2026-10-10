@@ -151,16 +151,44 @@ test('fixed findings precede exploration and guidelines provide actionable check
   assert.match(page, /not separately validated improvements/);
 });
 
-test('page stays unlisted and paper remains unavailable', () => {
+test('public release exposes verified paper links, authors, and a copyable citation', () => {
   const page = readFileSync(new URL('../_pages/toolrca-project.html', import.meta.url), 'utf8');
-  assert.match(page, /sitemap: false/);
-  assert.match(page, /search: false/);
-  assert.match(page, /robots: noindex, nofollow/);
-  assert.match(page, /disabled class="trca-paper-soon"/);
-  assert.doesNotMatch(page, /href="[^"]+\.pdf/);
-  assert.equal((page.match(/<section class="trca-section/g) || []).length, 8);
+  assert.doesNotMatch(page, /sitemap: false|search: false|noindex|Coming Soon/);
+  assert.equal(data.publication.arxiv_url, 'https://arxiv.org/abs/2610.05009');
+  assert.equal(data.publication.pdf_url, 'https://arxiv.org/pdf/2610.05009');
+  assert.equal(data.publication.year, 2026);
+  assert.equal(data.publication.primary_class, 'cs.SE');
+  assert.equal(data.publication.bibtex_key, 'luo2026rethinkingtooldesignagentic');
+  assert.deepEqual(data.authors.map(author => author.name), ['Yu Luo', 'Rongchen Gao', 'Zhenhui Zhou', 'Changchang Liu', 'Yuliang You', 'Yongqian Sun', 'Shenglin Zhang', 'Qiuai Fu', 'Shijie Wang', 'Dan Pei']);
+  assert.deepEqual(data.authors.filter(author => author.corresponding).map(author => author.name), ['Yongqian Sun']);
+  assert.deepEqual(data.affiliations.map(item => item.name), ['Nankai University', 'Huawei Technologies Co., Ltd.', 'Tsinghua University']);
+  data.authors.forEach(author => assert.ok(data.affiliations.some(item => item.id === author.affiliation)));
+  assert.match(page, /href="{{ study.publication.arxiv_url }}"/);
+  assert.match(page, /href="{{ study.publication.pdf_url }}"/);
+  assert.match(page, /class="trca-authors"/);
+  assert.match(page, /class="copy-bibtex-btn"/);
+  assert.match(page, /id="bibtex-code"/);
+  assert.match(page, /archivePrefix=\{arXiv\}/);
+  assert.match(data.abstract, /eight configurations with Qwen3.7-Plus/);
+  assert.doesNotMatch(page, /The abstract counts seven/);
+  assert.equal((page.match(/<section class="trca-section/g) || []).length, 9);
   const config = readFileSync(new URL('../_config.yml', import.meta.url), 'utf8');
   assert.match(config, /- assets\/js\/src\/toolrca\.README\.md/);
+});
+
+test('homepage announces ToolRCA above PoS without adding a code link or changing the published count', () => {
+  const about = readFileSync(new URL('../_pages/about.md', import.meta.url), 'utf8');
+  const news = about.split('# 🔥 News')[1].split('# Preprint')[0];
+  assert.match(news.trim().split('\n')[0], /2026\.10.*ToolRCA.*2610\.05009/);
+  const preprints = about.split('# Preprint')[1].split('# 📝 Publications')[0];
+  assert.ok(preprints.indexOf('2610.05009') < preprints.indexOf('2610.01415'));
+  const toolrca = preprints.slice(0, preprints.indexOf('2610.01415'));
+  assert.match(toolrca, /badge">Arxiv 2026/);
+  assert.match(toolrca, /motivation\.webp/);
+  assert.match(toolrca, /<span>Project<\/span>/);
+  assert.match(toolrca, /<span>arXiv<\/span>/);
+  assert.doesNotMatch(toolrca, /<span>Code<\/span>/);
+  assert.match(about, /He has published 10 papers/);
 });
 
 test('the cover pairs three evidence-backed hooks with concrete design rules', () => {
@@ -185,12 +213,12 @@ test('the cover pairs three evidence-backed hooks with concrete design rules', (
 test('reading order leads with the case and evidence, not the paper structure', () => {
   const page = readFileSync(new URL('../_pages/toolrca-project.html', import.meta.url), 'utf8');
   const ids = [...page.matchAll(/<section class="trca-section[^"]*" id="([^"]+)"/g)].map(match => match[1]);
-  assert.deepEqual(ids, ['audit', 'composition', 'capability', 'environment', 'guidelines', 'spectrum', 'design', 'abstract']);
+  assert.deepEqual(ids, ['audit', 'composition', 'capability', 'environment', 'guidelines', 'spectrum', 'design', 'abstract', 'bibtex']);
   const indices = [...page.matchAll(/class="trca-index">(\d{2}) \/ /g)].map(match => match[1]);
-  assert.deepEqual(indices, ['01', '02', '03', '04', '05', '06', '07', '08']);
+  assert.deepEqual(indices, ['01', '02', '03', '04', '05', '06', '07', '08', '09']);
   const nav = [...page.matchAll(/- \{label: [^,]+, href: "#([^"]+)"\}/g)].map(match => match[1]);
   assert.deepEqual(nav, ['findings', ...ids]);
-  assert.equal((page.match(/class="trca-reading-link"/g) || []).length, 7);
+  assert.equal((page.match(/class="trca-reading-link"/g) || []).length, 8);
   assert.ok(page.indexOf('<footer') > page.lastIndexOf('</div></section>'));
   assert.match(page, /evidence-analysis tools \(L2\)/);
   assert.match(page, /diagnostic tools \(L3\)/);

@@ -32,9 +32,15 @@
 .trca-hero-scope{padding:0 0 26px;color:var(--muted);max-width:1050px;line-height:1.65}
 .trca-hero-scope a{display:inline-flex;gap:8px;margin-left:8px;white-space:nowrap}
 .trca-hero-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:30px}
-.trca-paper-soon{display:flex;align-items:center;gap:10px;background:#f4f7f6;border:1px solid var(--rule);border-radius:5px;padding:12px 16px;opacity:1;color:#5d6d6c!important}
-.trca-paper-soon span{color:#5e726c;border-left:1px solid #c8d8d1;padding-left:10px}
+.trca-hero-actions .trca-paper-link{gap:10px;background:#368675;border:1px solid #368675;border-radius:5px;padding:10px 16px;color:#fff}
+.trca-hero-actions .trca-paper-link:hover{background:#2c7162;text-decoration:none}
 .trca-hero-actions a{display:flex;gap:14px;align-items:center}
+.trca-paper-credits{padding:22px 0 30px;border-top:1px solid var(--rule);line-height:1.8}
+.trca-authors{max-width:1060px;color:var(--ink)}
+.trca-authors>span{display:inline-block}
+.trca-paper-credits sup{font-size:inherit;line-height:0;vertical-align:super;color:var(--teal)}
+.trca-affiliations{display:flex;flex-wrap:wrap;gap:4px 24px;list-style:none;padding:0;margin:10px 0 6px;color:var(--muted)}
+.trca-corresponding{color:var(--muted)}
 .trca-hero-art{text-align:center}
 .trca-mark{width:100%;max-width:380px;height:auto;display:block;margin:auto;animation:trca-mark-in 1.2s ease-out both}
 .trca-hero-art p{color:var(--muted);margin-top:8px}
@@ -340,6 +346,19 @@
 .trca-reading-link a{display:inline-flex;gap:14px;align-items:baseline;font-size:var(--sub);line-height:1.5}
 .trca-abstract-title{margin-bottom:24px!important;max-width:920px}
 .trca-footer{padding-bottom:38px}
+.trca .project-bibtex-section{margin-top:0}
+.trca-citation-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:24px}
+.trca-citation-heading .trca-heading{margin:0}
+.trca .copy-bibtex-btn{display:inline-flex;justify-content:center;align-items:center;flex-shrink:0;gap:10px;min-width:110px;min-height:44px;padding:10px 16px;border:1px solid var(--teal);border-radius:5px;background:var(--teal);color:#fff;font-weight:550}
+.trca .copy-bibtex-btn:hover{background:#2c7162;box-shadow:none;transform:none}
+.trca .copy-bibtex-btn.copied{background:#2c7162}
+.trca .copy-bibtex-btn.copied .copy-text:after{content:none}
+.trca-citation-links{display:flex;flex-wrap:wrap;gap:12px 30px;margin-bottom:24px!important}
+.trca-citation-links a{display:inline-flex;align-items:center;gap:10px}
+.trca #bibtex-code{width:100%;margin:0;padding:28px;border:1px solid var(--rule);border-radius:5px;background:#f4f7f6;color:var(--ink);font-size:var(--body);line-height:1.8;box-shadow:none;white-space:pre-wrap;overflow-wrap:anywhere}
+.trca #bibtex-code code{font-family:"SFMono-Regular",Consolas,monospace;font-size:inherit;line-height:inherit;color:inherit;background:transparent;white-space:inherit;overflow-wrap:inherit;padding:0}
+.trca #bibtex-code:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+@media(max-width:767px){.trca-paper-credits{padding-block:20px 24px}.trca-citation-heading{gap:16px}.trca #bibtex-code{padding:20px}.trca .copy-bibtex-btn{min-width:100px;padding-inline:12px}}
 .trca-section#audit{padding-top:32px}
 @media(max-width:380px){.trca-brief-list h3 i{display:none}}
 @media(max-width:1100px){.trca-hero-main{column-gap:32px}.trca-hero-brief{padding-left:24px}}
