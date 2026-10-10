@@ -304,11 +304,8 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 
 
 # 🎖 Honors and Awards
-- *2025.10* 🎓 Scholarship for Postgraduate Recommendation (3/51), Nankai University
-- *2025.10* 🎓 Scholarship for Merit and Competence, Nankai University
-- *2025.06* 📝 Distinguished Undergraduate Thesis Award, Nankai University (南开大学校级优秀毕业论文)
-- *2024.10* 🎓 Scholarship for Merit and Competence, Nankai University
-- *2023.10* 🎓 Scholarship for Academic Excellence, Nankai University
+- **Ph.D.:** 🎓 First-Class Academic Scholarship (2026), 🎓 Postgraduate Recommendation Scholarship (2025, 3/51), 🎓 Merit and Competence Scholarship (2025).
+- **Undergraduate:** 📝 Distinguished Undergraduate Thesis Award (2025), 🎓 Merit and Competence Scholarship (2024), 🎓 Academic Excellence Scholarship (2023).
 
 # 📖 Educations
 - *2025.06 - present*, PhD, Software Engineering, Nankai University, China, advisor [Yongqian Sun](https://nkcs.iops.ai/yongqiansun/)
