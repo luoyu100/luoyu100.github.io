@@ -335,7 +335,7 @@ Binpeng Shi, **Yu Luo**, Jingya Wang, Yongxin Zhao, et al.
 
 
 # 🎖 Honors and Awards
-- **Ph.D.:** 🎓 First-Class Academic Scholarship (2026), 🎓 Postgraduate Recommendation Scholarship (2025, 3/51), 🎓 Merit and Competence Scholarship (2025).
+- **Ph.D.:** 🎓 First-Class Scholarship (2026), 🎓 Postgraduate Recommendation Scholarship (2025, 3/51), 🎓 Merit and Competence Scholarship (2025).
 - **Undergraduate:** 📝 Distinguished Undergraduate Thesis Award (2025), 🎓 Merit and Competence Scholarship (2024), 🎓 Academic Excellence Scholarship (2023).
 
 # 📖 Educations
