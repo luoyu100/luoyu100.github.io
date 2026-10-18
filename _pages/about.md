@@ -86,6 +86,11 @@ My recent research interests lie in:
     <span>Project</span>
     <i class="fas fa-arrow-right paper-story-link__arrow" aria-hidden="true"></i>
   </a>
+  <a class="paper-story-link paper-story-link--wechat" target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/WKCz1PUKyz510xMQX-5auA">
+    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+    <span>机器之心</span>
+    <i class="fas fa-external-link-alt paper-story-link__arrow" aria-hidden="true"></i>
+  </a>
   <a class="paper-story-link paper-story-link--code" target="_blank" rel="noopener" href="https://arxiv.org/abs/2610.01415">
     <i class="fas fa-file-alt" aria-hidden="true"></i>
     <span>arXiv</span>

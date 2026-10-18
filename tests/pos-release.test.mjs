@@ -35,6 +35,18 @@ test("PoS project shares the Hugging Face URL across its header and resources", 
   assert.doesNotMatch(page, /repository linked in the manuscript/);
 });
 
+test("PoS media link matches the GoS media button markup and points to its own article", () => {
+  const preprints = about.split("# Preprint")[1].split("# 📝 Publications")[0];
+  const pos = preprints.slice(preprints.indexOf('href="https://arxiv.org/abs/2610.01415"'));
+  const publications = about.split("# 📝 Publications")[1];
+  const mediaLink = /<a class="paper-story-link paper-story-link--wechat"[^>]*>[\s\S]*?<\/a>/;
+  const posLink = pos.match(mediaLink)?.[0];
+  const gosLink = publications.match(mediaLink)?.[0];
+  assert.ok(posLink && gosLink);
+  assert.match(posLink, /href="https:\/\/mp\.weixin\.qq\.com\/s\/WKCz1PUKyz510xMQX-5auA"/);
+  assert.equal(posLink.replace(/href="[^"]+"/, 'href="article"'), gosLink.replace(/href="[^"]+"/, 'href="article"'));
+});
+
 test("official Hugging Face icon is self-contained and preserves its square viewBox", () => {
   const svg = read("../images/hugging-face.svg");
   assert.match(svg, /viewBox="0 0 256 256"/);
