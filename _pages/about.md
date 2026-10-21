@@ -25,8 +25,10 @@ Yu Luo is currently a 2nd-year Ph.D. student at Nankai University, working under
 ---
 
 My recent research interests lie in:
-(i) Building self-evolving agents via parametric approaches; (💡 *Agentic tool-use, self-evolution*)
-(ii) Tackling belief state challenges in long-horizon and multi-turn agent interactions, with a particular focus on active reasoning tasks. (💡 *Active Reasoning*)
+
+1. **Long-horizon agent reasoning:** Building agents that maintain explicit belief states, track task progress, and recover when progress stalls. (💡 *Belief states, active reasoning*)
+2. **Agentic tool use and collaboration:** Understanding how tool design and multi-agent collaboration affect evidence collection and decision-making. (💡 *Tool use, multi-agent systems*)
+3. **Agent self-evolution:** Enabling agents to learn from experience through memory, reinforcement learning, and model updates. (💡 *Agent memory, self-evolution*)
 
 
 # 🔥 News
