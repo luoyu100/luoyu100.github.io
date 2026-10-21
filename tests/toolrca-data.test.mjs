@@ -178,9 +178,9 @@ test('public release exposes verified paper links, authors, and a copyable citat
 
 test('homepage announces ToolRCA above PoS without adding a code link or changing the published count', () => {
   const about = readFileSync(new URL('../_pages/about.md', import.meta.url), 'utf8');
-  const news = about.split('# 🔥 News')[1].split('# Preprint')[0];
-  assert.match(news.trim().split('\n')[0], /2026\.10.*ToolRCA.*2610\.05009/);
-  const preprints = about.split('# Preprint')[1].split('# 📝 Publications')[0];
+  const news = about.split('# 🔥 News')[1].split('# 🧪 Preprint')[0];
+  assert.ok(news.indexOf('2610.05009') >= 0 && news.indexOf('2610.05009') < news.indexOf('2610.01415'));
+  const preprints = about.split('# 🧪 Preprint')[1].split('# 📝 Publications')[0];
   assert.ok(preprints.indexOf('2610.05009') < preprints.indexOf('2610.01415'));
   const toolrca = preprints.slice(0, preprints.indexOf('2610.01415'));
   assert.match(toolrca, /badge">Arxiv 2026/);

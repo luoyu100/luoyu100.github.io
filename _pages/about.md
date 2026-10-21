@@ -30,6 +30,7 @@ My recent research interests lie in:
 
 
 # 🔥 News
+- *2026.10*: &nbsp;🎉🎉 **PoS** was featured in [机器之心](https://mp.weixin.qq.com/s/WKCz1PUKyz510xMQX-5auA)!
 - *2026.10*: &nbsp;🚀 Our empirical study [**ToolRCA**]({{ '/projects/toolrca/project/' | relative_url }}) on tool design for agentic RCA is now available on [arXiv](https://arxiv.org/abs/2610.05009)!
 - *2026.10*: &nbsp;🚀 [**Progression of States (PoS)**]({{ '/projects/progression-of-states/project/' | relative_url }}) is now available on [arXiv](https://arxiv.org/abs/2610.01415), and its [code](https://github.com/luoyu100/PoS) has been released!
 - *2026.09*: &nbsp;🚀 **Graph of States** has surpassed 30K views across all platforms and received 100+ stars on GitHub!
@@ -38,6 +39,7 @@ My recent research interests lie in:
 - *2026.08*: &nbsp;🎉🎉 Our survey “Why Transformers?” is accepted by TOSEM 2026
 - *2026.07*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Alibaba Cloud
 - *2026.07*: &nbsp;🎉🎉 Our papers “OpsAgent” and “KRCA” are accepted by ASE 2026
+- *2026.06*: &nbsp;🎉🎉 **Graph of States** was featured in [机器之心](https://mp.weixin.qq.com/s/ZC_-zurf8iV6Kbp39AHgBg)!
 - *2026.05*: &nbsp;🏅 I received **Gold Reviewer** Award from ICML 2026
 - *2026.05*: &nbsp;🎉🎉 Our paper “Graph of States” is accepted by ICML 2026
 - *2025.09*: &nbsp;🎉🎉 Our papers “TrioXpert” and “DynamicRegress” are accepted by ASE 2025
@@ -45,7 +47,7 @@ My recent research interests lie in:
 - *2025.06*: &nbsp;🎉🎉 I start my internship as an algorithm engineer at Lenovo
 - *2025.05*: &nbsp;🎉🎉 Our paper “FlowXpert” is accepted by KDD 2025
 
-# Preprint
+# 🧪 Preprint {#preprint}
 
 <div class='paper-box'><div class='paper-box-image' style="transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 10;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><div style="width: 100%; max-width: 360px; margin: 0 auto;"><div class="badge">Arxiv 2026</div><a href="https://arxiv.org/abs/2610.05009"><img src="{{ '/images/projects/toolrca/study-design-thumbnail.webp' | relative_url }}" alt="ToolRCA Figure 2: evaluation workflow and study of tool composition, model capability, and system environment" style="padding-top: 28px; background: white;" width="100%" loading="lazy" decoding="async"></a></div></div>
 <div class='paper-box-text' markdown="1">
